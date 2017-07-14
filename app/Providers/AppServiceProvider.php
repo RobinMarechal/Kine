@@ -2,7 +2,12 @@
 
 namespace App\Providers;
 
+use App\Content;
+use App\Event;
+use App\News;
 use Illuminate\Database\Eloquent\Relations\Relation;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Support\ServiceProvider;
 
 class AppServiceProvider extends ServiceProvider

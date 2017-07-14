@@ -9,8 +9,8 @@ class CreateNotificationsTable extends Migration {
 	{
 		Schema::create('notifications', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamp('created_at');
-			$table->timestamp('updated_at');
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->integer('user_id')->unsigned();
 			$table->integer('notifiable_id')->nullable();
 			$table->string('notifiable_type')->nullable();

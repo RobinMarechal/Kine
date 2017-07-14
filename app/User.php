@@ -15,7 +15,7 @@ class User extends Authenticatable
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = ['created_at', 'updated_at', 'email', 'firstname', 'lastname', 'facebook_id', 'password', 'level', 'phone', 'starts_at', 'ends_at', 'is_doctor'];
+    protected $fillable = ['created_at', 'updated_at', 'email', 'name', 'facebook_id', 'password', 'level', 'phone', 'starts_at', 'ends_at', 'is_doctor'];
     protected $hidden = ['facebook_id', 'password'];
 
 
@@ -37,7 +37,7 @@ class User extends Authenticatable
     }
 
 
-    public function contact ()
+    public function contacts ()
     {
         return $this->hasMany('App\Contact');
     }
@@ -70,6 +70,12 @@ class User extends Authenticatable
     public function medias ()
     {
         return $this->hasMany('App\Media');
+    }
+
+
+	public function notifications ()
+	{
+		return $this->hasMany('App\Notification');
     }
 
 

@@ -9,8 +9,8 @@ class CreateTagUserTable extends Migration {
 	{
 		Schema::create('tag_user', function(Blueprint $table) {
 			$table->increments('id');
-			$table->timestamp('created_at');
-			$table->timestamp('updated_at');
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->integer('user_id')->unsigned();
 			$table->integer('tag_id')->unsigned();
 		});

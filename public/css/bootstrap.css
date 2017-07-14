@@ -1,5 +1,4 @@
 @import url('fonts/fonts.css');
-@import url('css.css');
 
 /*!
  * bootswatch v3.3.7
@@ -2524,6 +2523,7 @@ input[type="checkbox"] {
   margin: 4px 0 0;
   margin-top: 1px \9;
   line-height: normal;
+  /* top: -5px; */
 }
 input[type="file"] {
   display: block;
@@ -5030,8 +5030,8 @@ a.thumbnail.active {
   color: inherit;
 }
 .alert-success {
-  background-color: rgb(88, 193, 99);
-  border-color: rgb(88, 193, 99);
+  background-color: rgb(120, 216, 130);
+  border-color: rgb(119, 216, 129);
   color: #ffffff;
 }
 .alert-success hr {

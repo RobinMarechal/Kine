@@ -9,12 +9,12 @@ class CreateRemovedContentsTable extends Migration {
 	{
 		Schema::create('removed_contents', function(Blueprint $table) {
 			$table->increments('id');
-			$table->string('name', 255);
-			$table->text('content')->nullable();
 			$table->timestamp('created_at');
 			$table->timestamp('updated_at');
+			$table->string('name', 255);
+			$table->text('content')->nullable();
 			$table->integer('user_id')->unsigned()->nullable();
-			$table->timestamp('removed_at');
+			$table->timestamp('removed_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 		});
 	}
 

@@ -9,36 +9,48 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class News extends Model
 {
 
-    protected $table = 'news';
-    public $timestamps = true;
+	protected $table = 'news';
+	public $timestamps = true;
 
-    use SoftDeletes;
+	use SoftDeletes;
 
-    protected $dates = ['deleted_at', 'published_at'];
-    protected $fillable = ['created_at', 'updated_at', 'user_id', 'title', 'content', 'published_at', 'views'];
-
-
-    public function author ()
-    {
-        return $this->belongsTo('App\User');
-    }
+	protected $dates = ['deleted_at', 'published_at'];
+	protected $fillable = ['created_at', 'updated_at', 'user_id', 'title', 'content', 'published_at', 'views'];
 
 
-    public function user ()
-    {
-        return $this->belongsTo('App\User');
-    }
+	public function author ()
+	{
+		return $this->belongsTo('App\User');
+	}
 
 
-    public function medias ()
-    {
-        return $this->morphMany('App\Media');
-    }
+	public function user ()
+	{
+		return $this->belongsTo('App\User');
+	}
 
 
-    public function scopePublished ($query)
-    {
-        return $query->where('published_at', '<=', Carbon::now()
-                                                         ->format("Y-m-d H:i:s"));
-    }
+	public function medias ()
+	{
+		return $this->morphMany('App\Media');
+	}
+
+
+	public function scopePublished ($query)
+	{
+		return $query->where('published_at', '<=', Carbon::now()
+														 ->format("Y-m-d H:i:s"));
+	}
+
+
+	public function scopeFromNewerToOlder ($query)
+	{
+		return $query->orderBy('published_at', 'DESC');
+	}
+
+
+	public function scopeFromOlderToNewer ($query)
+	{
+		return $query->orderBy('published_at', 'ASC');
+	}
 }

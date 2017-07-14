@@ -9,14 +9,13 @@ class CreateUsersTable extends Migration {
 	{
 		Schema::create('users', function(Blueprint $table) {
 			$table->increments('id');
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->softDeletes();
-			$table->timestamp('created_at')->nullable();
-			$table->timestamp('updated_at')->nullable();
 			$table->string('email', 255)->unique();
-			$table->string('firstname', 255);
-			$table->string('lastname');
+			$table->string('name', 255);
 			$table->string('facebook_id', 255)->nullable();
-			$table->string('password', 255);
+			$table->string('password', 255)->nullable();
 			$table->integer('level')->default('0');
 			$table->string('phone')->nullable();
 			$table->time('starts_at')->nullable();

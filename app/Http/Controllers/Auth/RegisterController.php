@@ -4,8 +4,10 @@ namespace App\Http\Controllers\Auth;
 
 use App\User;
 use App\Http\Controllers\Controller;
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Foundation\Auth\RegistersUsers;
+use Laracasts\Flash\Flash;
 
 class RegisterController extends Controller
 {
@@ -27,16 +29,16 @@ class RegisterController extends Controller
      *
      * @var string
      */
-    protected $redirectTo = '/home';
+    protected $redirectTo = '/';
 
-    /**
-     * Create a new controller instance.
-     *
-     * @return void
-     */
+
+	/**
+	 * Create a new controller instance.
+	 */
     public function __construct()
     {
-        $this->middleware('guest');
+		parent::__construct();
+		$this->middleware('guest');
     }
 
     /**
@@ -68,4 +70,9 @@ class RegisterController extends Controller
             'password' => bcrypt($data['password']),
         ]);
     }
+
+    protected function registered (Request $request, $user)
+	{
+		Flash::success("Vous êtes maintenant inscrit ! ");
+	}
 }

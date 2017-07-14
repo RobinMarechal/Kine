@@ -8,37 +8,36 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class Article extends Model
 {
 
-    protected $table = 'articles';
-    public $timestamps = true;
+	protected $table = 'articles';
+	public $timestamps = true;
 
 
-    use SoftDeletes;
+	use SoftDeletes;
 
-    protected $dates = ['deleted_at'];
-    protected $fillable = ['user_id', 'title', 'content', 'picture', 'views', 'created_at', 'updated_at', 'views'];
-
-
-    public function tags ()
-    {
-        return $this->belongsToMany('App\Tag');
-    }
+	protected $dates = ['deleted_at'];
+	protected $fillable = ['user_id', 'title', 'content', 'picture', 'views', 'created_at', 'updated_at', 'views'];
 
 
-    public function author ()
-    {
-        return $this->belongsTo('App\User');
-    }
+	public function tags ()
+	{
+		return $this->belongsToMany('App\Tag');
+	}
 
 
-    public function user ()
-    {
-        return $this->belongsTo('App\User');
-    }
+	public function author ()
+	{
+		return $this->belongsTo('App\User');
+	}
 
 
-    public function medias ()
-    {
-        return $this->morphMany('App\Media');
-    }
+	public function user ()
+	{
+		return $this->belongsTo('App\User');
+	}
 
+
+	public function medias ()
+	{
+		return $this->morphMany('App\Media');
+	}
 }

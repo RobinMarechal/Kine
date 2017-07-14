@@ -9,9 +9,9 @@ class CreateCoursesTable extends Migration {
 	{
 		Schema::create('courses', function(Blueprint $table) {
 			$table->increments('id');
+			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->softDeletes();
-			$table->timestamp('created_at');
-			$table->timestamp('updated_at');
 			$table->integer('article_id')->unsigned()->nullable();
 			$table->text('description')->nullable();
 			$table->integer('views')->default('0');
