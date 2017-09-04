@@ -2,6 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use App\Content;
+use Illuminate\Support\Facades\Response;
+use function random_int;
+use function str_slug;
+
 class ContentsController extends Controller
 {
 
@@ -11,7 +16,6 @@ class ContentsController extends Controller
 	 */
 	public function index ()
 	{
-
 	}
 
 
@@ -80,4 +84,30 @@ class ContentsController extends Controller
 	{
 	}
 
+
+	// API
+
+	public function find ($id)
+	{
+		$content = Content::find($id);
+
+		return response()->json($content);
+	}
+
+
+	public function post ()
+	{
+		$data = $this->request->all();
+
+		$data['name'] = 'skills__' . str_slug($data['title']);
+
+		while (Content::where('name', $data['name'])
+					  ->first() != null) {
+			$data['name'] .= random_int(0, 99999);
+		}
+
+		$content = Content::create($data);
+
+		return $content;
+	}
 }

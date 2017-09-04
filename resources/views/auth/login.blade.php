@@ -5,7 +5,7 @@
 	<h1>Connexion</h1>
 	<hr>
 
-	<form class="fb-login-button-container" method="get" action="{{url('/login/facebook')}}">
+	<form class="fb-login-button-container" method="get" action="{{url('/connexion/facebook')}}">
 
 		{{ csrf_field() }}
 		<button class="fb-login-button">
@@ -20,7 +20,7 @@
 
 	<hr width="50%">
 
-	<form class="row" action="{{url('login')}}" method="post">
+	<form class="row" action="{{url('connexion')}}" method="post">
 
 		{{ csrf_field() }}
 
@@ -46,6 +46,6 @@
 
 	<hr>
 
-	<a href="{{ url('register') }}"><span class="glyphicon glyphicon glyphicon-arrow-right"></span> Cliquez ici pour vous inscrire sans utiliser Facebook</a>
+	<a href="{{ url('inscription') }}"><span class="glyphicon glyphicon glyphicon-arrow-right"></span> Cliquez ici pour vous inscrire sans utiliser Facebook</a>
 
 @endsection

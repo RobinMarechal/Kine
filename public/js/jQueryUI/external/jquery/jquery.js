@@ -545,7 +545,7 @@ jQuery.extend( {
 } );
 
 // JSHint would error on this code due to the Symbol not being defined in ES5.
-// Defining this global in .jshintrc would create a danger of using the global
+// Defining this global in .jshintrc would create a error of using the global
 // unguarded in another place, it seems safer to just disable JSHint for these
 // three lines.
 /* jshint ignore: start */

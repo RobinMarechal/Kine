@@ -10,8 +10,9 @@ class Notification extends Model
 {
 
 	protected $table = 'notifications';
-	public $timestamps = false;
+	public $timestamps = true;
 	protected $fillable = ['created_at', 'updated_at', 'user_id', 'notifiable_id', 'notifiable_type', 'seen_at', 'content', 'link'];
+	public $temporalField = 'created_at';
 
 
 	public function user ()

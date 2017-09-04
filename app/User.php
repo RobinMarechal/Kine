@@ -17,6 +17,7 @@ class User extends Authenticatable
     protected $dates = ['deleted_at'];
     protected $fillable = ['created_at', 'updated_at', 'email', 'name', 'facebook_id', 'password', 'level', 'phone', 'starts_at', 'ends_at', 'is_doctor'];
     protected $hidden = ['facebook_id', 'password'];
+	public $temporalField = 'created_at';
 
 
     public function tags ()

@@ -3,7 +3,8 @@
 		<div class="footer-address col-lg-4">
 			<h3>Cabinet de kinésithérapie</h3>
 			<hr class="footer-sub-title">
-			<a data-toggle="tooltip" data-placement="top" title="Voir l'adresse dur Google Maps" href="https://www.google.fr/maps/place/2+Rue+Fosse+de+Meule,+45100+Orl%C3%A9ans/@47
+			<a data-toggle="tooltip" target="_blank" data-placement="top" title="Voir l'adresse dur Google Maps" href="https://www.google.fr/maps/place/2+Rue+Fosse+de+Meule,
+			+45100+Orl%C3%A9ans/@47
 		.8888859,1.8946489,15
 		.75z/data=!4m5!3m4!1s0x47e4e4df563f967f:0xab242801d95ec938!8m2!3d47.8909425!4d1.8983722">
 				<i class="fa fa-map-marker" aria-hidden="true"></i>
@@ -68,20 +69,24 @@
 			<h3>Utilisateur</h3>
 			<hr class="footer-sub-title">
 
-			<a href="">Connexion</a> <br>
-			<a href="">Inscription</a> <br>
-			<a href="">Connexion avec Facebook</a> <br>
-			<a href="">Déconnexion</a>
+			@if(Auth::guest())
+				<a href="{{ url('connexion') }}">Connexion</a> <br>
+				<a href="{{ url('inscription') }}">Inscription</a> <br>
+				{{--<a href="{{ url('logout') }}">Connexion avec Facebook</a> <br>--}}
+			@else
+				<a href="{{ url('deconnexion') }}">Déconnexion</a>
+			@endif
+
 
 			<br>
 
 			<h3>Autres</h3>
 			<hr class="footer-sub-title">
 
-			<a href="">A propos</a> <br>
-			<a href="">Signaler un bug</a> <br>
-			<a href="">Conditions générales d'utilisations</a> <br>
-			<p>Site web réalisé par <a href=""> Robin Maréchal</a></p>
+			<a href="{{ url('a-propos') }}">A propos</a> <br>
+			<a href="{{ url('signaler-un-bug') }}">Signaler un bug</a> <br>
+			<a href="{{ url('conditions-generales-d-utilisations') }}">Conditions générales d'utilisations</a> <br>
+			<p>Site web réalisé par <a target="_blank" href="https://www.linkedin.com/in/robinmarechal/"> <b>Robin Maréchal</b></a></p>
 
 		</div>
 	</div>

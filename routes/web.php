@@ -11,43 +11,104 @@
 |
 */
 
-use App\Http\Controllers\Controller;
-
-Route::get('/', function () {
-	new Controller();
-	return view('home');
-})
+Route::get('/', 'MainController@index')
 	 ->name('home');
 
-Route::get('a', function () {
-	new Controller();
-	return view('home');
-});
+
+Route::get('user', 'ApiController@user');
 
 /*
  * Administration routes
  */
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+	Route::get('/', 'AdminsController@index')
+		 ->name('admin.index');
+	Route::get('utilisateurs', 'AdminsController@users')
+		 ->name('admin.users');
 });
 
-Route::get('admin/development', function () {
-	new Controller();
-	return view('development');
-})
+Route::get('admin/development', 'MainController@dev')
 	 ->name('development');
 
-Route::get('login', 'Auth\LoginController@showLoginForm')->name('login.showLoginForm');
-Route::post('login', 'Auth\LoginController@login')->name('login.login');
-Route::get('logout', 'Auth\LoginController@logout')->name('login.logout');
-Route::get('login/facebook', 'Auth\LoginController@redirectToProvider')->name('login.redirectToProvider');
-Route::get('login/facebook/callback', 'Auth\LoginController@callback')->name('login.callback');
+Route::get('connexion', 'Auth\LoginController@showLoginForm')
+	 ->name('login.showLoginForm');
+Route::post('connexion', 'Auth\LoginController@login')
+	 ->name('login.login');
+Route::get('deconnexion', 'Auth\LoginController@logout')
+	 ->name('login.logout');
+Route::get('connexion/facebook', 'Auth\LoginController@redirectToProvider')
+	 ->name('login.redirectToProvider');
+Route::get('login/facebook/callback', 'Auth\LoginController@callback')
+	 ->name('login.callback');
 
-Route::get('register', 'Auth\RegisterController@showRegistrationForm')->name('register.showRegistrationForm');
-Route::post('register', 'Auth\RegisterController@register')->name('register.register');
+Route::get('inscription', 'Auth\RegisterController@showRegistrationForm')
+	 ->name('register.showRegistrationForm');
+Route::post('inscription', 'Auth\RegisterController@register')
+	 ->name('register.register');
 
 
-Route::group(['prefix'=> 'users', 'middleware' => 'auth'], function()
-{
-	Route::get('notifications', 'UsersController@showNotifications')->name('user.showNotifications');
-	Route::get('notifications/all', 'UsersController@showAllNotifications')->name('user.showAllNotifications');
+//Route::group(['prefix' => 'users', 'middleware' => 'auth'], function () {
+Route::get('notifications', 'UsersController@showNotifications')
+	 ->name('user.showNotifications');
+Route::get('notifications/tout-voir', 'UsersController@showAllNotifications')
+	 ->name('user.showAllNotifications');
+//});
+
+Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
+	Route::get('/', 'Admin\AdminsController@index')
+		 ->name('admin.index');
 });
+
+Route::prefix("qui-sommes-nous")
+	 ->group(function () {
+		 Route::get('/', 'ContactsController@whoAreWe')
+			  ->name('contacts.whoAreWe');
+	 });
+
+Route::prefix("nos-competences")
+	 ->group(function () {
+		 Route::get('/', 'SkillsController@index')
+			  ->name('skills.index');
+	 });
+
+Route::prefix("news")
+	 ->group(function () {
+		 Route::get('/', 'NewsController@index')
+			  ->name('news.index');
+
+		 Route::get('a-venir', 'NewsController@future')
+			  ->middleware('admin')
+			  ->name('news.future');
+
+		 Route::get('{id}', 'NewsController@show')
+			  ->name('news.show');
+	 });
+
+
+Route::prefix('articles')
+	 ->group(function () {
+		 Route::get('/', 'ArticlesController@index')
+			  ->name('articles.index');
+		 Route::get('tag/{tagName}', 'ArticlesController@ofTag')
+			  ->name('articles.ofTag');
+		 Route::get('{id}', 'ArticlesController@show')
+			  ->name('article.show');
+		 Route::get('rediger', 'ArticlesController@create')
+			  ->name('articles.create');
+
+		 Route::post('rediger', 'ArticlesController@store')
+			  ->name('articles.store');
+
+		 Route::get('{id}/modifier', 'ArticlesController@edit')
+			  ->name('articles.edit');
+		 Route::put('{id}/modifier', 'ArticlesController@update')
+			  ->name('articles.update');
+
+		 Route::post('previsualisation', 'ArticlesController@preview')
+			  ->name('articles.preview');
+	 });
+
+
+Route::get('{any?}', 'MainController@e404')
+	 ->where('any', '.*')
+	 ->name('404');

@@ -18,6 +18,7 @@ class Contact extends Model
 
 	protected $dates = ['deleted_at'];
 	protected $fillable = ['created_at', 'updated_at', 'type', 'value', 'description', 'user_id'];
+	public $temporalField = 'created_at';
 
 
 	public function doctor ()
@@ -86,7 +87,7 @@ class Contact extends Model
 			$link = "https://www.google.fr/maps?q=" . $this->value;
 			$name = $this->name == null ? $this->value : $this->name;
 
-			$tag = "<a href='$link' data-toggle='tooltip' data-placement='top' title='$this->description'> $name </a>";
+			$tag = "<a target='_blank' href='$link' data-toggle='tooltip' data-placement='top' title='$this->description'> $name </a>";
 			return $tag;
 		}
 		else if ($type == "LINK") {
@@ -96,7 +97,7 @@ class Contact extends Model
 				$name = str_replace("http://", "", $name);
 				$name = str_replace("https://", "", $name);
 			}
-			$tag = "<a href='$this->value' data-toggle='tooltip' data-placement='top' title='$this->description'> $name </a>";
+			$tag = "<a target='_blank' href='$this->value' data-toggle='tooltip' data-placement='top' title='$this->description'> $name </a>";
 
 			return $tag;
 		}

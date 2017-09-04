@@ -59,7 +59,7 @@ class UsersController extends Controller
 		$notifications = Notification::ofUser($user)
 									 ->unseen($all)
 									 ->fromNewerToOlder()
-									 ->paginate(20);
+									 ->paginate(1);
 
 		return view('users.notifications', compact('notifications', 'all'));
 	}

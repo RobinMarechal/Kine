@@ -16,6 +16,7 @@ class News extends Model
 
 	protected $dates = ['deleted_at', 'published_at'];
 	protected $fillable = ['created_at', 'updated_at', 'user_id', 'title', 'content', 'published_at', 'views'];
+	public $temporalField = 'published_at';
 
 
 	public function author ()
@@ -32,13 +33,20 @@ class News extends Model
 
 	public function medias ()
 	{
-		return $this->morphMany('App\Media');
+		return $this->morphMany('App\Media', 'mediaable');
 	}
 
 
 	public function scopePublished ($query)
 	{
 		return $query->where('published_at', '<=', Carbon::now()
+														 ->format("Y-m-d H:i:s"));
+	}
+
+
+	public function scopeNotPublished ($query)
+	{
+		return $query->where('published_at', '>', Carbon::now()
 														 ->format("Y-m-d H:i:s"));
 	}
 

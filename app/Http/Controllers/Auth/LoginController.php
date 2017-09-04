@@ -3,9 +3,9 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+use App\Http\Requests\Request;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Validator;
@@ -37,10 +37,12 @@ class LoginController extends Controller
 
 	/**
 	 * Create a new controller instance.
+	 *
+	 * @param Request $request
 	 */
-    public function __construct()
+    public function __construct(Request $request)
     {
-		parent::__construct();
+		parent::__construct($request);
 		$this->middleware('guest')->except('logout');
     }
 
@@ -58,7 +60,7 @@ class LoginController extends Controller
 		// This facebook user already exists in DB
 		if($user)
 		{
-			Auth::login($user);
+			Auth::login($user, true);
 			Flash::success("Vous êtes maintenant connecté !");
 			return redirect('/');
 		}
@@ -68,7 +70,7 @@ class LoginController extends Controller
 		// This user exists but not using facebook
 		if($user)
 		{
-			Auth::login($user);
+			Auth::login($user, true);
 			$user->facebook_id = $social->id;
 			$user->save();
 			Flash::success("Vous êtes maintenant connecté !");
@@ -88,8 +90,8 @@ class LoginController extends Controller
 		// ... And we log it in
 		if($user)
 		{
-			Auth::login($user);
-			Flash::succeess("Vous êtes maintenant connecté !");
+			Auth::login($user, true);
+			Flash::success("Vous êtes maintenant connecté !");
 			return redirect('/');
 		}
 

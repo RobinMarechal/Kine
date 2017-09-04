@@ -1,82 +1,238 @@
-<?php 
+<?php
 
 namespace App\Http\Controllers;
+
+use App\Article;
+use App\Tag;
+use function array_has;
+use Carbon\Carbon;
+use function explode;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Validator;
+use function isAdmin;
+use Laracasts\Flash\Flash;
+use const null;
+use stdClass;
 
 class ArticlesController extends Controller
 {
 
-  /**
-   * Display a listing of the resource.
-   *
-   * @return Response
-   */
-  public function index()
-  {
-    
-  }
+	/**
+	 * Display a listing of the resource.
+	 * @return Response
+	 */
+	public function index ()
+	{
+		//		$articles = Article::with('user', 'tags')->orderBy('title', 'DESC')->paginate(10);
+		//
+		//		return view('articles.index', compact('articles'));
 
-  /**
-   * Show the form for creating a new resource.
-   *
-   * @return Response
-   */
-  public function create()
-  {
-    
-  }
+		// Select all the articles that the connected user can access
 
-  /**
-   * Store a newly created resource in storage.
-   *
-   * @return Response
-   */
-  public function store()
-  {
-    
-  }
+		if (isAdmin()) {
+			$articles = Article::with('tags', 'user', 'medias')
+							   ->fromNewerToOlder()
+							   ->paginate(5);
+		}
+		else {
 
-  /**
-   * Display the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function show($id)
-  {
-    
-  }
+			$tags = Auth::check() ? Auth::user()->tags : [];
 
-  /**
-   * Show the form for editing the specified resource.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function edit($id)
-  {
-    
-  }
+			$articles = Article::leftJoin('article_tag', 'articles.id', '=', 'article_tag.article_id')
+							   ->with('tags', 'user', 'medias')
+							   ->whereNull('tag_id')
+							   ->orWhereIn('tag_id', $tags)
+							   ->fromNewerToOlder()
+							   ->paginate(5, ['articles.*']);
+		}
 
-  /**
-   * Update the specified resource in storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function update($id)
-  {
-    
-  }
+		return view('articles.index', compact('articles'));
+	}
 
-  /**
-   * Remove the specified resource from storage.
-   *
-   * @param  int  $id
-   * @return Response
-   */
-  public function destroy($id)
-  {
-    
-  }
-  
+
+	public function ofTag ($tagName)
+	{
+		$articles = Article::join('article_tag', 'article_id', '=', 'articles.id')
+						   ->join('tags', 'tag_id', '=', 'tags.id')
+						   ->with('user', 'tags', 'medias')
+						   ->where('tags.name', $tagName)
+						   ->fromNewerToOlder()
+						   ->paginate(10, ['articles.*']);
+
+		return view('articles.ofTag', compact('tagName', 'articles'));
+	}
+
+
+	public function filter ()
+	{
+	}
+
+
+	public function search ()
+	{
+	}
+
+
+	/**
+	 * Show the form for creating a new resource.
+	 * @return Response
+	 */
+	public function create ()
+	{
+		$tags = Tag::all();
+
+		return view('articles.create', compact('tags'));
+	}
+
+
+	public function preview ()
+	{
+		$article = new stdClass();
+		$article->title = $this->request->title;
+		$article->content = $this->request->get('content');
+		$article->user = Auth::user();
+		$article->views = 0;
+		$article->created_at = Carbon::now();
+		$article->tags = [];
+		$article->id = 0;
+
+		$tagList = explode(';', $this->request->tags);
+		foreach ($tagList as $t)
+		{
+			$tmp = new Tag();
+			$tmp->name = $t;
+			$article->tags[] = $tmp;
+		}
+
+		return view('articles.show', compact('article'));
+	}
+
+
+	/**
+	 * Store a newly created resource in storage.
+	 * @return Response
+	 */
+	public function store ()
+	{
+		$validation = $this->validator($this->request->all());
+
+		$data = $this->request->only('title', 'content');
+
+
+		if ($validation->fails()) {
+			return Redirect::back()
+						   ->withInput($data)
+						   ->withErrors($validation->errors());
+		}
+
+		$data['user_id'] = Auth::user()->id;
+
+		$article = Article::create($data);
+
+		if ($article == null) {
+			Flash::error("Une erreur est survenur, l'article n'as pas été publié.");
+
+			return Redirect::back()
+						   ->withInput($data);
+		}
+
+		$formTags = $this->request->tags == "" ? [] : explode(";", $this->request->tags);
+		$tagsInDb = Tag::all();
+		$tagNameId = [];
+		$tagIds = [];
+
+		foreach ($tagsInDb as $tag) {
+			$tagNameId[ $tag->name ] = $tag->id;
+		}
+
+
+		foreach ($formTags as $tag) {
+			if (array_has($tagNameId, $tag)) {
+				$id = $tagNameId[ $tag ];
+			}
+			else {
+				$id = Tag::createFromName($tag)->id;
+			}
+
+			$tagIds[] = $id;
+		}
+
+		$article->tags()
+				->sync($tagIds);
+
+		Flash::success("L'article a bien été publié !");
+
+		return redirect('articles/' . $article->id);
+	}
+
+
+	/**
+	 * Display the specified resource.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function show ($id)
+	{
+		$article = Article::with('tags', 'user', 'medias')
+						  ->findOrFail($id);
+
+		if (!isAdmin()) {
+			$article->views++;
+			$article->save();
+		}
+
+		return view('articles.show', compact('article'));
+	}
+
+
+	/**
+	 * Show the form for editing the specified resource.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function edit ($id)
+	{
+		$article = Article::with('tags')->find($id);
+		$tags = Tag::all();
+		return view('articles.create', compact('article', 'tags'));
+	}
+
+
+	/**
+	 * Update the specified resource in storage.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function update ($id)
+	{
+	}
+
+
+	/**
+	 * Remove the specified resource from storage.
+	 *
+	 * @param  int $id
+	 *
+	 * @return Response
+	 */
+	public function destroy ($id)
+	{
+	}
+
+
+	protected function validator ($data)
+	{
+		return Validator::make($data, [
+			'title' => 'required|min:5|max:255',
+		]);
+	}
+
+
 }

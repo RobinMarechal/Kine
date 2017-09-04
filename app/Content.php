@@ -1,0 +1,47 @@
+<?php
+
+namespace App;
+
+use Illuminate\Database\Eloquent\Model;
+
+class Content extends Model
+{
+
+	protected $table = 'contents';
+	public $timestamps = true;
+	protected $fillable = ['name', 'title', 'content', 'updated_at', 'user_id'];
+	public $temporalField = 'created_at';
+
+
+	public function author ()
+	{
+		return $this->belongsTo('App\User');
+	}
+
+
+	public function user ()
+	{
+		return $this->belongsTo('App\User');
+	}
+
+
+	public function scopeOfName ($query, $name)
+	{
+		return $query->where('name', $name);
+	}
+
+
+	public static function createDefault ($name)
+	{
+		return self::create(['name' => $name, 'title' => 'Title', 'content' => 'Content']);
+	}
+
+	public static function getOrCreate($name)
+	{
+		$content = Content::ofName($name)->first();
+		if(!isset($content))
+			$content = Content::createDefault($name);
+
+		return $content;
+	}
+}

@@ -19,7 +19,7 @@ class RedirectIfNotAdmin
      */
     public function handle($request, Closure $next)
     {
-        if(Auth::guest())
+        if(!isAdmin())
         {
             Flash::error('Cette section est réservée aux administrateurs.');
             return Redirect::back();

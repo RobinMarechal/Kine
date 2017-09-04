@@ -8,10 +8,9 @@ $isCurrentPageHomePage = false;
 if (Route::currentRouteName() === "home" || Route::currentRouteName() === "home") {
 	$isCurrentPageHomePage = true;
 }
-$contentBootstrapClassCol = "col-lg-8";
+$contentBootstrapClassCol = "col-lg-9";
 //$contentBootstrapClassCol = $isCurrentPageHomePage ? "col-lg-12" : "col-lg-8";
 
-$news = new Collection();
 $events = new Collection();
 
 ?>
@@ -23,6 +22,9 @@ $events = new Collection();
 	<link rel="stylesheet" type="text/css" href="{{url('css/bootstrap.css')}}"/>
 	<link rel="stylesheet" type="text/css" href="{{url('css/hover.min.css')}}"/>
 	<link rel="stylesheet" type="text/css" href="{{url('css/font-awesome.min.css')}}"/>
+
+	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css"/>
+
 	<link rel="stylesheet" type="text/css" href="{{url('css/css.css')}}"/>
 
 	<title>Kine | @section('title') Accueil @show </title>
@@ -46,13 +48,13 @@ $events = new Collection();
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
 				<ul class="nav navbar-nav navbar-right" ng-init="home='active'">
-					<li id="nav-home" class="hvr-underline-from-center"><a href="{{ url('/') }}">Accueil</a></li>
-					<li id="nav-who-are-we" class="hvr-underline-from-center"><a href="{{ url('teams') }}">Qui sommes nous</a></li>
-					<li id="nav-skills" class="hvr-underline-from-center"><a href="{{ url('news') }}">Nos compétences</a></li>
-					<li id="nav-articles" class="hvr-underline-from-center"><a href="{{ url('staff') }}">Articles</a></li>
-					<li id="nav-news" class="hvr-underline-from-center"><a href="{{ url('gallery') }}">L'actu</a></li>
-					<li id="nav-gallery" class="hvr-underline-from-center"><a href="{{ url('events') }}">Galerie</a></li>
-					<li id="nav-courses" class="hvr-underline-from-center"><a href="{{ url('events') }}">Les cours</a></li>
+					<li id="nav-" class="hvr-underline-from-center"><a href="{{ url('/') }}">Accueil</a></li>
+					<li id="nav-qui-sommes-nous" class="hvr-underline-from-center"><a href="{{ url('qui-sommes-nous') }}">Qui sommes nous</a></li>
+					<li id="nav-nos-competences" class="hvr-underline-from-center"><a href="{{ url('nos-competences') }}">Nos compétences</a></li>
+					<li id="nav-articles" class="hvr-underline-from-center"><a href="{{ url('articles') }}">Articles</a></li>
+					<li id="nav-news" class="hvr-underline-from-center"><a href="{{ url('news') }}">L'actu</a></li>
+					<li id="nav-galerie" class="hvr-underline-from-center"><a href="{{ url('galerie') }}">Galerie</a></li>
+					<li id="nav-cours" class="hvr-underline-from-center"><a href="{{ url('cours') }}">Les cours</a></li>
 
 					@if(Auth::check())
 						<li class="dropdown">
@@ -72,8 +74,8 @@ $events = new Collection();
 										{{Auth::user()->name}}
 									</a>
 								</li>
-								<li id="nav-notifications" title="Voir les notifications">
-									<a href="{{ url('users/notifications') }}">
+								<li id="nav-notifications" data-toggle="tooltip" data-placement="left" title="Voir les notifications">
+									<a href="{{ url('notifications') }}">
 										@if($nbOfNotifications > 0)
 											<span class="nb-of-notifs">{{ $nbOfNotifications }}</span>
 										@endif
@@ -81,8 +83,16 @@ $events = new Collection();
 										Notifications
 									</a>
 								</li>
-								<li id="nav-logout" title="Se déconnecter">
-									<a href="{{ url('logout') }}">
+								@if(isAdmin())
+									<li id="nav-admin" data-toggle="tooltip" data-placement="left" title="Accéder à la zone d'administration">
+										<a href="{{ url('admin') }}">
+											<span class="glyphicon-cog glyphicon"></span>
+											Administration
+										</a>
+									</li>
+								@endif
+								<li id="nav-logout" data-toggle="tooltip" data-placement="left" title="Se déconnecter">
+									<a href="{{ url('deconnexion') }}">
 										<span class="glyphicon-log-out glyphicon"></span>
 										Se déconnecter
 									</a>
@@ -90,26 +100,24 @@ $events = new Collection();
 							</ul>
 						</li>
 					@else
-						<li id="nav-login" title="Se connecter" class="hvr-underline-from-center">
-							<a class="glyphicon glyphicon-log-in" href="{{ url('login') }}"></a>
+						<li id="nav-login" data-toggle="tooltip" data-placement="bottom" title="Se connecter" class="hvr-underline-from-center">
+							<a class="glyphicon glyphicon-log-in" href="{{ url('connexion') }}"></a>
 						</li>
 					@endif
 				</ul>
 			</div>
 		</div>
-		<hr class="border"></hr>
+		<hr class="border">
 	</nav>
 
 	<div id="banner">
-		{{--<div class="panel banner-panel content-editable">--}}
-		{{--<div ng-show="user.check != 1" title="Cliquez ici pour modifier le contenu" class="glyphicon glyphicon-pencil edit-content"></div> --}}
-		{{--{!! printButtonContent($banner_content->name, ['id' => 'banner-content-btn'], 'btn-edit-banner') !!}--}}
-
-		{{--<div id="banner-content" data-name="{{ $banner_content->name }}">--}}
-		{{--<h1>{{ $banner_content->title }}</h1>--}}
-		{{--<p>{{ $banner_content->content }}</p>--}}
+		<div class="col-lg-12">
+			<img src="{{url('img/logo.jpg')}}" alt="" class="img-banner">
+		</div>
+		{{--<div class="panel banner-panel">--}}
+		{{--<div id="banner-content">--}}
+		{{--<img class="logo" src="{{url('/img/logo.jpg')}}" alt="Logo du cabinet">--}}
 		{{--</div>--}}
-
 		{{--</div>--}}
 	</div>
 
@@ -130,62 +138,62 @@ $events = new Collection();
 	</div>
 
 	{{--@if(!$isCurrentPageHomePage)--}}
-		<aside class="content col-lg-4">
-			<div class="inner">
-				<section class="lastest-news">
-					<h1>Dernières news
-						@if(Auth::check() && Auth::user()->is_doctor)
-							<a title="Ajouter une news" href="{{ url('news/create') }}"
-							   class="create-new create-news glyphicon glyphicon-plus btn-hover"></a>
-						@endif
-					</h1>
-					@if($news->count() > 0)
-						@foreach($news as $n)
-							<a href="/news/show/{{$n->id}}">{{$n->title}}</a>
-							<p class="date">{{$n->published_at->format('d/m/Y')}}</p>
-						@endforeach
-
-						<a href="/news" align="right" class="see-all"><p>Tout voir <span class="glyphicon glyphicon-arrow-right"></span></p></a>
-					@else
-						<p>Aucune news récente.</p>
+	<aside class="content col-lg-3">
+		<div class="inner">
+			<section class="lastest-news">
+				<h1>Dernières news
+					@if(isAdmin())
+						<a data-toggle="tooltip" data-placement="left" title="Ajouter une news" href="#" {{--href="{{ url('news/creer') }}"--}}
+						class="absolute-right create-new create-news glyphicon glyphicon-plus btn-hover"></a>
 					@endif
+				</h1>
+				@if($template_news->count() > 0)
+					@foreach($template_news as $n)
+						<a href="/news/{{$n->id}}">{{$n->title}}</a>
+						<p class="date">{{$n->published_at->format('d/m/Y')}}</p>
+					@endforeach
 
-				</section>
+					<a href="/news" align="right" class="see-all"><p>Tout voir <span class="glyphicon glyphicon-arrow-right"></span></p></a>
+				@else
+					<p>Aucune news récente.</p>
+				@endif
 
-				<hr class="separator">
+			</section>
 
-				<section class="incoming-events">
-					<h1>Événements à venir
-						@if(Auth::check() && Auth::user()->is_doctor)
-							<a title="Ajouter un événement" href="{{ url('events/create') }}"
-							   class="create-new create-event glyphicon glyphicon-plus btn-hover"></a>
-						@endif
-					</h1>
-					@if($events->count() > 0)
-						@foreach($events as $e)
-							<a
-									title="{{($today = $e->start->isToday()) ? 'Cet événement à lieu aujourd\'hui !' : 'Cliquez ici pour en savoir plus.'}}"
-									{{ $today ? 'class=today' : '' }}
-									href="/events/show/{{$e->id}}">{{$e->name}}
-							</a>
-							<p class="date {{ $today ? 'today' : '' }} ">
-								{{--                                 @if($e->start->dayOfYear == $e->end->dayOfYear)
-																	Le {{$e->start->format('d/m/Y\, \d\e H:i').' à '.$e->end->format('H:i')}}
-																@else
-																	Du {{$e->start->format('d/m').' au '.$e->end->format('d/m Y').', de '.$e->start->format('H:i').' à '.$e->end->format('H:i')}}
-																@endif --}}
-								Début : {{ $e->start->format('d/m/Y \à H:i') }} <br/>Fin : {{ $e->end->format('d/m/Y \à H:i') }}
-							</p>
-						@endforeach
+			<hr class="separator">
 
-						<a href="/events" align="right" class="see-all"><p>Tout voir <span class="glyphicon glyphicon-arrow-right"></span></p></a>
-					@else
-						<p>Aucun événement à venir.</p>
+			<section class="incoming-events">
+				<h1>Événements à venir
+					@if(isAdmin())
+						<a data-toggle="tooltip" data-placement="left" title="Ajouter un événement" href="{{ url('evenements/creer') }}"
+						   class="absolute-right create-new create-event glyphicon glyphicon-plus btn-hover"></a>
 					@endif
+				</h1>
+				@if($template_events->count() > 0)
+					@foreach($events as $e)
+						<a data-toggle="tooltip" data-placement="top"
+						   title="{{($today = $e->start->isToday()) ? 'Cet événement à lieu aujourd\'hui !' : 'Cliquez ici pour en savoir plus.'}}"
+						   {{ $today ? 'class=today' : '' }}
+						   href="/evenements/{{$e->id}}">{{$e->name}}
+						</a>
+						<p class="date {{ $today ? 'today' : '' }} ">
+							{{--                                 @if($e->start->dayOfYear == $e->end->dayOfYear)
+																Le {{$e->start->format('d/m/Y\, \d\e H:i').' à '.$e->end->format('H:i')}}
+															@else
+																Du {{$e->start->format('d/m').' au '.$e->end->format('d/m Y').', de '.$e->start->format('H:i').' à '.$e->end->format('H:i')}}
+															@endif --}}
+							Début : {{ $e->start->format('d/m/Y \à H:i') }} <br/>Fin : {{ $e->end->format('d/m/Y \à H:i') }}
+						</p>
+					@endforeach
 
-				</section>
-			</div>
-		</aside>
+					<a href="/evenements" align="right" class="see-all"><p>Tout voir <span class="glyphicon glyphicon-arrow-right"></span></p></a>
+				@else
+					<p>Aucun événement à venir.</p>
+				@endif
+
+			</section>
+		</div>
+	</aside>
 	{{--@endif--}}
 </div>
 
@@ -193,22 +201,23 @@ $events = new Collection();
 @include('layouts.app.footer', $footer_doctors)
 
 
-<script src="{{ url('/js/jquery.min.js') }}"></script>
+{{--<script src="{{ url('/js/jquery.min.js') }}"></script>--}}
+<script
+		src="http://code.jquery.com/jquery-3.2.1.min.js"
+		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
+		crossorigin="anonymous">
+</script>
 <script src="{{ url('/js/bootstrap.min.js') }}"></script>
 <script src="{{ url('/js/bootbox.min.js') }}"></script>
+{{--<script src="{{ url('/js/CKeditor/ckeditor.js') }}"></script>--}}
+{{--<script src="//cdn.ckeditor.com/4.7.1/basic/ckeditor.js"></script>--}}
+<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=6dsidl73nkp1p71n04g9rr7dieh5e1whc8kp1ju40t4wzgn4"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
 
-<script src="{{ url('/js/CKeditor/ckeditor.js') }}"></script>
 
-<script>
+<script src="{{ url('/js/app.js') }}"></script>
 
-    var alerts = $('.alert').delay(2000).fadeOut(700, function () {
-        $(this).remove();
-    });
-
-    $(document).ready(function(){
-        $('[data-toggle="tooltip"]').tooltip();
-    });
-</script>
+@yield('js')
 
 </body>
 </html>

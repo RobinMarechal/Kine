@@ -80,6 +80,7 @@ $appearance->add(new Feature('Menus', true));
 $appearance->add(new Feature('Contenu principal', true));
 $appearance->add(new Feature('Rubriques latérales', true));
 $appearance->add(new Feature('Pied de page', true));
+$appearance->add(new Feature('Logo'));
 
 $featureSections[] = $appearance;
 
@@ -88,6 +89,7 @@ $footer->add(new Feature('Horaires', true));
 $footer->add(new Feature('Contacts (tel, mail, réseaux sociaux)', true));
 $footer->add(new Feature('Adresse du cabinet', true));
 $footer->add(new Feature('Numéro de téléphone du cabinet', true));
+$footer->add(new Feature('Pagination', true));
 
 $featureSections[] = $footer;
 
@@ -98,12 +100,12 @@ $accueil->add(new Feature("Récap des derniers posts"));
 $featureSections[] = $accueil;
 
 $quiSommesNous = new FeatureSection("Qui sommes nous");
-$quiSommesNous->add(new Feature("Une page pour présenter tout le monde"));
+$quiSommesNous->add(new Feature("Une page pour présenter tout le monde", true));
 
 $featureSections[] = $quiSommesNous;
 
-$nosCompetences = new FeatureSection("Nos compétences");
-$nosCompetences->add(new Feature("Plusieurs rubriques"));
+$nosCompetences = new FeatureSection("Nos compétences", true);
+$nosCompetences->add(new Feature("Plusieurs rubriques", true));
 
 $featureSections[] = $nosCompetences;
 
@@ -114,18 +116,20 @@ $galerie->add(new Feature("Galerie par post"));
 $featureSections[] = $galerie;
 
 $articles = new FeatureSection("Articles");
-$articles->add(new Feature("Publier un article"));
-$articles->add(new Feature("Modifier un article"));
-$articles->add(new Feature("Supprimer un article"));
+$articles->add(new Feature("Créer un article", true));
+$articles->add(new Feature("Prévisualiser avant de publier", true));
+$articles->add(new Feature("Publier un article", true));
+$articles->add(new Feature("Modifier un article", true));
+$articles->add(new Feature("Supprimer un article", true));
 $articles->add(new Feature("Gérer les médias"));
-$articles->add(new Feature("Gérer les tags"));
+$articles->add(new Feature("Gérer les tags", true));
 
 $featureSections[] = $articles;
 
 $news = new FeatureSection("News");
-$news->add(new Feature("Publier un news"));
-$news->add(new Feature("Modifier un news"));
-$news->add(new Feature("Supprimer un news"));
+$news->add(new Feature("Publier un news", true));
+$news->add(new Feature("Modifier un news", true));
+$news->add(new Feature("Supprimer un news", true));
 
 $featureSections[] = $news;
 
@@ -179,6 +183,17 @@ $yt->add(new Feature("Lier la chaine youtube au site"));
 
 $featureSections[] = $yt;
 
+$total = 0;
+$checked = 0;
+
+foreach ($featureSections as $fs) {
+	foreach ($fs->getFeatures() as $f) {
+		$total++;
+		if ($f->isDone())
+			$checked++;
+	}
+}
+
 ?>
 
 @extends('layouts.app')
@@ -202,6 +217,10 @@ $featureSections[] = $yt;
 		@empty
 			<p>Rien.</p>
 		@endforelse
+			<hr>
+			<p>Cochées : {{ $checked }} </p>
+			<p>Restantes : {{ $total - $checked }}</p>
+			<p>Total : {{ $total }}</p>
 	</div>
 
 

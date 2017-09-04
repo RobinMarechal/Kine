@@ -1,6 +1,14 @@
 <?php
 
+use App\Http\Controllers\NewsController;
 use Carbon\Carbon;
+
+function isAdmin ()
+{
+	$user = Auth::user();
+
+	return $user != null && ($user->is_doctor || $user->level > 0);
+}
 
 function getGoogleConfigs ()
 {
@@ -12,29 +20,41 @@ function getGoogleApiKey ()
 	return getGoogleConfigs()['api_key'];
 }
 
-function getTimeString($time, $withSeconds = false)
+function getTimeString ($time, $withSeconds = false)
 {
 	$time = Carbon::parse($time);
 
 	$format = 'H:i';
-	if($withSeconds)
+	if ($withSeconds) {
 		$format .= ':s';
+	}
 
 	return $time->format($format);
 }
 
 function printButtonContent ($name, array $attrs = [], $addClasses = '')
 {
-	if (Auth::check() && Auth::user()->level > 1) {
+	if (isAdmin()) {
 		$attrStr = '';
 		if (!empty($attrs)) {
+			if (array_has($attrs, 'title')) {
+				if (!array_has($attrs, 'data-toggle')) {
+					$attrs['data-toggle'] = 'tooltip';
+				}
+
+				if (!array_has($attrs, 'data-placement')) {
+					$attrs['data-placement'] = 'top';
+				}
+			}
 			foreach ($attrs as $a => $v) {
 				if ($a != 'class') {
 					$attrStr .= ' ' . $a . '="' . $v . '"';
 				}
 			}
 		}
-		$str = '<button' . $attrStr . ' data-name="' . $name . '" class="btn btn-edit btn-primary ' . $addClasses . '"><span class="glyphicon glyphicon-pencil"></span></button>';
+
+		$str = '<button' . $attrStr . ' data-name="' . $name . '" class="btn btn-edit btn-primary ' .
+			$addClasses . '"><span class="glyphicon glyphicon-pencil"></span></button>';
 
 		return $str;
 	}
@@ -42,7 +62,7 @@ function printButtonContent ($name, array $attrs = [], $addClasses = '')
 
 function printButton ($name, $glyphicon = 'pencil', array $attrs = [], $addClasses = '')
 {
-	if (Auth::check() && Auth::user()->level > 1) {
+	if (Auth::check() && (Auth::user()->is_doctor || Auth::user()->level > 0)) {
 		$attrStr = '';
 		if (!empty($attrs)) {
 			foreach ($attrs as $a => $v) {
@@ -77,7 +97,7 @@ function cut ($str, $n, $link = false)
 	$string = $str;
 	if (strlen($str) > $n) {
 		$substr = substr($str, 0, $n);
-		$left = '<i><b>.....</b></i>';
+		$left = '<i><span data-toggle="tooltip" data-placement="right" title="Cliquez sur le titre de la news pour la voir en entier" class="cutting-dots">.....</span></i>';
 		if ($link != false) {
 			$left = '<a title="Cliquez pour voir la suite" href="' . url($link) . '">' . $left . '</a>';
 		}
@@ -148,4 +168,30 @@ function getCurrentDatetime ()
 {
 	return Carbon::now()
 				 ->format('Y-m-d H:i:s');
+}
+
+
+function singular ($str)
+{
+	if (ends_with($str, 'ies')) {
+		return substr($str, 0, strlen($str) - 3) . 'y';
+	}
+	else if (ends_with($str, 's')) {
+		return substr($str, 0, strlen($str) - 1);
+	}
+
+	return $str;
+}
+
+
+function getRelatedModelClassName (\App\Http\Controllers\Controller $controller)
+{
+	if ($controller instanceof NewsController) {
+		return 'App\\News';
+	}
+
+	$fullName = get_class($controller);
+	$reducedName = str_replace('Controller', '', array_last(explode('\\', $fullName)));
+
+	return 'App\\' . singular($reducedName);
 }

@@ -15,6 +15,7 @@ class Media extends Model
 
     protected $dates = ['deleted_at'];
     protected $fillable = ['created_at', 'updated_at', 'type', 'path', 'post_type', 'post_id', 'description', 'title', 'user_id', 'views'];
+	public $temporalField = 'created_at';
 
 
     public function user ()
@@ -33,4 +34,10 @@ class Media extends Model
     {
         return $this->morphTo();
     }
+
+
+	public function mediaable ()
+	{
+		return $this->morphTo();
+	}
 }

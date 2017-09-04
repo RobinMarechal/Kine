@@ -15,6 +15,7 @@ class Course extends Model
 
     protected $dates = ['deleted_at'];
     protected $fillable = ['created_at', 'updated_at', 'article_id', 'description', 'views'];
+	public $temporalField = 'created_at';
 
 
     public function clients ()

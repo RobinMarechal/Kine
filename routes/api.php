@@ -1,7 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
-
 /*
 |--------------------------------------------------------------------------
 | API Routes
@@ -13,6 +11,6 @@ use Illuminate\Http\Request;
 |
 */
 
-Route::middleware('auth:api')->get('/user', function (Request $request) {
-    return $request->user();
-});
+Route::post('contents', 'ContentsController@post')->name('contents.post');
+
+Route::any("{resource}/{id?}/{relation?}/{relatedId?}", 'ApiController@dispatch')->name('api.dispatch');

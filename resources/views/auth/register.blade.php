@@ -20,24 +20,52 @@
 
 	{{--<hr width="50%">--}}
 
-	<form class="row" action="{{url('register')}}" method="post">
+	<form class="row" action="{{url('inscription')}}" method="post">
 
 		{{ csrf_field() }}
 
-		<div class="col-lg-8 col-lg-offset-2 form-group">
-			<input type="text" name="name" class="form-control" placeholder="Votre prénom et nom" value="{{old('name')}}">
+		<div class="col-lg-8 col-lg-offset-2 form-group {{ $errors->has('name') ? 'has-error' : ''}}">
+			<input required type="text" name="name" class="form-control" placeholder="Votre prénom et nom" value="{{old('name')}}">
+			@if($errors->has('name'))
+				<ul class="input-error-block">
+					@foreach($errors->get('name') as $error)
+						<li class="input-error">{{$error}}</li>
+					@endforeach
+				</ul>
+			@endif
 		</div>
 
-		<div class="col-lg-8 col-lg-offset-2 form-group">
-			<input type="email" name="email" class="form-control" placeholder="Votre adresse email" value="{{old('email')}}">
+		<div class="col-lg-8 col-lg-offset-2 form-group {{ $errors->has('email') ? 'has-error' : ''}}">
+			<input required type="email" name="email" class="form-control" placeholder="Votre adresse email" value="{{old('email')}}">
+			@if($errors->has('email'))
+				<ul class="input-error-block">
+					@foreach($errors->get('email') as $error)
+						<li class="input-error">{{$error}}</li>
+					@endforeach
+				</ul>
+			@endif
 		</div>
 
-		<div class="col-lg-8 col-lg-offset-2 form-group">
-			<input type="password" name="password" class="form-control" placeholder="Votre mot de passe">
+		<div class="col-lg-8 col-lg-offset-2 form-group {{ $errors->has('password') ? 'has-error' : ''}}">
+			<input required type="password" name="password" class="form-control" placeholder="Votre mot de passe">
+			@if($errors->has('password'))
+				<ul class="input-error-block">
+					@foreach($errors->get('password') as $error)
+						<li class="input-error">{{$error}}</li>
+					@endforeach
+				</ul>
+			@endif
 		</div>
 
-		<div class="col-lg-8 col-lg-offset-2 form-group">
-			<input type="password" name="password_confirmation" class="form-control" placeholder="Confirmation de votre mot de passe">
+		<div class="col-lg-8 col-lg-offset-2 form-group {{ $errors->has('password_confirmation') ? 'has-error' : ''}}">
+			<input required type="password" name="password_confirmation" class="form-control" placeholder="Confirmation de votre mot de passe">
+			@if($errors->has('password_confirmation'))
+				<ul class="input-error-block">
+					@foreach($errors->get('password_confirmation') as $error)
+						<li class="input-error">{{$error}}</li>
+					@endforeach
+				</ul>
+			@endif
 		</div>
 
 		<div align="center" class="form-group col-lg-8 col-lg-offset-2">
@@ -48,7 +76,7 @@
 
 	<hr>
 
-	<a href="{{ url('login') }}"><span class="glyphicon glyphicon glyphicon-arrow-right"></span> Cliquez ici si vous avez déjà un compte ou que vous souhaitez vous connecter
+	<a href="{{ url('connexion') }}"><span class="glyphicon glyphicon glyphicon-arrow-right"></span> Cliquez ici si vous avez déjà un compte ou que vous souhaitez vous connecter
 		avec Facebook</a>
 
 @endsection

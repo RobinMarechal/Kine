@@ -2,24 +2,12 @@
 
 namespace App;
 
-use Illuminate\Database\Eloquent\Model;
-
-class RemovedContent extends Model 
+class RemovedContent extends Content
 {
 
-    protected $table = 'removed_contents';
-    public $timestamps = false;
-    protected $fillable = array('name', 'content', 'created_at', 'updated_at', 'user_id', 'removed_at');
-    protected $dates = ['removed_at'];
-
-    public function author()
-    {
-        return $this->belongsTo('App\User');
-    }
-
-    public function user()
-    {
-        return $this->belongsTo('App\User');
-    }
-
+	protected $table = 'removed_contents';
+	public $timestamps = false;
+	protected $fillable = ['name', 'content', 'created_at', 'updated_at', 'user_id', 'removed_at', 'slug'];
+	protected $dates = ['removed_at'];
+	public $temporalField = 'created_at';
 }
