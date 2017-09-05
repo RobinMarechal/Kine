@@ -94,7 +94,7 @@ class Controller extends BaseController
 
 	public function defaultPut ($class, $id)
 	{
-		$cat = $class::find($id);
+		$cat = $this->defaultGetById($class, $id)->getData();
 
 		if ($cat == null) {
 			return new ResponseData(null, Response::HTTP_BAD_REQUEST);

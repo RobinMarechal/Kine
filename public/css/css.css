@@ -729,7 +729,7 @@ h1 > a, h2 > a, h3 > a {
 }
 
 #tag-list-group .items {
-    max-height: 320px;
+    max-height: 250px;
     overflow-y: auto;
 }
 
@@ -758,4 +758,53 @@ h1 > a, h2 > a, h3 > a {
 
 .pagination > .disabled > span, .pagination > .disabled > span:hover, .pagination > .disabled > span:focus, .pagination > .disabled > a, .pagination > .disabled > a:hover, .pagination > .disabled > a:focus {
     background-color: #8a8a8a;
+}
+
+.users-list{
+    list-style-type: none;
+    line-height:24px;
+    font-size: 16px;
+
+}
+
+.user-info{
+    list-style-type:none;
+    font-size: 14px;
+    font-style: italic;
+    color:rgb(120,120,120);
+}
+
+.controls{
+    font-size: 24px;
+    padding:0 !important;
+    display:block;
+    text-align: center;
+}
+
+.controls i{
+    right:10px;
+    vertical-align: middle;
+    color:rgb(90,90,90);
+    opacity:0;
+    cursor:pointer;
+    margin:0 5px;
+}
+
+.users-list .user:hover .controls i{
+    display:inline-block;
+    opacity:0.6;
+}
+
+.controls i:hover{
+    opacity:1 !important;
+}
+
+thead td{
+    font-weight: bold;
+}
+
+.table-tag-list{
+    width:350px;
+    white-space: nowrap;
+    overflow-x:auto;
 }

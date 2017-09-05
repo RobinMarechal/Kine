@@ -21,10 +21,12 @@ Route::get('user', 'ApiController@user');
  * Administration routes
  */
 Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
-	Route::get('/', 'AdminsController@index')
+	Route::get('/', 'Admin\AdminsController@index')
 		 ->name('admin.index');
-	Route::get('utilisateurs', 'AdminsController@users')
+	Route::get('utilisateurs', 'Admin\AdminsController@users')
 		 ->name('admin.users');
+	Route::get('contacts', 'Admin\AdminsController@contacts')
+		 ->name('admin.contacts');
 });
 
 Route::get('admin/development', 'MainController@dev')

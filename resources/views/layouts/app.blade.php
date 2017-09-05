@@ -22,8 +22,7 @@ $events = new Collection();
 	<link rel="stylesheet" type="text/css" href="{{url('css/bootstrap.css')}}"/>
 	<link rel="stylesheet" type="text/css" href="{{url('css/hover.min.css')}}"/>
 	<link rel="stylesheet" type="text/css" href="{{url('css/font-awesome.min.css')}}"/>
-
-	<link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/css/pikaday.min.css"/>
+	<link rel="stylesheet" type="text/css" href="{{ url('css/pikaday.min.css') }}"/>
 
 	<link rel="stylesheet" type="text/css" href="{{url('css/css.css')}}"/>
 
@@ -35,75 +34,36 @@ $events = new Collection();
 	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container-fluid">
 			<div class="navbar-header">
-				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
-						data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-					<span class="sr-only">Toggle navigation</span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-					<span class="icon-bar"></span>
-				</button>
-				<a class="navbar-brand" href="/">Kiné</a>
+				@if(isAdminZone())
+					<a class="navbar-brand" href="/admin">Kiné</a>
+				@else
+					<a class="navbar-brand" href="/">Kiné</a>
+				@endif
 			</div>
 
 			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
 
 				<ul class="nav navbar-nav navbar-right" ng-init="home='active'">
-					<li id="nav-" class="hvr-underline-from-center"><a href="{{ url('/') }}">Accueil</a></li>
-					<li id="nav-qui-sommes-nous" class="hvr-underline-from-center"><a href="{{ url('qui-sommes-nous') }}">Qui sommes nous</a></li>
-					<li id="nav-nos-competences" class="hvr-underline-from-center"><a href="{{ url('nos-competences') }}">Nos compétences</a></li>
-					<li id="nav-articles" class="hvr-underline-from-center"><a href="{{ url('articles') }}">Articles</a></li>
-					<li id="nav-news" class="hvr-underline-from-center"><a href="{{ url('news') }}">L'actu</a></li>
-					<li id="nav-galerie" class="hvr-underline-from-center"><a href="{{ url('galerie') }}">Galerie</a></li>
-					<li id="nav-cours" class="hvr-underline-from-center"><a href="{{ url('cours') }}">Les cours</a></li>
+
+					@include('layouts.parts.nav', ['nav' => [
+						['id' => 'nav-', 'href' => '/', 'html' => 'Accueil'],
+						['id' => 'nav-qui-sommes-nous', 'href' => 'qui-sommes-nous', 'html' => 'Qui sommes-nous'],
+						['id' => 'nav-nos-competences', 'href' => 'nos-competences', 'html' => 'Nos compétences'],
+						['id' => 'nav-articles', 'href' => 'articles', 'html' => 'Articles'],
+						['id' => 'nav-news', 'href' => 'news', 'html' => 'L\'actu'],
+						['id' => 'nav-galerie', 'href' => 'galerie', 'html' => 'Galerie'],
+						['id' => 'nav-cours', 'href' => 'cours', 'html' => 'Les cours'],
+					]])
+
 
 					@if(Auth::check())
-						<li class="dropdown">
-							<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
-							   aria-expanded="false">
-								<span class="glyphicon glyphicon-user">
-									@if($nbOfNotifications > 0)
-										<span class="nb-of-notifs nb-of-notifs-user">{{ $nbOfNotifications }}</span>
-									@endif
-								</span>
-								<span class="caret"></span>
-							</a>
-							<ul class="dropdown-menu" role="menu">
-								<li id="nav-profile">
-									<a>
-										<span class="glyphicon glyphicon-user"></span>
-										{{Auth::user()->name}}
-									</a>
-								</li>
-								<li id="nav-notifications" data-toggle="tooltip" data-placement="left" title="Voir les notifications">
-									<a href="{{ url('notifications') }}">
-										@if($nbOfNotifications > 0)
-											<span class="nb-of-notifs">{{ $nbOfNotifications }}</span>
-										@endif
-										<span class="glyphicon glyphicon-bell"></span>
-										Notifications
-									</a>
-								</li>
-								@if(isAdmin())
-									<li id="nav-admin" data-toggle="tooltip" data-placement="left" title="Accéder à la zone d'administration">
-										<a href="{{ url('admin') }}">
-											<span class="glyphicon-cog glyphicon"></span>
-											Administration
-										</a>
-									</li>
-								@endif
-								<li id="nav-logout" data-toggle="tooltip" data-placement="left" title="Se déconnecter">
-									<a href="{{ url('deconnexion') }}">
-										<span class="glyphicon-log-out glyphicon"></span>
-										Se déconnecter
-									</a>
-								</li>
-							</ul>
-						</li>
+						@include('layouts.parts.dropdown', compact('nbOfNotifications'))
 					@else
 						<li id="nav-login" data-toggle="tooltip" data-placement="bottom" title="Se connecter" class="hvr-underline-from-center">
 							<a class="glyphicon glyphicon-log-in" href="{{ url('connexion') }}"></a>
 						</li>
 					@endif
+
 				</ul>
 			</div>
 		</div>

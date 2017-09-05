@@ -68,11 +68,7 @@ if (isset($article)) {
 
 					<br>
 
-					<input type="text"
-						   name="tags"
-						   id="tags-input"
-						   hidden
-						   value="{{$articleTagsInInput}}">
+					<input type="text" name="tags" id="tags-input" hidden value="{{$articleTagsInInput}}">
 
 					<ul class="list-group"
 						id="tag-list-group">

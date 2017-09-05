@@ -3,11 +3,14 @@
  */
 import Flash from "../libs/Flash";
 import Api from "../libs/Api";
+import Model from "../libs/Model";
 
-export default class News {
+export default class News extends Model{
 
     constructor(obj = null) {
-        if (obj !== null) {
+        super(obj);
+
+        if (obj != null) {
             this._id = obj.id;
             this._deleted_at = obj.deleted_at;
             this._created_at = obj.created_at;

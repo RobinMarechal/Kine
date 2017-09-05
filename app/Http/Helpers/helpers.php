@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\NewsController;
 use Carbon\Carbon;
+use Illuminate\Support\Facades\Route;
 
 function isAdmin ()
 {
@@ -194,4 +195,9 @@ function getRelatedModelClassName (\App\Http\Controllers\Controller $controller)
 	$reducedName = str_replace('Controller', '', array_last(explode('\\', $fullName)));
 
 	return 'App\\' . singular($reducedName);
+}
+
+function isAdminZone()
+{
+	return strpos(Route::current()->uri, 'admin') !== false;
 }

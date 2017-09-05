@@ -4,12 +4,14 @@
 
 import Flash from "../libs/Flash";
 import Api from "../libs/Api";
+import Model from "../libs/Model";
 
-export default class Content {
+export default class Content extends Model{
 
-    constructor(obj) {
-        if(obj !== null)
-        {
+    constructor(obj = null) {
+        super(obj);
+
+        if (obj != null) {
             this._id = obj.id;
             this._content = obj.content;
             this._created_at = obj.created_at;

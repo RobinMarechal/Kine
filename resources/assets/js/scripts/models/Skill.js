@@ -1,10 +1,14 @@
 import Api from "../libs/Api";
 import Flash from "../libs/Flash";
 import * as $ from "jquery";
-export default class Skill {
+import Model from "../libs/Model";
+
+export default class Skill extends Model{
 
     constructor(obj = null) {
-        if (obj !== null) {
+        super(obj, ['id', 'content', 'created_at', 'updated_at', 'title', 'index']);
+
+        if (obj != null) {
             this._id = obj.id;
             this._content = obj.content;
             this._created_at = obj.created_at;

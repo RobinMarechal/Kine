@@ -3,21 +3,12 @@
  */
 import Flash from "../libs/Flash";
 import Api from "../libs/Api";
+import Model from "../libs/Model";
 
-export default class Article {
+export default class Article extends Model {
 
     constructor(obj = null) {
-        if (obj !== null) {
-            this._id = obj.id;
-            this._deleted_at = obj.deleted_at;
-            this._created_at = obj.created_at;
-            this._updated_at = obj.updated_at;
-            this._user_id = obj.user_id;
-            this._title = obj.title;
-            this._content = obj.content;
-            this._views = obj.views;
-            this._picture = obj.picture;
-        }
+        super(obj, ['id', 'created_at', 'updated_at', 'deleted_at', 'user_id', 'title', 'content', 'picture',' views']);
     }
 
     get id() {
@@ -99,21 +90,6 @@ export default class Article {
     set picture(value) {
         this._picture = value;
     }
-
-    toJson() {
-        return {
-            id: this.id,
-            deleted_at: this.deleted_at,
-            created_at: this.created_at,
-            updated_at: this.updated_at,
-            user_id: this.user_id,
-            title: this.title,
-            content: this.content,
-            picture: this.picture,
-            views: this.views,
-        }
-    }
-
 
     static get(id) {
         return new Promise((resolve, reject) => {

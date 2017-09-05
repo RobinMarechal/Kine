@@ -3,7 +3,7 @@
  */
 export default class Flash {
     static display(message, type = "error", delay = null) {
-        delay = delay == null ? 1500 : delay;
+        delay = delay == null ? 2000 : delay;
 
         var html = '<div title="Cliquez pour masquer le message" id="alert" class="alert js-alert alert-' + type + '">' + message + '</div>';
         $('#alert').remove();

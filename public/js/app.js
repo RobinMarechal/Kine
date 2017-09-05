@@ -60,7 +60,7 @@
 /******/ 	__webpack_require__.p = "";
 /******/
 /******/ 	// Load entry module and return exports
-/******/ 	return __webpack_require__(__webpack_require__.s = 10);
+/******/ 	return __webpack_require__(__webpack_require__.s = 11);
 /******/ })
 /************************************************************************/
 /******/ ([
@@ -86,7 +86,7 @@ var Flash = function () {
             var type = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : "error";
             var delay = arguments.length > 2 && arguments[2] !== undefined ? arguments[2] : null;
 
-            delay = delay == null ? 1500 : delay;
+            delay = delay == null ? 2000 : delay;
 
             var html = '<div title="Cliquez pour masquer le message" id="alert" class="alert js-alert alert-' + type + '">' + message + '</div>';
             $('#alert').remove();
@@ -133,7 +133,7 @@ var Flash = function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_jquery__);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
@@ -190,7 +190,72 @@ var Api = function () {
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_Exception__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__Api__ = __webpack_require__(1);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+/**
+ * Created by Utilisateur on 11/07/2017.
+ */
+
+
+var Model = function () {
+    function Model(obj, fields) {
+        _classCallCheck(this, Model);
+
+        this._fields = fields;
+
+        if (obj != null) {
+            for (var prop in obj) {
+                if (obj.hasOwnProperty(prop)) {
+                    var thisProp = fields.indexOf(prop) == -1 ? prop : '_' + prop;
+                    this[prop] = obj[prop];
+                }
+            }
+        }
+    }
+
+    _createClass(Model, [{
+        key: "toJson",
+        value: function toJson() {
+            var json = {};
+            for (var prop in this) {
+                if (this.hasOwnProperty(prop)) {
+                    if (prop.indexOf('_') == 0) json[prop.substr(1)] = this[prop];else json[prop] = this[prop];
+                }
+            }
+
+            return json;
+        }
+    }, {
+        key: "fields",
+        get: function get() {
+            return this._fields;
+        }
+    }], [{
+        key: "baseApiUrl",
+        get: function get() {
+            return __WEBPACK_IMPORTED_MODULE_0__Api__["a" /* default */].getBaseUrl();
+        }
+    }, {
+        key: "apiUrl",
+        get: function get() {
+            throw "Not implemented";
+        }
+    }]);
+
+    return Model;
+}();
+
+/* harmony default export */ __webpack_exports__["a"] = (Model);
+
+/***/ }),
+/* 3 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_Exception__ = __webpack_require__(6);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -274,15 +339,20 @@ var Editor = function () {
 /* harmony default export */ __webpack_exports__["a"] = (Editor);
 
 /***/ }),
-/* 3 */
+/* 4 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_Flash__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_Api__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__libs_Model__ = __webpack_require__(2);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 /**
  * Created by Utilisateur on 11/07/2017.
@@ -291,18 +361,26 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
 
-var Content = function () {
-    function Content(obj) {
+
+var Content = function (_Model) {
+    _inherits(Content, _Model);
+
+    function Content() {
+        var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
         _classCallCheck(this, Content);
 
-        if (obj !== null) {
-            this._id = obj.id;
-            this._content = obj.content;
-            this._created_at = obj.created_at;
-            this._updated_at = obj.updated_at;
-            this._title = obj.title;
-            this._name = obj.name;
+        var _this = _possibleConstructorReturn(this, (Content.__proto__ || Object.getPrototypeOf(Content)).call(this, obj));
+
+        if (obj != null) {
+            _this._id = obj.id;
+            _this._content = obj.content;
+            _this._created_at = obj.created_at;
+            _this._updated_at = obj.updated_at;
+            _this._title = obj.title;
+            _this._name = obj.name;
         }
+        return _this;
     }
 
     _createClass(Content, [{
@@ -320,10 +398,10 @@ var Content = function () {
     }, {
         key: "update",
         value: function update() {
-            var _this = this;
+            var _this2 = this;
 
             return new Promise(function (resolve, reject) {
-                __WEBPACK_IMPORTED_MODULE_1__libs_Api__["a" /* default */].sendData('contents/' + _this._id, 'PUT', _this.toJson()).done(function (response) {
+                __WEBPACK_IMPORTED_MODULE_1__libs_Api__["a" /* default */].sendData('contents/' + _this2._id, 'PUT', _this2.toJson()).done(function (response) {
                     var res = new Content(response);
                     __WEBPACK_IMPORTED_MODULE_0__libs_Flash__["a" /* default */].success('Les données ont bien été modifiées !', 'success');
                     resolve(res);
@@ -505,12 +583,12 @@ var Content = function () {
     }]);
 
     return Content;
-}();
+}(__WEBPACK_IMPORTED_MODULE_2__libs_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (Content);
 
 /***/ }),
-/* 4 */
+/* 5 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;/*!
@@ -10770,7 +10848,7 @@ return jQuery;
 
 
 /***/ }),
-/* 5 */
+/* 6 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10806,7 +10884,7 @@ var Exception = function () {
 /* harmony default export */ __webpack_exports__["a"] = (Exception);
 
 /***/ }),
-/* 6 */
+/* 7 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -10882,15 +10960,20 @@ var Form = function () {
 /* harmony default export */ __webpack_exports__["a"] = (Form);
 
 /***/ }),
-/* 7 */
+/* 8 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_Flash__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_Api__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__libs_Model__ = __webpack_require__(2);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 /**
  * Created by Utilisateur on 06/08/2017.
@@ -10898,23 +10981,29 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
 
-var News = function () {
+
+var News = function (_Model) {
+    _inherits(News, _Model);
+
     function News() {
         var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
         _classCallCheck(this, News);
 
-        if (obj !== null) {
-            this._id = obj.id;
-            this._deleted_at = obj.deleted_at;
-            this._created_at = obj.created_at;
-            this._updated_at = obj.updated_at;
-            this._user_id = obj.user_id;
-            this._title = obj.title;
-            this._content = obj.content;
-            this._published_at = obj.published_at;
-            this._views = obj.views;
+        var _this = _possibleConstructorReturn(this, (News.__proto__ || Object.getPrototypeOf(News)).call(this, obj));
+
+        if (obj != null) {
+            _this._id = obj.id;
+            _this._deleted_at = obj.deleted_at;
+            _this._created_at = obj.created_at;
+            _this._updated_at = obj.updated_at;
+            _this._user_id = obj.user_id;
+            _this._title = obj.title;
+            _this._content = obj.content;
+            _this._published_at = obj.published_at;
+            _this._views = obj.views;
         }
+        return _this;
     }
 
     _createClass(News, [{
@@ -10935,10 +11024,10 @@ var News = function () {
     }, {
         key: "update",
         value: function update() {
-            var _this = this;
+            var _this2 = this;
 
             return new Promise(function (resolve, reject) {
-                __WEBPACK_IMPORTED_MODULE_1__libs_Api__["a" /* default */].sendData('news/' + _this.id, 'PUT', _this.toJson()).done(function (response) {
+                __WEBPACK_IMPORTED_MODULE_1__libs_Api__["a" /* default */].sendData('news/' + _this2.id, 'PUT', _this2.toJson()).done(function (response) {
                     var news = new News(response);
                     __WEBPACK_IMPORTED_MODULE_0__libs_Flash__["a" /* default */].success('La news a bien été modifiée !');
                     resolve(news);
@@ -11058,12 +11147,12 @@ var News = function () {
     }]);
 
     return News;
-}();
+}(__WEBPACK_IMPORTED_MODULE_2__libs_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (News);
 
 /***/ }),
-/* 8 */
+/* 9 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -11114,13 +11203,13 @@ var Helper = function () {
 /* harmony default export */ __webpack_exports__["a"] = (Helper);
 
 /***/ }),
-/* 9 */
+/* 10 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_underscore__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_underscore__ = __webpack_require__(18);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0_underscore___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_0_underscore__);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_Exception__ = __webpack_require__(5);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_Exception__ = __webpack_require__(6);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
@@ -11189,29 +11278,31 @@ var RemovingConfirmDialog = function () {
 /* harmony default export */ __webpack_exports__["a"] = (RemovingConfirmDialog);
 
 /***/ }),
-/* 10 */
+/* 11 */
 /***/ (function(module, exports, __webpack_require__) {
 
-module.exports = __webpack_require__(11);
+module.exports = __webpack_require__(12);
 
 
 /***/ }),
-/* 11 */
+/* 12 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 Object.defineProperty(__webpack_exports__, "__esModule", { value: true });
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scripts_nav_active__ = __webpack_require__(12);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__scripts_management_contents__ = __webpack_require__(13);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__scripts_management_skills__ = __webpack_require__(14);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__scripts_management_news__ = __webpack_require__(16);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__scripts_management_articles__ = __webpack_require__(18);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__scripts_helpers_Editor__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__scripts_libs_Router__ = __webpack_require__(20);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__scripts_nav_active__ = __webpack_require__(13);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__scripts_management_contents__ = __webpack_require__(14);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__scripts_management_skills__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__scripts_management_news__ = __webpack_require__(17);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__scripts_management_articles__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__scripts_helpers_Editor__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__scripts_libs_Router__ = __webpack_require__(21);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__scripts_management_users__ = __webpack_require__(22);
 /**
  * Created by Utilisateur on 17/07/2017.
  */
 // import Flash from 'Flash';
+
 
 
 
@@ -11272,44 +11363,26 @@ __WEBPACK_IMPORTED_MODULE_6__scripts_libs_Router__["a" /* default */].addRoute('
     return Object(__WEBPACK_IMPORTED_MODULE_2__scripts_management_skills__["a" /* skills */])();
 }]);
 
+__WEBPACK_IMPORTED_MODULE_6__scripts_libs_Router__["a" /* default */].addRoute('admin\\/utilisateurs\\/?', [function () {
+    return Object(__WEBPACK_IMPORTED_MODULE_7__scripts_management_users__["a" /* usersManagement */])();
+}]);
+
 __WEBPACK_IMPORTED_MODULE_6__scripts_libs_Router__["a" /* default */].execute();
 
 /***/ }),
-/* 12 */
+/* 13 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = navActive;
-// if(routeGroup.indexOf('team') == 0)
-// {  
-//     $('#nav-teams').addClass('active');;
-// }
-// else if(routeGroup.indexOf('news') == 0)
-// {
-//     $('#nav-news').addClass('active');
-// }
-// else if(routeGroup.indexOf('event') == 0)
-// {
-//     $('#nav-events').addClass('active');
-// }
-// else if(routeGroup.indexOf('staff') == 0)
-// {
-//     $('#nav-staff').addClass('active');
-// }
-// else if(routeGroup.indexOf('home') == 0 || path == '/')
-// {  
-//     $('#nav-home').addClass('active');
-// }else if(var auth = path.replace('/','').split('/')[1] == 'login')
-// {
-// 	$('#nav-login').addClass('active');
-// }else if(auth == 'register')
-// {
-
-// }
 
 function navActive() {
     var path = window.location.pathname;
     var routeGroup = path.replace('/', '').split('/')[0];
+
+    if (routeGroup == 'admin') {
+        routeGroup += '-' + path.replace('/', '').split('/')[1];
+    }
 
     if (routeGroup == 'auth') {
         routeGroup = path.replace('/', '').split('/')[1];
@@ -11323,13 +11396,13 @@ function navActive() {
 }
 
 /***/ }),
-/* 13 */
+/* 14 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = editContents;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_Content__ = __webpack_require__(3);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_Editor__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_Content__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__helpers_Editor__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__libs_Flash__ = __webpack_require__(0);
 /**
  * Created by Utilisateur on 29/07/2017.
@@ -11399,15 +11472,15 @@ function editContents() {
 }
 
 /***/ }),
-/* 14 */
+/* 15 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = skills;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_Editor__ = __webpack_require__(2);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_Skill__ = __webpack_require__(15);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_Editor__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_Skill__ = __webpack_require__(16);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__libs_Flash__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_Content__ = __webpack_require__(3);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_Content__ = __webpack_require__(4);
 /**
  * Created by Utilisateur on 30/07/2017.
  */
@@ -11718,36 +11791,47 @@ function skills() {
 }
 
 /***/ }),
-/* 15 */
+/* 16 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_Api__ = __webpack_require__(1);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_Flash__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(4);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery__ = __webpack_require__(5);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_2_jquery___default = __webpack_require__.n(__WEBPACK_IMPORTED_MODULE_2_jquery__);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__libs_Model__ = __webpack_require__(2);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 
 
 
-var Skill = function () {
+
+
+var Skill = function (_Model) {
+    _inherits(Skill, _Model);
+
     function Skill() {
         var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
         _classCallCheck(this, Skill);
 
-        if (obj !== null) {
-            this._id = obj.id;
-            this._content = obj.content;
-            this._created_at = obj.created_at;
-            this._updated_at = obj.updated_at;
-            this._title = obj.title;
-            this._index = obj.index;
+        var _this = _possibleConstructorReturn(this, (Skill.__proto__ || Object.getPrototypeOf(Skill)).call(this, obj, ['id', 'content', 'created_at', 'updated_at', 'title', 'index']));
+
+        if (obj != null) {
+            _this._id = obj.id;
+            _this._content = obj.content;
+            _this._created_at = obj.created_at;
+            _this._updated_at = obj.updated_at;
+            _this._title = obj.title;
+            _this._index = obj.index;
         }
+        return _this;
     }
 
     _createClass(Skill, [{
@@ -11765,10 +11849,10 @@ var Skill = function () {
     }, {
         key: "update",
         value: function update() {
-            var _this = this;
+            var _this2 = this;
 
             return new Promise(function (resolve, reject) {
-                __WEBPACK_IMPORTED_MODULE_0__libs_Api__["a" /* default */].sendData('skills/' + _this.id, 'PUT', _this.toJson()).done(function (response) {
+                __WEBPACK_IMPORTED_MODULE_0__libs_Api__["a" /* default */].sendData('skills/' + _this2.id, 'PUT', _this2.toJson()).done(function (response) {
                     var skill = new Skill(response);
                     __WEBPACK_IMPORTED_MODULE_1__libs_Flash__["a" /* default */].success('Les données ont bien été modifiées !');
                     resolve(skill);
@@ -11892,24 +11976,24 @@ var Skill = function () {
     }]);
 
     return Skill;
-}();
+}(__WEBPACK_IMPORTED_MODULE_3__libs_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (Skill);
 
 /***/ }),
-/* 16 */
+/* 17 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = createNews;
 /* harmony export (immutable) */ __webpack_exports__["b"] = news;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_Editor__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_Editor__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_Flash__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_Form__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_News__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers_Helper__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_Form__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_News__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers_Helper__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__libs_Api__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helpers_RemovingConfirmDialog__ = __webpack_require__(9);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helpers_RemovingConfirmDialog__ = __webpack_require__(10);
 /**
  * Created by Utilisateur on 06/08/2017.
  */
@@ -12183,7 +12267,7 @@ function news() {
 // }
 
 /***/ }),
-/* 17 */
+/* 18 */
 /***/ (function(module, exports, __webpack_require__) {
 
 var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscore.js 1.8.3
@@ -13738,20 +13822,20 @@ var __WEBPACK_AMD_DEFINE_ARRAY__, __WEBPACK_AMD_DEFINE_RESULT__;//     Underscor
 
 
 /***/ }),
-/* 18 */
+/* 19 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony export (immutable) */ __webpack_exports__["a"] = articles;
 /* harmony export (immutable) */ __webpack_exports__["b"] = createArticle;
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_Editor__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__helpers_Editor__ = __webpack_require__(3);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_Flash__ = __webpack_require__(0);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_Form__ = __webpack_require__(6);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_News__ = __webpack_require__(7);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers_Helper__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__helpers_Form__ = __webpack_require__(7);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__models_News__ = __webpack_require__(8);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_4__helpers_Helper__ = __webpack_require__(9);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_5__libs_Api__ = __webpack_require__(1);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helpers_RemovingConfirmDialog__ = __webpack_require__(9);
-/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__models_Article__ = __webpack_require__(19);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_6__helpers_RemovingConfirmDialog__ = __webpack_require__(10);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_7__models_Article__ = __webpack_require__(20);
 /**
  * Created by Utilisateur on 06/08/2017.
  */
@@ -14197,15 +14281,20 @@ $('#add-tag-input').keypress(function (event) {
 });
 
 /***/ }),
-/* 19 */
+/* 20 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_Flash__ = __webpack_require__(0);
 /* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_Api__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__libs_Model__ = __webpack_require__(2);
 var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
 /**
  * Created by Utilisateur on 06/08/2017.
@@ -14213,47 +14302,25 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 
 
 
-var Article = function () {
+
+var Article = function (_Model) {
+    _inherits(Article, _Model);
+
     function Article() {
         var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
 
         _classCallCheck(this, Article);
 
-        if (obj !== null) {
-            this._id = obj.id;
-            this._deleted_at = obj.deleted_at;
-            this._created_at = obj.created_at;
-            this._updated_at = obj.updated_at;
-            this._user_id = obj.user_id;
-            this._title = obj.title;
-            this._content = obj.content;
-            this._views = obj.views;
-            this._picture = obj.picture;
-        }
+        return _possibleConstructorReturn(this, (Article.__proto__ || Object.getPrototypeOf(Article)).call(this, obj, ['id', 'created_at', 'updated_at', 'deleted_at', 'user_id', 'title', 'content', 'picture', ' views']));
     }
 
     _createClass(Article, [{
-        key: "toJson",
-        value: function toJson() {
-            return {
-                id: this.id,
-                deleted_at: this.deleted_at,
-                created_at: this.created_at,
-                updated_at: this.updated_at,
-                user_id: this.user_id,
-                title: this.title,
-                content: this.content,
-                picture: this.picture,
-                views: this.views
-            };
-        }
-    }, {
         key: "update",
         value: function update() {
-            var _this = this;
+            var _this2 = this;
 
             return new Promise(function (resolve, reject) {
-                __WEBPACK_IMPORTED_MODULE_1__libs_Api__["a" /* default */].sendData('articles/' + _this.id, 'PUT', _this.toJson()).done(function (response) {
+                __WEBPACK_IMPORTED_MODULE_1__libs_Api__["a" /* default */].sendData('articles/' + _this2.id, 'PUT', _this2.toJson()).done(function (response) {
                     var news = new Article(response);
                     __WEBPACK_IMPORTED_MODULE_0__libs_Flash__["a" /* default */].success("L'article a bien été modifié !");
                     resolve(news);
@@ -14381,12 +14448,12 @@ var Article = function () {
     }]);
 
     return Article;
-}();
+}(__WEBPACK_IMPORTED_MODULE_2__libs_Model__["a" /* default */]);
 
 /* harmony default export */ __webpack_exports__["a"] = (Article);
 
 /***/ }),
-/* 20 */
+/* 21 */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
@@ -14471,6 +14538,630 @@ var Router = function () {
 }();
 
 /* harmony default export */ __webpack_exports__["a"] = (Router);
+
+/***/ }),
+/* 22 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony export (immutable) */ __webpack_exports__["a"] = usersManagement;
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__models_User__ = __webpack_require__(23);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__models_Tag__ = __webpack_require__(24);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__libs_Api__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_3__libs_Flash__ = __webpack_require__(0);
+
+
+
+
+
+function updateUserTagListInTable(response) {
+    var userId = response.user_id;
+    var table = $('#users-list');
+    var tr = table.find('tr[data-id=' + userId + ']');
+    var div = tr.find('.table-tag-list');
+
+    console.log(table, tr, div);
+
+    div.html('');
+
+    var tags = response.tags;
+    for (var i = 0; i < tags.length; i++) {
+        div.append('<span class="tag">' + tags[i] + '</span>');
+    }
+
+    __WEBPACK_IMPORTED_MODULE_3__libs_Flash__["a" /* default */].success("Les tags de l'utilisateur ont bien été modifiés.");
+}
+
+function submit() {
+    var userTags = $('#tag-list .tag');
+    var userId = $('#edit-user-tags').data('user-id');
+    var ids = [];
+
+    for (var i = 0; i < userTags.length; i++) {
+        ids.push($(userTags[i]).data('id'));
+    }
+
+    var data = {
+        tags: ids
+    };
+
+    return new Promise(function (resolve, reject) {
+        __WEBPACK_IMPORTED_MODULE_2__libs_Api__["a" /* default */].sendData("users/" + userId + "/tags", 'PUT', data).done(function (response) {
+
+            updateUserTagListInTable(response);
+
+            resolve(response);
+        }).fail(function (error) {
+            __WEBPACK_IMPORTED_MODULE_3__libs_Flash__["a" /* default */].error("Une erreur est survenue, les tags de l'utilsateur n'ont peut être pas été correctement modifiés...", 4000);
+            reject(error);
+        });
+    });
+}
+
+function getTagInUserTagList(id) {
+    return $(".tag[data-id=" + id + "]");
+}
+
+function getTagInAllTagList(id) {
+    return $(".tag-item[data-id=" + id + "]");
+}
+
+function getUserTagsDiv() {
+    return $('#tag-list');
+}
+
+function removeTag(id) {
+    var tagInUserTagList = getTagInUserTagList(id);
+    var tagInAllTagList = getTagInAllTagList(id);
+
+    tagInUserTagList.remove();
+    tagInAllTagList.removeClass('selected-tag');
+}
+
+function createTag(id, name) {
+    var cross = $('<i class="fa fa-times remove-tag" title="Retirer ce tag"></i>');
+    cross.click(function () {
+        removeTag($(this).parent('span').data('id'));
+    });
+
+    var span = $("<span class=\"tag\" data-name=\"" + name + "\" data-id=\"" + id + "\">" + name + "</span>");
+    span.append(cross);
+
+    return span;
+}
+
+function addTag(id, name) {
+    var tagInAllTagList = getTagInAllTagList(id);
+    var userTagsList = getUserTagsDiv();
+
+    tagInAllTagList.addClass('selected-tag');
+
+    var tag = createTag(id, name);
+    userTagsList.append(tag);
+}
+
+function buildStandardUserHtml(user) {
+    return new Promise(function (resolve, reject) {
+        __WEBPACK_IMPORTED_MODULE_1__models_Tag__["a" /* default */].all('orderby=name').then(function (tags) {
+            var usersTags = user.tags;
+            var usersTagIds = [];
+
+            var form = $('<form class="row" id="edit-user-tags" data-user-id="' + user.id + '"></form>');
+            var formGroupEmail = $('<div class="form-group col-lg-10 col-lg-offset-1"></div>');
+            form.append(formGroupEmail);
+            formGroupEmail.append('<label>Email : </label> &nbsp; ');
+            formGroupEmail.append("<a style=\"text-indent: 20px\" href=\"mailto:" + user.email + "\">" + user.email + "</a>");
+
+            var formGroup = $('<div class="form-group col-lg-10 col-lg-offset-1"></div>');
+            form.append(formGroup);
+
+            formGroup.append('<label>Tags : </label>');
+
+            var tagList = $('<div id="tag-list"></div>');
+
+            for (var i = 0; i < usersTags.length; i++) {
+                var id = usersTags[i].id;
+                var name = usersTags[i].name;
+
+                usersTagIds.push(id);
+
+                var span = createTag(id, name);
+
+                tagList.append(span);
+            }
+
+            formGroup.append(tagList);
+            formGroup.append('<br>');
+
+            var ul = $('<ul class="list-group" id="tag-list-group"></ul>');
+            var items = $('<div class="items"></div>');
+
+            var _loop = function _loop(_i) {
+                var id = tags[_i].id;
+                var name = tags[_i].name;
+
+                var classes = 'list-group-item tag-item';
+                if (usersTagIds.indexOf(id) != -1) {
+                    classes += ' selected-tag';
+                }
+
+                var li = $("<li data-name=\"" + name + "\" data-id=\"" + id + "\" class=\"" + classes + "\">" + name + "</li>");
+                li.click(function () {
+                    if ($(this).hasClass('selected-tag')) {
+                        removeTag(id);
+                    } else {
+                        addTag(id, name);
+                    }
+                });
+
+                items.append(li);
+            };
+
+            for (var _i = 0; _i < tags.length; _i++) {
+                _loop(_i);
+            }
+
+            ul.append(items);
+            formGroup.append(ul);
+
+            resolve(form);
+        }).catch(function (error) {
+            reject(error);
+        });
+    });
+}
+
+function buildDoctorUserHtml(user) {}
+
+function buildHtml(user) {
+    return user.level == 0 ? buildStandardUserHtml(user) : buildDoctorUserHtml(user);
+}
+
+function editUser(target) {
+    var tr = $(target).parents('tr');
+    var userId = tr.data('id');
+
+    var params = void 0;
+    var size = void 0;
+    if (tr.hasClass('doctor')) {
+        params = 'with=articles,news,supervisedCourses';
+        size = 'large';
+    } else {
+        params = 'with=tags';
+        size = 'small';
+    }
+
+    __WEBPACK_IMPORTED_MODULE_0__models_User__["a" /* default */].get(userId, params).then(function (user) {
+
+        buildHtml(user).then(function (html) {
+            bootbox.dialog({
+                title: user.name,
+                message: html,
+                size: size,
+                buttons: {
+                    cancel: {
+                        label: "Annuler",
+                        className: "btn-default"
+                    },
+                    submit: {
+                        label: "Valider",
+                        className: "btn-primary",
+                        callback: function callback() {
+                            return submit();
+                        }
+                    }
+                }
+            });
+        }).catch(function (error) {
+            throw error;
+        });
+    });
+}
+
+function downgradeDoctor(target) {
+    var tr = $(target).parents('tr');
+    var userId = tr.data('id');
+
+    __WEBPACK_IMPORTED_MODULE_0__models_User__["a" /* default */].get(userId).then(function (user) {
+        user.level = 0;
+        user.update('with=courses,tags').then(function (user) {
+
+            var usersTable = $('#users-list');
+            var tbody = usersTable.children('tbody');
+
+            var newTr = $('<tr></tr>');
+            newTr.addClass('user');
+            newTr.attr('data-id', user.id);
+
+            var name = $('<td>' + user.name + '</td>');
+
+            var courses = '<td align="center" class="user-courses user-info"> ' + user.courses.length + ' </td>';
+
+            var tags = $('<td></td>');
+            tags.attr('align', 'center');
+            tags.addClass('user-tags');
+            tags.addClass('user-info');
+
+            var i = void 0;
+            for (i = 0; i < user.tags.length; i++) {
+                var tag = user.tags[i];
+                var html = $('<span></span>');
+                html.addClass('tag');
+                tags.append(html);
+            }
+
+            if (i == 0) {
+                tags.append('-');
+            }
+
+            var upgrade = $('<i title="Ajouter cet utilisateur à la liste des docteurs" class="fa fa-plus-circle upgrade-user" aria-hidden="true"></i>');
+            var edit = $('<i title="Voir la fiche de cet utilisateur" class="glyphicon glyphicon-pencil edit-user"></i>');
+
+            upgrade.click(function (el) {
+                upgradeUser(upgrade);
+            });
+
+            edit.click(function (el) {
+                editUser(edit);
+            });
+
+            var controls = $('<td></td>');
+            controls.attr('align', 'center');
+            controls.addClass('controls');
+            controls.append(upgrade);
+            controls.append(edit);
+
+            newTr.append(name);
+            newTr.append(courses);
+            newTr.append(tags);
+            newTr.append(controls);
+
+            tbody.append(newTr);
+            tr.remove();
+        });
+    });
+}
+
+function upgradeUser(target) {
+    var tr = $(target).parents('tr');
+
+    var userId = tr.data('id');
+
+    __WEBPACK_IMPORTED_MODULE_0__models_User__["a" /* default */].get(userId).then(function (user) {
+        user.level = 1;
+        user.update('with=supervisedCourses,news,articles').then(function (user) {
+
+            var usersTable = $('#doctors-list');
+            var tbody = usersTable.children('tbody');
+
+            var newTr = $('<tr></tr>');
+            newTr.addClass('user');
+            newTr.addClass('doctor');
+            newTr.attr('data-id', user.id);
+
+            var name = $('<td>' + user.name + '</td>');
+
+            var courses = '<td align="center" class="supervised-courses user-info"> ' + user.supervised_courses.length + ' </td>';
+            var news = '<td align="center" class="published-news user-info"> ' + user.news.length + ' </td>';
+            var articles = '<td align="center" class="published-articles user-info"> ' + user.articles.length + ' </td>';
+
+            var downgrade = $('<i title="Supprimer cet utilisateur de la liste des docteurs" class="fa fa-times-circle downgrade-doctor" aria-hidden="true"></i>');
+            var edit = $('<i title="Voir la fiche de cet utilisateur" class="glyphicon glyphicon-pencil edit-user"></i>');
+
+            downgrade.click(function () {
+                downgradeDoctor(downgrade);
+            });
+
+            edit.click(function () {
+                editUser(edit);
+            });
+
+            var controls = $('<td></td>');
+            controls.attr('align', 'center');
+            controls.addClass('controls');
+            controls.append(downgrade);
+            controls.append(edit);
+
+            newTr.append(name);
+            newTr.append(courses);
+            newTr.append(news);
+            newTr.append(articles);
+            newTr.append(controls);
+
+            tbody.append(newTr);
+            tr.remove();
+        });
+    });
+}
+
+function usersManagement() {
+    $('.downgrade-doctor').click(function () {
+        downgradeDoctor($(this));
+    });
+
+    $('.upgrade-user').click(function () {
+        upgradeUser($(this));
+    });
+
+    $('.edit-user').click(function () {
+        editUser($(this));
+    });
+}
+
+/***/ }),
+/* 23 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_Api__ = __webpack_require__(1);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_Flash__ = __webpack_require__(0);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_2__libs_Model__ = __webpack_require__(2);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Created by Utilisateur on 07/08/2017.
+ */
+
+
+
+
+
+var User = function (_Model) {
+    _inherits(User, _Model);
+
+    function User() {
+        var obj = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : null;
+
+        _classCallCheck(this, User);
+
+        return _possibleConstructorReturn(this, (User.__proto__ || Object.getPrototypeOf(User)).call(this, obj, ['id', 'deleted_at', 'created_at', 'updated_at', 'email', 'name', 'facebook_id', 'level', 'phone', 'starts_at', 'ends_at', 'is_doctor']));
+    }
+
+    _createClass(User, [{
+        key: "update",
+        value: function update() {
+            var _this2 = this;
+
+            var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+
+            return new Promise(function (resolve, reject) {
+                __WEBPACK_IMPORTED_MODULE_0__libs_Api__["a" /* default */].sendData('users/' + _this2.id + "?" + params, 'PUT', _this2.toJson()).done(function (response) {
+                    console.log(response);
+                    var news = new User(response);
+                    __WEBPACK_IMPORTED_MODULE_1__libs_Flash__["a" /* default */].success("L'utilisateur a bien été modifié !");
+                    resolve(news);
+                }).fail(function (error) {
+                    __WEBPACK_IMPORTED_MODULE_1__libs_Flash__["a" /* default */].error('Impossible de modifier l\'utilisateur. Si le problème persiste, contactez l\'administrateur.');
+                    reject(error);
+                });
+            });
+        }
+    }, {
+        key: "id",
+        get: function get() {
+            return this._id;
+        },
+        set: function set(value) {
+            this._id = value;
+        }
+    }, {
+        key: "deleted_at",
+        get: function get() {
+            return this._deleted_at;
+        },
+        set: function set(value) {
+            this._deleted_at = value;
+        }
+    }, {
+        key: "created_at",
+        get: function get() {
+            return this._created_at;
+        },
+        set: function set(value) {
+            this._created_at = value;
+        }
+    }, {
+        key: "updated_at",
+        get: function get() {
+            return this._updated_at;
+        },
+        set: function set(value) {
+            this._updated_at = value;
+        }
+    }, {
+        key: "email",
+        get: function get() {
+            return this._email;
+        },
+        set: function set(value) {
+            this._email = value;
+        }
+    }, {
+        key: "name",
+        get: function get() {
+            return this._name;
+        },
+        set: function set(value) {
+            this._name = value;
+        }
+    }, {
+        key: "facebook_id",
+        get: function get() {
+            return this._facebook_id;
+        },
+        set: function set(value) {
+            this._facebook_id = value;
+        }
+    }, {
+        key: "level",
+        get: function get() {
+            return this._level;
+        },
+        set: function set(value) {
+            this._level = value;
+        }
+    }, {
+        key: "phone",
+        get: function get() {
+            return this._phone;
+        },
+        set: function set(value) {
+            this._phone = value;
+        }
+    }, {
+        key: "starts_at",
+        get: function get() {
+            return this._starts_at;
+        },
+        set: function set(value) {
+            this._starts_at = value;
+        }
+    }, {
+        key: "ends_at",
+        get: function get() {
+            return this._ends_at;
+        },
+        set: function set(value) {
+            this._ends_at = value;
+        }
+    }, {
+        key: "is_doctor",
+        get: function get() {
+            return this._is_doctor;
+        },
+        set: function set(value) {
+            this._is_doctor = value;
+        }
+    }], [{
+        key: "getClass",
+        value: function getClass() {
+            return User;
+        }
+    }, {
+        key: "getBaseApiUrl",
+        value: function getBaseApiUrl() {
+            return 'users';
+        }
+    }, {
+        key: "get",
+        value: function get(id, params) {
+            return new Promise(function (resolve, reject) {
+                __WEBPACK_IMPORTED_MODULE_0__libs_Api__["a" /* default */].get('users/' + id + "?" + params).done(function (response) {
+                    if (response === null || response.id === null) resolve(null);else resolve(new User(response));
+                }).fail(function (error) {
+                    reject(error);
+                });
+            });
+        }
+    }, {
+        key: "create",
+        value: function create(data) {
+            return new Promise(function (resolve, reject) {
+                __WEBPACK_IMPORTED_MODULE_0__libs_Api__["a" /* default */].sendData('users', 'POST', data).done(function (response) {
+                    resolve(new User(response));
+                }).fail(function (error) {
+                    reject(error);
+                });
+            });
+        }
+    }, {
+        key: "remove",
+        value: function remove(id) {
+            return new Promise(function (resolve, reject) {
+                __WEBPACK_IMPORTED_MODULE_0__libs_Api__["a" /* default */].sendData('users/' + id, 'DELETE').done(function (response) {
+                    __WEBPACK_IMPORTED_MODULE_1__libs_Flash__["a" /* default */].success('L\'User a bien été supprimé.');
+                    resolve(response);
+                }).fail(function (error) {
+                    __WEBPACK_IMPORTED_MODULE_1__libs_Flash__["a" /* default */].error('Une erreur est survenue, l\'User n\'a pas été supprimé.');
+                    reject(error);
+                });
+            });
+        }
+    }]);
+
+    return User;
+}(__WEBPACK_IMPORTED_MODULE_2__libs_Model__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (User);
+
+/***/ }),
+/* 24 */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_0__libs_Model__ = __webpack_require__(2);
+/* harmony import */ var __WEBPACK_IMPORTED_MODULE_1__libs_Api__ = __webpack_require__(1);
+var _createClass = function () { function defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } } return function (Constructor, protoProps, staticProps) { if (protoProps) defineProperties(Constructor.prototype, protoProps); if (staticProps) defineProperties(Constructor, staticProps); return Constructor; }; }();
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _possibleConstructorReturn(self, call) { if (!self) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return call && (typeof call === "object" || typeof call === "function") ? call : self; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
+
+/**
+ * Created by Utilisateur on 05/09/2017.
+ */
+
+
+
+
+var Tag = function (_Model) {
+    _inherits(Tag, _Model);
+
+    function Tag(obj) {
+        _classCallCheck(this, Tag);
+
+        return _possibleConstructorReturn(this, (Tag.__proto__ || Object.getPrototypeOf(Tag)).call(this, obj, ['id', 'name']));
+    }
+
+    _createClass(Tag, [{
+        key: "id",
+        get: function get() {
+            return this._id;
+        },
+        set: function set(value) {
+            this._id = value;
+        }
+    }, {
+        key: "name",
+        get: function get() {
+            return this._name;
+        },
+        set: function set(value) {
+            this._name = value;
+        }
+    }], [{
+        key: "all",
+        value: function all() {
+            var params = arguments.length > 0 && arguments[0] !== undefined ? arguments[0] : "";
+
+            return new Promise(function (resolve, reject) {
+                __WEBPACK_IMPORTED_MODULE_1__libs_Api__["a" /* default */].get("tags?" + params).done(function (response) {
+                    if (response === null || response.id === null) reject(null);else {
+                        var tags = [];
+                        for (var i = 0; i < response.length; i++) {
+                            tags.push(new Tag(response[i]));
+                        }
+                        resolve(tags);
+                    }
+                }).fail(function (error) {
+                    reject(error);
+                });
+            });
+        }
+    }]);
+
+    return Tag;
+}(__WEBPACK_IMPORTED_MODULE_0__libs_Model__["a" /* default */]);
+
+/* harmony default export */ __webpack_exports__["a"] = (Tag);
 
 /***/ })
 /******/ ]);

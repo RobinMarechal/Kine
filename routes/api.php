@@ -12,5 +12,6 @@
 */
 
 Route::post('contents', 'ContentsController@post')->name('contents.post');
+Route::put('users/{id}/tags', 'UsersController@updateTags')->name('users.updateTags');
 
 Route::any("{resource}/{id?}/{relation?}/{relatedId?}", 'ApiController@dispatch')->name('api.dispatch');

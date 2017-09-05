@@ -3,8 +3,11 @@
 namespace App\Http\Controllers;
 
 use App\Notification;
+use App\Pivot\TagUser;
+use App\User;
 use function compact;
 use Illuminate\Support\Facades\Auth;
+use function response;
 
 class UsersController extends Controller
 {
@@ -96,6 +99,36 @@ class UsersController extends Controller
 	 */
 	public function update ($id)
 	{
+	}
+
+
+	public function updateTags ($userId)
+	{
+		User::findOrFail($userId);
+
+		TagUser::whereUserId($userId)
+			   ->delete();
+
+		$array = [];
+		foreach ($this->request->tags as $tag) {
+			$array[] = ['user_id' => $userId, 'tag_id' => $tag];
+		}
+
+		TagUser::insert($array);
+
+		$pivots = TagUser::with('tag')
+					  ->whereUserId($userId)
+					  ->get();
+
+		$tagNames = [];
+
+		foreach ($pivots as $p) {
+			$tagNames[] = $p->tag->name;
+		}
+
+		$result = ['user_id' => $userId, 'tags' => $tagNames];
+
+		return response()->json($result);
 	}
 
 

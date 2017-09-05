@@ -10,6 +10,7 @@ import {createNews, news} from "./scripts/management/news";
 import {articles, createArticle} from "./scripts/management/articles";
 import Editor from "./scripts/helpers/Editor";
 import Router from "./scripts/libs/Router";
+import {usersManagement} from "./scripts/management/users";
 
 // var url = window.location.pathname;
 
@@ -58,5 +59,9 @@ Router.addRoute('news\\/\\d+\\/?', [
 Router.addRoute('nos-competences\\/?', [
     () => skills()
 ]);
+
+Router.addRoute('admin\\/utilisateurs\\/?', [
+    () => usersManagement()
+])
 
 Router.execute();

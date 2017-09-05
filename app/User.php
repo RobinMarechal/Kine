@@ -38,6 +38,19 @@ class User extends Authenticatable
     }
 
 
+	public function supervisedCourses ()
+	{
+		return $this->belongsToMany('App\Course', 'course_doctor');
+	}
+
+	public function courses ()
+	{
+		return $this->belongsToMany('App\Course');
+	}
+
+
+
+
     public function contacts ()
     {
         return $this->hasMany('App\Contact');
@@ -95,5 +108,11 @@ class User extends Authenticatable
     public function scopeWithArticles ($query)
     {
         return $query->with('tags.articles');
+    }
+
+
+	public function scopeOrderByName ($query, $order = 'asc')
+	{
+		return $query->orderBy('name', $order);
     }
 }

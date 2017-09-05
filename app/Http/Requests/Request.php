@@ -95,8 +95,8 @@ class Request extends BaseRequest
 
 	public function applyFieldSelectingParameters (&$query)
 	{
-		if ($this->has('fields')) {
-			$fields = $this->get('fields');
+		if ($this->has('select')) {
+			$fields = $this->get('select');
 			$arr = explode(',', $fields);
 			$query->select($arr);
 		}
