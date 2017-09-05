@@ -169,8 +169,6 @@ $events = new Collection();
 </script>
 <script src="{{ url('/js/bootstrap.min.js') }}"></script>
 <script src="{{ url('/js/bootbox.min.js') }}"></script>
-{{--<script src="{{ url('/js/CKeditor/ckeditor.js') }}"></script>--}}
-{{--<script src="//cdn.ckeditor.com/4.7.1/basic/ckeditor.js"></script>--}}
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=6dsidl73nkp1p71n04g9rr7dieh5e1whc8kp1ju40t4wzgn4"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
 
