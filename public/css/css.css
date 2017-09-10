@@ -668,7 +668,7 @@ footer p > a {
     /*transition: all 0.1s ease-in-out;*/
 }
 
-.tag:hover {
+a.tag:hover, button.tag:hover {
     border-color: rgb(184, 184, 184);
     background: rgb(225, 225, 225);
     color: rgb(122, 122, 122);
@@ -760,51 +760,77 @@ h1 > a, h2 > a, h3 > a {
     background-color: #8a8a8a;
 }
 
-.users-list{
+.users-list {
     list-style-type: none;
-    line-height:24px;
+    line-height: 24px;
     font-size: 16px;
 
 }
 
-.user-info{
-    list-style-type:none;
+.user-info {
+    list-style-type: none;
     font-size: 14px;
     font-style: italic;
-    color:rgb(120,120,120);
+    color: rgb(120, 120, 120);
 }
 
-.controls{
+.controls {
     font-size: 24px;
-    padding:0 !important;
-    display:block;
+    padding: 0 !important;
+    display: block;
     text-align: center;
 }
 
-.controls i{
-    right:10px;
+.controls i {
+    right: 10px;
     vertical-align: middle;
-    color:rgb(90,90,90);
-    opacity:0;
-    cursor:pointer;
-    margin:0 5px;
+    color: rgb(90, 90, 90);
+    opacity: 0;
+    cursor: pointer;
+    margin: 0 5px;
 }
 
-.users-list .user:hover .controls i{
-    display:inline-block;
-    opacity:0.6;
+tr:hover .controls i {
+    display: inline-block;
+    opacity: 0.6;
 }
 
-.controls i:hover{
-    opacity:1 !important;
+.controls i:hover {
+    opacity: 1 !important;
 }
 
-thead td{
+thead td {
     font-weight: bold;
 }
 
-.table-tag-list{
-    width:350px;
+.table-tag-list {
+    width: 350px;
     white-space: nowrap;
-    overflow-x:auto;
+    overflow-x: auto;
+}
+
+.doctor-info-table {
+    max-height: 200px;
+    overflow-y: auto;
+}
+
+button.add-contact {
+    font-size: 20px;
+    padding: 0px 10px;
+}
+
+[contenteditable="true"].contenteditable-inline br {
+    display: none;
+}
+
+.user-edition-field-container input {
+    font-size: 15px !important;
+    /*border:none;*/
+    background: transparent;
+    margin-top: 1px;
+    padding-left: 6px;
+}
+
+.user-edition-field-container {
+    cursor: text;
 }

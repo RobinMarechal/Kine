@@ -166,7 +166,7 @@ return [
         /*
          * Packages
          */
-        Barryvdh\Debugbar\ServiceProvider::class,
+//        Barryvdh\Debugbar\ServiceProvider::class,
         SammyK\LaravelFacebookSdk\LaravelFacebookSdkServiceProvider::class,
         Laravel\Socialite\SocialiteServiceProvider::class,
         Laracasts\Flash\FlashServiceProvider::class,
@@ -239,7 +239,7 @@ return [
          */
         'Socialite'    => Laravel\Socialite\Facades\Socialite::class,
         'Facebook'     => SammyK\LaravelFacebookSdk\FacebookFacade::class,
-        'Debugbar'     => Barryvdh\Debugbar\Facade::class,
+//        'Debugbar'     => Barryvdh\Debugbar\Facade::class,
         'Flash'        => Laracasts\Flash\Flash::class,
     ],
 

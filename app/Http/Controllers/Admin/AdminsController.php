@@ -20,7 +20,7 @@ class AdminsController extends Controller
 
 		$doctors = User::with('supervisedCourses', 'articles', 'news')
 					   ->orderByName()
-					   ->whereBetween('level', [1, 9])
+					   ->whereBetween('level', [1, 10])
 					   ->get();
 
 		return view('admin.users', compact('users', 'doctors'));
@@ -38,6 +38,19 @@ class AdminsController extends Controller
 						   ->get();
 
 		return view('admin.contacts', compact('doctors', 'contacts'));
+	}
+
+
+	public function showUser ($id)
+	{
+		$user = User::with('contacts',
+						'supervisedCourses.tags',
+						'supervisedCourses.users',
+						'articles.tags',
+						'news')
+					->findOrFail($id);
+
+		return view('admin.user', compact('user'));
 	}
 
 

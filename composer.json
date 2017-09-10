@@ -29,6 +29,7 @@
         "files":[
             "App\\Http\\Helpers\\helpers.php",
             "App\\Http\\Helpers\\Template.php",
+            "App\\Http\\Helpers\\JsVar.php",
             "app/Http/Helpers/ResponseData.php"
         ]
     },

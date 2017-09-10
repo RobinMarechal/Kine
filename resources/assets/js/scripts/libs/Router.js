@@ -26,6 +26,7 @@ export default class Router {
 
         let group = router._routes[route];
 
+
         if (group != null && group.callbacks != null) {
             callbacks = callbacks.concat(group.callbacks);
         }

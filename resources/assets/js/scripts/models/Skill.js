@@ -7,15 +7,6 @@ export default class Skill extends Model{
 
     constructor(obj = null) {
         super(obj, ['id', 'content', 'created_at', 'updated_at', 'title', 'index']);
-
-        if (obj != null) {
-            this._id = obj.id;
-            this._content = obj.content;
-            this._created_at = obj.created_at;
-            this._updated_at = obj.updated_at;
-            this._title = obj.title;
-            this._index = obj.index;
-        }
     }
 
     get index() {

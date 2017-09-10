@@ -2,12 +2,12 @@ import User from "../models/User";
 import Tag from "../models/Tag";
 import Api from "../libs/Api";
 import Flash from "../libs/Flash";
+import Helper from "../helpers/Helper";
 
-function updateUserTagListInTable(response)
-{
+function updateUserTagListInTable(response) {
     const userId = response.user_id;
     const table = $('#users-list');
-    const tr = table.find('tr[data-id='+userId+']');
+    const tr = table.find('tr[data-id=' + userId + ']');
     const div = tr.find('.table-tag-list');
 
     console.log(table, tr, div);
@@ -15,9 +15,8 @@ function updateUserTagListInTable(response)
     div.html('');
 
     const tags = response.tags;
-    for(let i = 0; i < tags.length; i++)
-    {
-        div.append('<span class="tag">'+tags[i]+'</span>');
+    for (let i = 0; i < tags.length; i++) {
+        div.append('<span class="tag">' + tags[i] + '</span>');
     }
 
     Flash.success("Les tags de l'utilisateur ont bien été modifiés.");
@@ -47,7 +46,7 @@ function submit() {
             .fail((error) => {
                 Flash.error("Une erreur est survenue, les tags de l'utilsateur n'ont peut être pas été correctement modifiés...", 4000);
                 reject(error);
-            })
+            });
     });
 }
 
@@ -103,7 +102,7 @@ function buildStandardUserHtml(user) {
             const formGroupEmail = $('<div class="form-group col-lg-10 col-lg-offset-1"></div>');
             form.append(formGroupEmail);
             formGroupEmail.append('<label>Email : </label> &nbsp; ');
-            formGroupEmail.append(`<a style="text-indent: 20px" href="mailto:${user.email}">${user.email}</a>`)
+            formGroupEmail.append(`<a style="text-indent: 20px" href="mailto:${user.email}">${user.email}</a>`);
 
             const formGroup = $('<div class="form-group col-lg-10 col-lg-offset-1"></div>');
             form.append(formGroup);
@@ -162,8 +161,152 @@ function buildStandardUserHtml(user) {
     });
 }
 
-function buildDoctorUserHtml(user) {
+function buildCoursesTable(user) {
+    const table = $('<table id="doctors-list" class="table table-hover table-striped "></table>');
+    const thead = $('<thead></thead>');
+    const tbody = $('<tbody></tbody>');
+    thead.append('<td>Cours</td>');
+    thead.append('<td>Tags</td>');
+    thead.append('<td align="center">Utilisateurs inscrits</td>');
 
+    if (user.supervised_courses.length == 0) {
+        tbody.append('<td>-</td>');
+        tbody.append('<td>-</td>');
+        tbody.append('<td align="center">-</td>');
+    }
+    else {
+        for (let i = 0; i < user.supervised_courses.length; i++) {
+            const course = user.supervised_courses[i];
+            const tr = $('<tr></tr>');
+
+            const tdTitle = `<td><a href="/cours/${course.id}">${course.name}</a>`;
+
+            const tdTags = $('<td><div class="table-tag-list"></div></td>');
+            for (let i = 0; i < course.tags.length; i++) {
+                const tag = course.tags[i];
+                tdTags.append('<span class="tag">' + tag.name + '</span>');
+            }
+
+            const tdUsers = '<td align="center">' + course.users.length + '</td>';
+
+            tr.append(tdTitle);
+            tr.append(tdTags);
+            tr.append(tdUsers);
+
+            tbody.append(tr);
+        }
+    }
+
+
+    table.append(thead);
+    table.append(tbody);
+
+    return table;
+}
+
+function buildNewsTable(user) {
+    const table = $('<table id="doctors-list" class="table table-hover table-striped "></table>');
+
+    const thead = $('<thead></thead>');
+    const tbody = $('<tbody></tbody>');
+
+    thead.append('<td>News</td>');
+    thead.append('<td align="center">Date de publication</td>');
+    thead.append('<td align="center">Vues</td>');
+
+    if (user.news.length == 0) {
+        tbody.append('<td>-</td>');
+        tbody.append('<td align="center">-</td>');
+        tbody.append('<td align="center">-</td>');
+    }
+    else {
+        for (let i = 0; i < user.news.length; i++) {
+            const news = user.news[i];
+            const tr = $('<tr></tr>');
+
+            tr.append(`<td><a href="/news/${ news.id }">${ news.title }</a></td>`);
+            tr.append(`<td align="center">${ Helper.dateToFormat(new Date(news.published_at), 'd/m/Y') }</td>`);
+            tr.append(`<td align="center">${ news.views }</td>`);
+
+            tbody.append(tr);
+        }
+    }
+
+    table.append(thead);
+    table.append(tbody);
+
+    return table;
+}
+
+function buildArticlesTable(user) {
+    const table = $('<table id="doctors-list" class="table table-hover table-striped "></table>');
+
+    const thead = $('<thead></thead>');
+    const tbody = $('<tbody></tbody>');
+
+    thead.append('<td>Article</td>');
+    thead.append('<td align="center">Date de publication</td>');
+    thead.append('<td>Tags</td>');
+    thead.append('<td align="center">Vues</td>');
+
+
+    if (user.articles.length == 0) {
+        tbody.append('<td>-</td>');
+        tbody.append('<td align="center">-</td>');
+        tbody.append('<td>-</td>');
+        tbody.append('<td align="center">-</td>');
+    }
+    else {
+        for (let i = 0; i < user.articles.length; i++) {
+            const article = user.articles[i];
+            const tr = $('<tr></tr>');
+
+            tr.append(`<td><a href="/articles/${ article.id }">${ article.title }</a></td>`);
+            tr.append(`<td align="center">${ Helper.dateToFormat(new Date(article.created_at), 'd/m/Y') }</td>`);
+            const tagsDiv = $('<td><div class="table-tag-list"></div></td>');
+            for (let i = 0; i < article.tags.length; i++) {
+                const tag = article.tags[i];
+                tagsDiv.append(`<span class="tag">${tag.name}</span>`);
+            }
+            tr.append(tagsDiv);
+            tr.append(`<td align="center">${ article.views }</td>`);
+
+            tbody.append(tr);
+        }
+    }
+    table.append(thead);
+    table.append(tbody);
+
+    return table;
+}
+
+function buildDoctorUserHtml(user) {
+    return new Promise((resolve) => {
+
+        const div = $('<table id="doctor-info-dialog" class="table table-hover table-striped"></table>');
+
+        // const tableCourses = $('<div class="doctor-info-table"></div>');
+        // tableCourses.append(buildCoursesTable(user));
+        //
+        // const tableNews = $('<div class="doctor-info-table"></div>');
+        // tableNews.append(buildNewsTable(user));
+        //
+        // const tableArticles = $('<div class="doctor-info-table"></div>');
+        // tableArticles.append(buildArticlesTable(user));
+        //
+        //
+        // div.append(tableCourses);
+        // div.append('<br>');
+        // div.append(tableNews);
+        // div.append('<br>');
+        // div.append(tableArticles);
+
+        const thead = $('<thead></thead>');
+        thead.append('<td>')
+
+
+        resolve(div);
+    });
 }
 
 function buildHtml(user) {
@@ -177,8 +320,9 @@ function editUser(target) {
     let params;
     let size;
     if (tr.hasClass('doctor')) {
-        params = 'with=articles,news,supervisedCourses';
-        size = 'large';
+        // params = 'with=articles.tags,news,supervisedCourses.users,supervisedCourses.tags';
+        params = 'with=contacts'
+        size = 'small';
     }
     else {
         params = 'with=tags';
@@ -237,14 +381,13 @@ function downgradeDoctor(target) {
             const courses = '<td align="center" class="user-courses user-info"> ' + user.courses.length + ' </td>';
 
             const tags = $('<td></td>');
-            tags.attr('align', 'center');
             tags.addClass('user-tags');
             tags.addClass('user-info');
 
             let i;
             for (i = 0; i < user.tags.length; i++) {
                 const tag = user.tags[i];
-                const html = $('<span></span>');
+                const html = $(`<span>${tag.name}</span>`);
                 html.addClass('tag');
                 tags.append(html);
             }
@@ -298,7 +441,8 @@ function upgradeUser(target) {
             newTr.addClass('doctor');
             newTr.attr('data-id', user.id);
 
-            const name = $('<td>' + user.name + '</td>');
+            // const name = $('<td>' + user.name + '</td>');
+            const name = $(`<a title="Voir la fiche détaillée de cet utilisateur" href="/admin/utilisateurs/${user.id}">${user.name}</a>`)
 
             const courses = '<td align="center" class="supervised-courses user-info"> ' + user.supervised_courses.length + ' </td>';
             const news = '<td align="center" class="published-news user-info"> ' + user.news.length + ' </td>';

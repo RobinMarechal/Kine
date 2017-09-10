@@ -27,6 +27,7 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
 		 ->name('admin.users');
 	Route::get('contacts', 'Admin\AdminsController@contacts')
 		 ->name('admin.contacts');
+	Route::get('utilisateurs/{id}', 'Admin\AdminsController@showUser')->name('admin.showUser');
 });
 
 Route::get('admin/development', 'MainController@dev')

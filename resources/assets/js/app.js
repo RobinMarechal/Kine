@@ -11,6 +11,10 @@ import {articles, createArticle} from "./scripts/management/articles";
 import Editor from "./scripts/helpers/Editor";
 import Router from "./scripts/libs/Router";
 import {usersManagement} from "./scripts/management/users";
+import Vars from "./scripts/libs/PhpVarCatcher";
+import {addUserContact, removeUserContact} from "./scripts/management/addUserContact";
+import {toggleInput} from "./scripts/management/toggleInputControls";
+import KeyInputBuffer from "./scripts/helpers/KeyInputBuffer";
 
 // var url = window.location.pathname;
 
@@ -21,6 +25,8 @@ const alerts = $('.alert').delay(2500).fadeOut(700, function () {
 $(document).ready(function () {
     $('[data-toggle="tooltip"]').tooltip();
     Editor.prepare($('[data-toggle="editor"]'));
+
+    toggleInput();
 });
 
 $(document).on('focusin', function (e) {
@@ -40,6 +46,9 @@ Array.prototype.remove = function () {
     return this;
 };
 
+Vars.boot();
+KeyInputBuffer.boot();
+
 navActive();
 editContents();
 createNews();
@@ -48,7 +57,7 @@ Router.addRoute('articles\\/(rediger)|(\\d+\\/modifier)\\/?', [
     () => createArticle(),
 ]);
 
-Router.addRoute('articles\\/\\d+', [
+Router.addRoute('articles\\/\\d+\\/?', [
     () => articles(),
 ]);
 
@@ -60,8 +69,14 @@ Router.addRoute('nos-competences\\/?', [
     () => skills()
 ]);
 
+Router.addRoute('admin\\/utilisateurs\\/\\d+\\/?', [
+    () => addUserContact(),
+    () => removeUserContact(),
+]);
+
 Router.addRoute('admin\\/utilisateurs\\/?', [
     () => usersManagement()
-])
+]);
+
 
 Router.execute();

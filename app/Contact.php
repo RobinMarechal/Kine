@@ -17,7 +17,7 @@ class Contact extends Model
 	use SoftDeletes;
 
 	protected $dates = ['deleted_at'];
-	protected $fillable = ['created_at', 'updated_at', 'type', 'value', 'description', 'user_id'];
+	protected $fillable = ['created_at', 'updated_at', 'type', 'value', 'description', 'user_id', 'name'];
 	public $temporalField = 'created_at';
 
 

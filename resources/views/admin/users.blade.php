@@ -16,15 +16,15 @@
 			<td align="center">Cours encadrés</td>
 			<td align="center">News publiées</td>
 			<td align="center">Articles publiés</td>
-			<td width="120" align="center">Contrôles</td>
+			<td width="100" align="center"></td>
 		</tr>
 		</thead>
 		<tbody>
 		@forelse($doctors as $d)
 			<tr class="doctor user" data-id="{{ $d->id }}">
 				<td>
-					{{--					<a title="Voir la fiche détaillée de cet utilisateur" href="{{ url('admin/utilisateurs/'.$d->id) }}">{{ $d->name }}</a>--}}
-					{{ $d->name }}
+					<a title="Voir la fiche détaillée de cet utilisateur" href="{{ url('admin/utilisateurs/'.$d->id) }}">{{ $d->name }}</a>
+					{{--{{ $d->name }}--}}
 				</td>
 				<td align="center" class="supervised-courses user-info">
 					{{ $d->supervisedCourses->count() }}
@@ -35,7 +35,7 @@
 				<td align="center" class="published-articles user-info">
 					{{ $d->articles->count() }}
 				</td>
-				<td align="center" class="controls" align="center">
+				<td class="controls" align="center">
 					<i title="Supprimer cet utilisateur de la liste des docteurs" class="fa fa-times-circle downgrade-doctor" aria-hidden="true"></i>
 					<i title="Voir la fiche de cet utilisateur" class="glyphicon glyphicon-pencil edit-user"></i>
 				</td>
@@ -53,7 +53,7 @@
 			<td>Utilisateur</td>
 			<td width="150" align="center">Cours suivis</td>
 			<td>Tags</td>
-			<td width="120" align="center">Contrôles</td>
+			<td width="100" align="center"></td>
 		</tr>
 		</thead>
 		<tbody>

@@ -35,7 +35,7 @@ export default class Model {
     toJson() {
         let json = {};
         for (let prop in this) {
-            if (this.hasOwnProperty(prop)) {
+            if (this.hasOwnProperty(prop) && this[prop] != null) {
                 if (prop.indexOf('_') == 0)
                     json[prop.substr(1)] = this[prop];
                 else

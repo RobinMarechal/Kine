@@ -1,4 +1,3 @@
-
 export function navActive() {
     var path = window.location.pathname;
     var routeGroup = path.replace('/', '').split('/')[0];

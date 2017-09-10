@@ -14,7 +14,7 @@ class Course extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = ['created_at', 'updated_at', 'article_id', 'description', 'views'];
+    protected $fillable = ['created_at', 'updated_at', 'article_id', 'description', 'views', 'name'];
 	public $temporalField = 'created_at';
 
 
@@ -22,6 +22,11 @@ class Course extends Model
     {
         return $this->belongsToMany('App\User');
     }
+
+	public function users ()
+	{
+		return $this->clients();
+	}
 
 
     public function doctors ()
@@ -39,6 +44,12 @@ class Course extends Model
     public function medias ()
     {
         return $this->morphMany('App\Media');
+    }
+
+
+	public function tags ()
+	{
+		return $this->belongsToMany('App\Tag');
     }
 
 }

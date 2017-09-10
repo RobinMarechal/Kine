@@ -8,19 +8,7 @@ import Model from "../libs/Model";
 export default class News extends Model{
 
     constructor(obj = null) {
-        super(obj);
-
-        if (obj != null) {
-            this._id = obj.id;
-            this._deleted_at = obj.deleted_at;
-            this._created_at = obj.created_at;
-            this._updated_at = obj.updated_at;
-            this._user_id = obj.user_id;
-            this._title = obj.title;
-            this._content = obj.content;
-            this._published_at = obj.published_at;
-            this._views = obj.views;
-        }
+        super(obj, ['id', 'deleted_at', 'created_at', 'updated_at', 'user_id', 'title', 'content', 'published_at', 'views']);
     }
 
     get id() {

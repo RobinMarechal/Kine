@@ -117,7 +117,6 @@ function openNewsDialog(news = null) {
 
                                             tag.attr('data-original-title', title);
                                         } catch (e) {
-                                            console.log('Error', e);
                                         }
 
                                         divInfo.prop('hidden', false);
@@ -175,8 +174,6 @@ export function createNews() {
 export function news() {
     $('#edit-news').click(function () {
         const newsId = $(this).data('id');
-
-        console.log($(this));
 
         News.get(newsId).then((news) => {
             openNewsDialog(news);
