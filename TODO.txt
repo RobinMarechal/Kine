@@ -1,0 +1,3 @@
+NOTIFICATIONS :
+    - Ajout d'un tag
+    - Publication d'un article pour un tag

@@ -153,22 +153,22 @@ $cours->add(new Feature("Supprimer un participant d'un cours"));
 $featureSections[] = $cours;
 
 $contacts = new FeatureSection("Contacts");
-$contacts->add(new Feature("Ajouter un contact (tel/mail/réseau social)"));
-$contacts->add(new Feature("Supprimer un contact"));
-$contacts->add(new Feature("Modifier un contact"));
+$contacts->add(new Feature("Ajouter un contact (tel/mail/réseau social)", true));
+$contacts->add(new Feature("Supprimer un contact", true));
+$contacts->add(new Feature("Modifier un contact", true));
 
 $featureSections[] = $contacts;
 
 $admin = new FeatureSection("Administration");
-$admin->add(new Feature("Liste des membres inscrits"));
-$admin->add(new Feature("Ajouter un droit à un membre inscrit"));
-$admin->add(new Feature("Retirer un droit à un membre inscrit"));
+$admin->add(new Feature("Liste des membres inscrits", true));
+$admin->add(new Feature("Ajouter un droit à un membre inscrit", true));
+$admin->add(new Feature("Retirer un droit à un membre inscrit", true));
 $admin->add(new Feature("Vue d'ensemble"));
 
 $featureSections[] = $admin;
 
 $autres = new FeatureSection("Autres");
-$autres->add(new Feature("Modifier les textes"));
+$autres->add(new Feature("Modifier les textes", true));
 $autres->add(new Feature("Recherche"));
 
 $featureSections[] = $autres;
