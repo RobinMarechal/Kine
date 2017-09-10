@@ -68,26 +68,31 @@ class Contact extends Model
 
 			$res = "";
 
-			for ($i = 0; $i < 10; $i += 2) {
-				$res .= ' ' . $value[ $i ] . $value[ $i + 1 ];
+			if (isset($value[9])) {
+				for ($i = 0; $i < 10; $i += 2) {
+					$res .= ' ' . $value[ $i ] . $value[ $i + 1 ];
+				}
+				$res = substr($res, 1);
+			}
+			else{
+				return "ERROR";
 			}
 
-			$res = substr($res, 1);
 
-			$tag = "<p data-toggle='tooltip' data-placement='top' title='$this->description'>$res</p>";
+			$tag = "<p data-toggle='tooltip' data-placement='top' title='$this->name'>$res</p>";
 			return $tag;
 		}
 		else if ($type == "EMAIL") {
 			$name = $this->value == null ? $this->name : $this->value;
 
-			$tag = "<a href='mailto:$this->value' data-toggle='tooltip' data-placement='top' title='$this->description'> $name </a>";
+			$tag = "<a href='mailto:$this->value' data-toggle='tooltip' data-placement='top' title='$this->name'> $name </a>";
 			return $tag;
 		}
 		else if ($type == "ADDRESS") {
 			$link = "https://www.google.fr/maps?q=" . $this->value;
 			$name = $this->name == null ? $this->value : $this->name;
 
-			$tag = "<a target='_blank' href='$link' data-toggle='tooltip' data-placement='top' title='$this->description'> $name </a>";
+			$tag = "<a target='_blank' href='$link' data-toggle='tooltip' data-placement='top' title='$this->name'> $name </a>";
 			return $tag;
 		}
 		else if ($type == "LINK") {
@@ -97,7 +102,7 @@ class Contact extends Model
 				$name = str_replace("http://", "", $name);
 				$name = str_replace("https://", "", $name);
 			}
-			$tag = "<a target='_blank' href='$this->value' data-toggle='tooltip' data-placement='top' title='$this->description'> $name </a>";
+			$tag = "<a target='_blank' href='$this->value' data-toggle='tooltip' data-placement='top' title='$this->name'> $name </a>";
 
 			return $tag;
 		}

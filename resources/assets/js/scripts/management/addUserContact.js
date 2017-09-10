@@ -29,6 +29,7 @@ function createContact() {
     const inputName = $('#new-contact-name');
     const inputValue = $('#new-contact-value');
     const inputDescription = $('#new-contact-description');
+    const table = $('#table-contacts');
 
     inputName.removeClass('has-error');
     inputValue.removeClass('has-error');
@@ -37,7 +38,7 @@ function createContact() {
     const name = inputName.val();
     const value = inputValue.val();
     const description = inputDescription.val();
-    const userId = $('#table-contacts').data('user-id');
+    const userId = table.length == 0 ? null : $('#table-contacts').data('user-id');
 
     let ok = true;
 
@@ -60,8 +61,6 @@ function createContact() {
         description: description,
         user_id: userId,
     };
-
-    console.log(data);
 
     return Contact.create(data)
         .then(contact => {

@@ -18,13 +18,14 @@
 
 			<br>
 
-			<h3>Autres contacts </h3>
+			<h3>Autres contacts</h3>
 			<hr class="footer-sub-title">
 			@forelse($footer_other_contacts as $c)
-				<p @if(isset($c->name)) data-toggle="tooltip" data-placement="top" title="{{ $c->name }}" @endif class="footer_contact">
+				<p class="footer_contact">
 					<i class="fa {{ $c->getFontAwesomeIconClass() }}"></i>
 					{!! $c->getFormattedValue() !!}
-				</p> <br>
+				</p>
+				<br>
 			@empty
 				<p>-</p>
 			@endforelse
@@ -37,11 +38,19 @@
 			<div class="footer-doctors">
 				@forelse($footer_doctors as $d)
 					<div class="footer-doctor">
-						<p class="footer-doctor-name">
-							<b>
-								{{ $d->name }}
-							</b>
-						</p>
+						@if(isAdmin())
+							<a class="footer-doctor-name" href="{{ url('admin/utilisateurs/'.$d->id) }}">
+								<b>
+									{{ $d->name }}
+								</b>
+							</a>
+						@else
+							<p class="footer-doctor-name">
+								<b>
+									{{ $d->name }}
+								</b>
+							</p>
+						@endif
 						<br>
 
 

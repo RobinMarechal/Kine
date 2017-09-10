@@ -3,6 +3,7 @@
  */
 import Model from "../libs/Model";
 import Api from "../libs/Api";
+import RegexpPattern from "../helpers/RegexpPattern";
 
 export default class Contact extends Model {
 
@@ -12,6 +13,9 @@ export default class Contact extends Model {
 
 
     static create(data) {
+        if (data.type == null) {
+            data.type = Contact.getTypeOfValue(data.value);
+        }
         return new Promise((resolve, reject) => {
             Api.sendData('contacts', 'POST', data)
                 .done((response) => {
@@ -20,7 +24,7 @@ export default class Contact extends Model {
                 .fail((error) => {
                     reject(error);
                 });
-        })
+        });
     }
 
     static remove(id) {
@@ -33,5 +37,17 @@ export default class Contact extends Model {
                     reject(error);
                 });
         });
+    }
+
+    static getTypeOfValue(value) {
+        const array = ['phone', 'email', 'link'];
+
+        for (let i = 0; i < array.length; i++) {
+            if (RegexpPattern.getRegexpFromPattern(array[i]).test(value)) {
+                return array[i].toUpperCase();
+            }
+        }
+
+        return 'ADDRESS';
     }
 }

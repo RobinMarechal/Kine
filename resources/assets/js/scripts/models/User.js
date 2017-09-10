@@ -16,7 +16,7 @@ export default class User extends Model {
     }
 
     static getBaseApiUrl() {
-        return 'users'
+        return 'users';
     }
 
     get id() {
@@ -112,18 +112,25 @@ export default class User extends Model {
     }
 
     set is_doctor(value) {
-        this._is_doctor = value;
+        if (value === true) {
+            this._is_doctor = 1;
+        } else if (value === false) {
+            this._is_doctor = 0;
+        } else {
+            this._is_doctor = value;
+        }
     }
 
 
-    static get(id, params) {
+    static get(id, params = "") {
         return new Promise((resolve, reject) => {
             Api.get('users/' + id + "?" + params)
                 .done((response) => {
-                    if (response === null || response.id === null)
+                    if (response === null || response.id === null) {
                         resolve(null);
-                    else
+                    } else {
                         resolve(new User(response));
+                    }
                 })
                 .fail((error) => {
                     reject(error);
@@ -140,10 +147,11 @@ export default class User extends Model {
                 .fail((error) => {
                     reject(error);
                 });
-        })
+        });
     }
 
     update(params = "") {
+        console.log(this);
         return new Promise((resolve, reject) => {
             Api.sendData('users/' + this.id + "?" + params, 'PUT', this.toJson())
                 .done((response) => {

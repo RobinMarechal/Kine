@@ -4,6 +4,7 @@ import KeyInputBuffer from "../helpers/KeyInputBuffer";
 
 export function toggleInput() {
     $('[data-toggle="input"]').click(function () {
+        console.log('ok');
         if ($(this).find('input').length == 0) {
             const td = $(this);
             const padding = td.css('padding');

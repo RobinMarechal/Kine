@@ -36,7 +36,7 @@ $(document).on('focusin', function (e) {
 });
 
 Array.prototype.remove = function () {
-    var what, a = arguments, L = a.length, ax;
+    let what, a = arguments, L = a.length, ax;
     while (L && this.length) {
         what = a[--L];
         while ((ax = this.indexOf(what)) !== -1) {
@@ -78,5 +78,9 @@ Router.addRoute('admin\\/utilisateurs\\/?', [
     () => usersManagement()
 ]);
 
+Router.addRoute('admin\\/contacts\\/?', [
+    () => addUserContact(),
+    () => removeUserContact(),
+]);
 
 Router.execute();

@@ -11,7 +11,7 @@
 
 	<h4>Informations principales :</h4>
 
-	<table data-table="users" class="table table-hover">
+	<table data-table="users" class="table table-hover table-striped">
 		<tbody>
 			<tr data-id="{{ $user->id }}" data-namespace="users">
 				<td width="150">Adresse email</td>
@@ -29,10 +29,10 @@
 
 	<table id="table-contacts" data-table="contacts" class="table table-hover table-striped" data-user-id="{{ $user->id }}">
 		<thead>
-			<td>Nom :</td>
-			<td>Valeur :</td>
-			<td>Description :</td>
-			<td width="70"></td>
+			<td class="col-lg-3">Nom :</td>
+			<td class="col-lg-4">Valeur :</td>
+			<td class="col-lg-4">Description :</td>
+			<td class="col-lg-1"></td>
 		</thead>
 		<tbody>
 			@forelse($user->contacts as $c)

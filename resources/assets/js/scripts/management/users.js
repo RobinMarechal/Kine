@@ -10,8 +10,6 @@ function updateUserTagListInTable(response) {
     const tr = table.find('tr[data-id=' + userId + ']');
     const div = tr.find('.table-tag-list');
 
-    console.log(table, tr, div);
-
     div.html('');
 
     const tags = response.tags;
@@ -367,6 +365,7 @@ function downgradeDoctor(target) {
 
     User.get(userId).then((user) => {
         user.level = 0;
+        user.is_doctor = false;
         user.update('with=courses,tags').then((user) => {
 
             const usersTable = $('#users-list');
@@ -431,6 +430,7 @@ function upgradeUser(target) {
 
     User.get(userId).then((user) => {
         user.level = 1;
+        user.is_doctor = true;
         user.update('with=supervisedCourses,news,articles').then((user) => {
 
             const usersTable = $('#doctors-list');
@@ -441,8 +441,7 @@ function upgradeUser(target) {
             newTr.addClass('doctor');
             newTr.attr('data-id', user.id);
 
-            // const name = $('<td>' + user.name + '</td>');
-            const name = $(`<a title="Voir la fiche détaillée de cet utilisateur" href="/admin/utilisateurs/${user.id}">${user.name}</a>`)
+            const name = $(`<td><a title="Voir la fiche détaillée de cet utilisateur" href="/admin/utilisateurs/${user.id}">${user.name}</a></td>`)
 
             const courses = '<td align="center" class="supervised-courses user-info"> ' + user.supervised_courses.length + ' </td>';
             const news = '<td align="center" class="published-news user-info"> ' + user.news.length + ' </td>';
