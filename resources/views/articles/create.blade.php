@@ -1,7 +1,6 @@
 <?php
 
 $title = 'Rédiger un article';
-$httpMethod = 'POST';
 $buttonTitle = "Publier";
 
 $articleTitle = "";
@@ -10,7 +9,6 @@ $articleTagsInInput = "";
 
 if (isset($article)) {
 	$title = 'Modifier un article';
-	$httpMethod = 'PUT';
 	$buttonTitle = "Modifier";
 
 	$articleTitle = $article->title;
@@ -32,7 +30,7 @@ if (isset($article)) {
 	<hr>
 
 	<form id="article-creation-form"
-		  method="{{ $httpMethod }}">
+		  method="POST">
 
 		{{ csrf_field() }}
 

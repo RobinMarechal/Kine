@@ -104,7 +104,7 @@ Route::prefix('articles')
 
 		 Route::get('{id}/modifier', 'ArticlesController@edit')->middleware('admin')
 			  ->name('articles.edit');
-		 Route::put('{id}/modifier', 'ArticlesController@update')->middleware('admin')
+		 Route::post('{id}/modifier', 'ArticlesController@update')->middleware('admin')
 			  ->name('articles.update');
 
 		 Route::post('previsualisation', 'ArticlesController@preview')->middleware('admin')

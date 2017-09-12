@@ -34,21 +34,69 @@ class SendNotification
 		$tagIds = $event->tagIds;
 		$tagNames = $event->tagNames;
 
-		$users = User::distinct()
-					 ->join('tag_user', 'users.id', '=', 'tag_user.user_id')
-					 ->whereIn('tag_id', $tagIds)
-					 ->whereLevel(0)
-					 ->whereIsDoctor(false)
-					 ->get(['name', 'users.id', 'tag_id', 'user_id']);
+		if (count($tagIds) == 0) {
+			if ($article->wasRecentlyCreated) {
+				$users = User::ofLevel(0)
+							 ->get(['id']);
+				$content = 'Un nouvel article publique vient d\'être publié : « ' . $article->title . ' ».';
+			}
+			else {
+				$users = User::distinct()
+							 ->leftJoin('notifications', 'user_id', '=', 'users.id')
+							 ->ofLevel(0)
+							 ->where('is_doctor', false)
+							 ->whereNull('notifiable_id')
+							 ->orWhere('notifiable_id', $article->id)
+							 ->get(['users.id']);
 
-		$sentTo = [];
-
-		foreach ($users as $u) {
-			if(!in_array($u->id, $sentTo))
-			{
-				$sentTo[] = $u->id;
-				Notification::sendToUser($u, "Nouvel article possédant les tags : " . join(', ', $tagNames) . '.', $article);
+				$content = 'Vous avez accès à un nouvel article : « ' . $article->title . ' ».';
 			}
 		}
+		else {
+			if ($article->wasRecentlyCreated) {
+				$users = User::distinct()
+							 ->join('tag_user', 'users.id', '=', 'tag_user.user_id')
+							 ->whereIn('tag_id', $tagIds)
+							 ->whereLevel(0)
+							 ->whereIsDoctor(false)
+							 ->get(['users.id']);
+
+
+				$content = 'Un nouvel article a été publié : « ' . $article->title . ' ».';
+			}
+			else {
+				$users = User::distinct()
+							 ->join('tag_user', 'users.id', '=', 'tag_user.user_id')
+							 ->leftJoin('notifications', 'users.id', '=', 'notifications.user_id')
+							 ->whereIn('tag_id', $tagIds)
+							 ->whereLevel(0)
+							 ->whereIsDoctor(false)
+							 ->whereNotIn('users.id', function ($query) use ($article) {
+								 $query->select('user_id')
+									   ->from('notifications')
+									   ->where('notifiable_id', $article->id);
+							 })
+							 ->get(['users.id']);
+
+				$content = 'Vous avez maintenant accès à un nouvel article : « ' . $article->title . ' ».';
+			}
+		}
+
+
+
+		$notifications = [];
+		foreach ($users as $u) {
+			$array = [
+				'user_id'         => $u->id,
+				'content'         => $content,
+				'link'            => '/articles/' . $article->id,
+				'notifiable_id'   => $article->id,
+				'notifiable_type' => 'Article',
+			];
+
+			$notifications[] = $array;
+		}
+
+		Notification::insert($notifications);
 	}
 }

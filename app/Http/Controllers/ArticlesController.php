@@ -121,6 +121,7 @@ class ArticlesController extends Controller
 
 
 		if ($validation->fails()) {
+			Flash::error("Le formulaire n'a pas été rempli correctement, l'article n'a pas été publié.");
 			return Redirect::back()
 						   ->withInput($data)
 						   ->withErrors($validation->errors());
@@ -132,35 +133,39 @@ class ArticlesController extends Controller
 
 
 		if ($article == null) {
-			Flash::error("Une erreur est survenur, l'article n'as pas été publié.");
+			Flash::error("Une erreur est survenue, l'article n'as pas été publié.");
 
 			return Redirect::back()
 						   ->withInput($data);
 		}
 
 		$formTags = $this->request->tags == "" ? [] : explode(";", $this->request->tags);
-		$tagsInDb = Tag::all();
 		$tagNameId = [];
 		$tagIds = [];
 
-		foreach ($tagsInDb as $tag) {
-			$tagNameId[ $tag->name ] = $tag->id;
-		}
+		if(count($formTags))
+		{
+			$tagsInDb = Tag::all();
 
-
-		foreach ($formTags as $tag) {
-			if (array_has($tagNameId, $tag)) {
-				$id = $tagNameId[ $tag ];
-			}
-			else {
-				$id = Tag::createFromName($tag)->id;
+			foreach ($tagsInDb as $tag) {
+				$tagNameId[ $tag->name ] = $tag->id;
 			}
 
-			$tagIds[] = $id;
-		}
 
-		$article->tags()
-				->sync($tagIds);
+			foreach ($formTags as $tag) {
+				if (array_has($tagNameId, $tag)) {
+					$id = $tagNameId[ $tag ];
+				}
+				else {
+					$id = Tag::createFromName($tag)->id;
+				}
+
+				$tagIds[] = $id;
+			}
+
+			$article->tags()
+					->sync($tagIds);
+		}
 
 		event(new ArticlePublished($article, $tagIds, $formTags));
 
@@ -217,6 +222,54 @@ class ArticlesController extends Controller
 	 */
 	public function update ($id)
 	{
+		$validation = $this->validator($this->request->all());
+
+		$data = $this->request->only('title', 'content');
+
+		if ($validation->fails()) {
+			Flash::error("Une erreur est survenue, l'article n'as pas été modifié.");
+			return Redirect::back()
+						   ->withInput($data)
+						   ->withErrors($validation->errors());
+		}
+
+		$article = Article::findOrFail($id);
+
+		$article->update($data);
+
+		$formTags = $this->request->tags == "" ? [] : explode(";", $this->request->tags);
+		$tagNameId = [];
+		$tagIds = [];
+
+		if(count($formTags) != 0)
+		{
+			$tagsInDb = Tag::all();
+
+			foreach ($tagsInDb as $tag) {
+				$tagNameId[ $tag->name ] = $tag->id;
+			}
+
+
+			foreach ($formTags as $tag) {
+				if (array_has($tagNameId, $tag)) {
+					$id = $tagNameId[ $tag ];
+				}
+				else {
+					$id = Tag::createFromName($tag)->id;
+				}
+
+				$tagIds[] = $id;
+			}
+
+			$article->tags()
+					->sync($tagIds);
+		}
+
+		event(new ArticlePublished($article, $tagIds, $formTags));
+
+		Flash::success("L'article a bien été modifié !");
+
+		return redirect('articles/' . $article->id);
 	}
 
 

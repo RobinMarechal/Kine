@@ -30,7 +30,7 @@ class Notification extends Model
 		if (isset($notifiable)) {
 			$data['notifiable_id'] = $notifiable->id;
 			$data['notifiable_type'] = get_class($notifiable);
-			$data['link'] = $notifiable->urlNamespace . '/' . $notifiable->id;
+			$data['link'] = str_replace("App\\", "", $notifiable->urlNamespace) . '/' . $notifiable->id;
 		}
 		
 		return self::create($data);

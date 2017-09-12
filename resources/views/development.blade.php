@@ -71,7 +71,7 @@ $featureSections = [];
 $user = new FeatureSection('Utilisateur');
 $user->add(new Feature('Connexion classique', true));
 $user->add(new Feature('Connexion par Facebook', true));
-$user->add(new Feature('Voir ses notifications'));
+$user->add(new Feature('Voir ses notifications', true));
 
 $featureSections[] = $user;
 
