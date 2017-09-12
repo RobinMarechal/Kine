@@ -11,6 +11,7 @@ class News extends Model
 
 	protected $table = 'news';
 	public $timestamps = true;
+	public $urlNamespace = 'news';
 
 	use SoftDeletes;
 

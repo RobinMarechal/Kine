@@ -53,7 +53,6 @@ class Controller extends BaseController
 
 			$template_news = Template::getNews();
 			$template_events = Template::getEvents();
-			$nbOfNotifications = Template::getNbOfNotifications();
 		}
 
 		$footer_doctors = Template::getDoctors();

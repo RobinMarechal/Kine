@@ -10,6 +10,7 @@ class Course extends Model
 
     protected $table = 'courses';
     public $timestamps = true;
+	public $urlNamespace = 'cours';
 
     use SoftDeletes;
 

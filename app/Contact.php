@@ -11,6 +11,7 @@ use function substr;
 class Contact extends Model
 {
 
+	public $urlNamespace = 'contacts';
 	protected $table = 'contacts';
 	public $timestamps = true;
 

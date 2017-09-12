@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Notification;
 use App\Pivot\TagUser;
 use App\User;
+use Carbon\Carbon;
 use function compact;
 use Illuminate\Support\Facades\Auth;
+use function implode;
 use function response;
 
 class UsersController extends Controller
@@ -53,7 +55,10 @@ class UsersController extends Controller
 
 	/**
 	 * Display the user's unseed notifications
-	 * @return Response
+	 *
+	 * @param bool $all
+	 *
+	 * @return \App\Http\Controllers\Response
 	 */
 	public function showNotifications ($all = false)
 	{
@@ -62,7 +67,12 @@ class UsersController extends Controller
 		$notifications = Notification::ofUser($user)
 									 ->unseen($all)
 									 ->fromNewerToOlder()
-									 ->paginate(1);
+									 ->paginate(10);
+
+		foreach ($notifications as $n) {
+			$n->seen_at = Carbon::now();
+			$n->save();
+		}
 
 		return view('users.notifications', compact('notifications', 'all'));
 	}
@@ -117,8 +127,8 @@ class UsersController extends Controller
 		TagUser::insert($array);
 
 		$pivots = TagUser::with('tag')
-					  ->whereUserId($userId)
-					  ->get();
+						 ->whereUserId($userId)
+						 ->get();
 
 		$tagNames = [];
 
@@ -127,6 +137,10 @@ class UsersController extends Controller
 		}
 
 		$result = ['user_id' => $userId, 'tags' => $tagNames];
+
+		$notification = "Vous possédez désormais les tags suivants : " . implode(', ', $tagNames) . ".";
+
+		Notification::sendToUser($userId, $notification);
 
 		return response()->json($result);
 	}

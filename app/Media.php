@@ -10,6 +10,7 @@ class Media extends Model
 
     protected $table = 'medias';
     public $timestamps = true;
+	public $urlNamespace = 'galerie';
 
     use SoftDeletes;
 

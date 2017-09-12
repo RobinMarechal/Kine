@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Article;
+use App\Events\ArticlePublished;
 use App\Tag;
 use function array_has;
 use Carbon\Carbon;
@@ -98,8 +99,7 @@ class ArticlesController extends Controller
 		$article->id = 0;
 
 		$tagList = explode(';', $this->request->tags);
-		foreach ($tagList as $t)
-		{
+		foreach ($tagList as $t) {
 			$tmp = new Tag();
 			$tmp->name = $t;
 			$article->tags[] = $tmp;
@@ -129,6 +129,7 @@ class ArticlesController extends Controller
 		$data['user_id'] = Auth::user()->id;
 
 		$article = Article::create($data);
+
 
 		if ($article == null) {
 			Flash::error("Une erreur est survenur, l'article n'as pas été publié.");
@@ -160,6 +161,8 @@ class ArticlesController extends Controller
 
 		$article->tags()
 				->sync($tagIds);
+
+		event(new ArticlePublished($article, $tagIds, $formTags));
 
 		Flash::success("L'article a bien été publié !");
 
@@ -197,8 +200,10 @@ class ArticlesController extends Controller
 	 */
 	public function edit ($id)
 	{
-		$article = Article::with('tags')->find($id);
+		$article = Article::with('tags')
+						  ->find($id);
 		$tags = Tag::all();
+
 		return view('articles.create', compact('article', 'tags'));
 	}
 

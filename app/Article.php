@@ -10,6 +10,7 @@ class Article extends Model
 
 	protected $table = 'articles';
 	public $timestamps = true;
+	public $urlNamespace = 'articles';
 
 	use SoftDeletes;
 

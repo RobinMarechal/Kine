@@ -10,6 +10,7 @@ class Event extends Model
 {
 
 	protected $table = 'events';
+	public $urlNamespace = 'evenements';
 	public $timestamps = true;
 	protected $fillable = ['created_at', 'updated_at', 'name', 'description', 'article_id', 'user_id', 'views', 'startsAt', 'endsAt'];
 	protected $dates = ['deleted_at', 'date'];

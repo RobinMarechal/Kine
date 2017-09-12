@@ -842,3 +842,8 @@ button.add-contact {
 #table-contacts td{
     overflow: hidden;
 }
+
+.notification-block.link:hover{
+    cursor:pointer;
+    background: rgb(252,252,252);
+}

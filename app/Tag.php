@@ -13,6 +13,7 @@ class Tag extends Model
 {
 
 	protected $table = 'tags';
+	public $urlNamespace = 'tags';
 	public $timestamps = false;
 	protected $fillable = ['name'];
 

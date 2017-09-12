@@ -96,18 +96,18 @@ Route::prefix('articles')
 			  ->name('articles.ofTag');
 		 Route::get('{id}', 'ArticlesController@show')
 			  ->name('article.show');
-		 Route::get('rediger', 'ArticlesController@create')
+		 Route::get('rediger', 'ArticlesController@create')->middleware('admin')
 			  ->name('articles.create');
 
-		 Route::post('rediger', 'ArticlesController@store')
+		 Route::post('rediger', 'ArticlesController@store')->middleware('admin')
 			  ->name('articles.store');
 
-		 Route::get('{id}/modifier', 'ArticlesController@edit')
+		 Route::get('{id}/modifier', 'ArticlesController@edit')->middleware('admin')
 			  ->name('articles.edit');
-		 Route::put('{id}/modifier', 'ArticlesController@update')
+		 Route::put('{id}/modifier', 'ArticlesController@update')->middleware('admin')
 			  ->name('articles.update');
 
-		 Route::post('previsualisation', 'ArticlesController@preview')
+		 Route::post('previsualisation', 'ArticlesController@preview')->middleware('admin')
 			  ->name('articles.preview');
 	 });
 

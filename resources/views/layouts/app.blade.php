@@ -1,9 +1,10 @@
 <?php
 
 use Helpers\JsVar;
+use Helpers\Template;
 use Illuminate\Database\Eloquent\Collection;
 
-$nbOfNotifications = 0;
+$nbOfNotifications = Template::getNbOfNotifications();
 
 $isCurrentPageHomePage = false;
 if (Route::currentRouteName() === "home" || Route::currentRouteName() === "home") {

@@ -10,6 +10,7 @@ class Skill extends Model
 	use SoftDeletes;
 
 	protected $table = 'skills';
+	public $urlNamespace = 'nos-compétences';
 	protected $dates = ['deleted_at'];
 	public $timestamps = true;
 	protected $fillable = ['title', 'content', 'user_id', 'index'];

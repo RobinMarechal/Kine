@@ -4,15 +4,37 @@ namespace App;
 
 use Carbon\Carbon;
 use Exception;
+use function get_call_stack;
+use function get_class;
 use Illuminate\Database\Eloquent\Model;
 
 class Notification extends Model
 {
 
 	protected $table = 'notifications';
+	public $urlNamespace = 'notifications';
 	public $timestamps = true;
 	protected $fillable = ['created_at', 'updated_at', 'user_id', 'notifiable_id', 'notifiable_type', 'seen_at', 'content', 'link'];
 	public $temporalField = 'created_at';
+
+
+	public static function sendToUser ($user, $message, $notifiable = null)
+	{
+		$userId = $user instanceof User ? $user->id : $user;
+
+		$data = [
+			'user_id' => $userId,
+			'content' => $message,
+		];
+
+		if (isset($notifiable)) {
+			$data['notifiable_id'] = $notifiable->id;
+			$data['notifiable_type'] = get_class($notifiable);
+			$data['link'] = $notifiable->urlNamespace . '/' . $notifiable->id;
+		}
+		
+		return self::create($data);
+	}
 
 
 	public function user ()
@@ -33,8 +55,9 @@ class Notification extends Model
 
 	public function scopeUnseen ($query, $dont = false)
 	{
-		if($dont === true)
+		if ($dont === true) {
 			return $query;
+		}
 
 		return $query->whereNull('seen_at');
 	}
@@ -73,7 +96,8 @@ class Notification extends Model
 
 	public function setSeen ()
 	{
-		$this->seen_at = Carbon::now()->format('Y-m-d H:i:s');
+		$this->seen_at = Carbon::now()
+							   ->format('Y-m-d H:i:s');
 		$this->save();
 	}
 }

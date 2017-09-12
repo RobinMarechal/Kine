@@ -10,6 +10,7 @@ class User extends Authenticatable
 {
     use Notifiable;
     protected $table = 'users';
+	public $urlNamespace = 'utilisateurs';
     public $timestamps = true;
 
     use SoftDeletes;
@@ -114,5 +115,11 @@ class User extends Authenticatable
 	public function scopeOrderByName ($query, $order = 'asc')
 	{
 		return $query->orderBy('name', $order);
+    }
+
+
+	public function getNbOfUnseenNotifications ()
+	{
+		return Notification::whereUserId($this->id)->whereNull('seen_at')->count();
     }
 }

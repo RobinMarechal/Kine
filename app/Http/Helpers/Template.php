@@ -49,8 +49,9 @@ Class Template
 	{
 		$nbOfNotifications = null;
 		if (Auth::check()) {
-			$nbOfNotifications = Auth::user()
-									 ->getNbOfUnseenNotifications();
+			$user = new User(Auth::user()->toArray());
+			$user->id = Auth::user()->id;
+			$nbOfNotifications = $user->getNbOfUnseenNotifications();
 			if ($nbOfNotifications == 0) {
 				$nbOfNotifications = null;
 			}
