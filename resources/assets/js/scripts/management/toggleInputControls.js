@@ -11,6 +11,11 @@ export function toggleInput() {
             let content = td.html().trim();
             let input = $('<input class="form-control input-sm" />');
             input.val(content);
+
+            if (td.data('input-type') == 'time' && content.length == 0) {
+                input.attr('placeholder', 'Format : hh:mm. Ex : 8:00, 8:30, 08:30.');
+            }
+
             if (td.data('max-length') != null) {
                 input.attr('maxlength', td.data('max-length'));
             }
@@ -23,12 +28,10 @@ export function toggleInput() {
                     onTabPressed($(this), KeyInputBuffer.isPressed(16) ? -1 : 1);
                     return false;
                 }
-                else if(ev.which == 13)
-                {
+                else if (ev.which == 13) {
                     onEnterPressed($(this));
                 }
-                else if(ev.which == 27)
-                {
+                else if (ev.which == 27) {
                     onEscapePressed($(this), content);
                 }
 
@@ -71,14 +74,12 @@ export function toggleInput() {
     });
 }
 
-function onEscapePressed(input, content)
-{
+function onEscapePressed(input, content) {
     input.val(content);
     input.focusout();
 }
 
-function onEnterPressed(input)
-{
+function onEnterPressed(input) {
     input.focusout();
 }
 

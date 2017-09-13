@@ -13,6 +13,8 @@ export function inputFocusout(input) {
     let data = {};
     data[field] = input.val();
 
+    console.log(data);
+
     const id = tr.data('id');
     const namespace = tr.data('namespace');
 
