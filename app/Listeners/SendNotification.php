@@ -45,8 +45,11 @@ class SendNotification
 							 ->leftJoin('notifications', 'user_id', '=', 'users.id')
 							 ->ofLevel(0)
 							 ->where('is_doctor', false)
-							 ->whereNull('notifiable_id')
-							 ->orWhere('notifiable_id', $article->id)
+							 ->whereNotIn('users.id', function ($query) use ($article) {
+								 $query->select('user_id')
+									   ->from('notifications')
+									   ->where('notifiable_id', $article->id);
+							 })
 							 ->get(['users.id']);
 
 				$content = 'Vous avez accès à un nouvel article : « ' . $article->title . ' ».';
