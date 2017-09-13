@@ -21,6 +21,18 @@
 				<td width="150">Téléphone</td>
 				<td data-pattern="phone" data-field="phone" class="user-edition-field-container" data-toggle="input" data-max-length="12"> {{ $user->phone }} </td>
 			</tr>
+			<tr data-id="{{ $user->id }}" data-namespace="users">
+				<td width="150">Embauche à</td>
+				<td data-field="starts_at" data-pattern="time" class="user-edition-field-container" data-toggle="input" data-input-type="time" data-max-length="12">
+					{{ !isset($user->starts_at) ? '' : DateTime::createFromFormat("H:i:s", $user->starts_at)->format("H:i") }}
+				</td>
+			</tr>
+			<tr data-id="{{ $user->id }}" data-namespace="users">
+				<td width="150">Débauche à</td>
+				<td data-field="ends_at" data-pattern="time" class="user-edition-field-container" data-toggle="input" data-input-type="time" data-max-length="12">
+					{{ !isset($user->ends_at) ? '' :  DateTime::createFromFormat("H:i:s", $user->ends_at)->format("H:i") }}
+				</td>
+			</tr>
 		</tbody>
 	</table>
 

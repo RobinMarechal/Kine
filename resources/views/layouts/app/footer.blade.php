@@ -54,8 +54,10 @@
 						<br>
 
 
-						<p>Horaires : {{ getTimeString($d->starts_at) }} - {{ getTimeString($d->ends_at) }}</p>
-						<br>
+						@if(isset($d->starts_at) && isset($d->ends_at))
+							<p>Horaires : {{ getTimeString($d->starts_at) }} - {{ getTimeString($d->ends_at) }}</p>
+							<br>
+						@endif
 
 						@forelse($d->contacts as $c)
 							<p class="footer-contact">

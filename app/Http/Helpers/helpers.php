@@ -23,6 +23,9 @@ function getGoogleApiKey ()
 
 function getTimeString ($time, $withSeconds = false)
 {
+	if(!isset($time))
+		return null;
+
 	$time = Carbon::parse($time);
 
 	$format = 'H:i';

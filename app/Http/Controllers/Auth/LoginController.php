@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Request;
+use App\Login;
 use App\User;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Illuminate\Support\Facades\Auth;
@@ -61,6 +62,14 @@ class LoginController extends Controller
 		if($user)
 		{
 			Auth::login($user, true);
+			$user->connections++;
+			$user->save();
+
+			Login::create([
+				'user_id' => $user->id,
+				'ip_address' => $request->server('REMOTE_ADDR')
+			]);
+
 			Flash::success("Vous êtes maintenant connecté !");
 			return redirect('/');
 		}
@@ -71,8 +80,16 @@ class LoginController extends Controller
 		if($user)
 		{
 			Auth::login($user, true);
+
 			$user->facebook_id = $social->id;
+			$user->connections++;
 			$user->save();
+
+			Login::create([
+				'user_id' => $user->id,
+				'ip_address' => $request->server('REMOTE_ADDR')
+			]);
+
 			Flash::success("Vous êtes maintenant connecté !");
 			return redirect('/');
 		}
@@ -91,11 +108,17 @@ class LoginController extends Controller
 		if($user)
 		{
 			Auth::login($user, true);
+
+			Login::create([
+				'user_id' => $user->id,
+				'ip_address' => $request->server('REMOTE_ADDR')
+			]);
+
 			Flash::success("Vous êtes maintenant connecté !");
 			return redirect('/');
 		}
 
-		// an error happened
+		// an error occurred
 		Flash::error('Une erreur est survenue, impossible de vous connecter.');
 		return Redirect::back();
     }
@@ -105,13 +128,25 @@ class LoginController extends Controller
 		$validator = $this->validator($request->all());
 		if($validator->fails())
 		{
+			Flash::error("Les champs n'ont pas été renseignés correctements.");
 			return Redirect::back()->withErrors($validator->errors())->withInput();
 		}
 
-		$user = Auth::attempt($request->only(['email', 'password']), $request->has('remember'));
+		$test = Auth::attempt($request->only(['email', 'password']), $request->has('remember'));
 
-		if($user)
+		if($test)
 		{
+			$user = Auth::user();
+			$user->connections++;
+			$user->save();
+
+			Login::create([
+				'user_id' => $user->id,
+				'ip_address' => $request->server('REMOTE_ADDR')
+			]);
+
+			Flash::success('Vous êtes maintenant connecté !');
+
 			return \redirect('/');
 		}
 

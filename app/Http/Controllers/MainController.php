@@ -2,13 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use Helpers\JsVar;
+use App\Connection;
+use Exception;
 
 class MainController extends Controller
 {
 	public function index ()
 	{
-		JsVar::create('test', ['abc' => 1, 'def' => 'ghi']);
+		$userIp = $this->request->server("REMOTE_ADDR");
+
+		$test = Connection::whereIpAddress($userIp)->first();
+		if(!isset($test)) {
+			Connection::create(['ip_address' => $userIp]);
+		}
 
 		return view('home');
 	}

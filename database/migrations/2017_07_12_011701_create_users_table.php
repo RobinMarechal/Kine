@@ -22,6 +22,7 @@ class CreateUsersTable extends Migration {
 			$table->time('ends_at')->nullable();
 			$table->boolean('is_doctor')->default(0);
 			$table->string('remember_token', 255)->nullable();
+			$table->integer('connections')->default(1)->unsigned();
 		});
 	}
 

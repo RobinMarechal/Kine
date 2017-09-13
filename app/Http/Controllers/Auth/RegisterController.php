@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Auth;
 
+use App\Login;
 use App\User;
 use App\Http\Controllers\Controller;
 use function array_merge;
@@ -121,6 +122,12 @@ class RegisterController extends Controller
 				unset($test->password);
 
 				Auth::login($test);
+
+				Login::create([
+					'user_id' => $test->id,
+					'ip_address' => $request->server('REMOTE_ADDR')
+				]);
+
 				Flash::success('Inscription réussie, votre compte à été synchronisé avec votre compte Facebook.');
 
 				return redirect('/');
@@ -133,8 +140,13 @@ class RegisterController extends Controller
 							  ->withInput($request->only(['name', 'email']));
 			}
 		}
-		else if ($user = User::create(array_merge($request->only(['name', 'email']), [bcrypt($request->password)]))) {
+		else if ($user = User::create(['email' => $request->email, 'name' => $request->name, 'password' => bcrypt($request->password)])) {
 			Auth::login($user);
+			Login::create([
+				'user_id' => $user->id,
+				'ip_address' => $request->server('REMOTE_ADDR')
+			]);
+
 			Flash::success('Vous êtes maintenant incrit !');
 
 			return redirect('/');
