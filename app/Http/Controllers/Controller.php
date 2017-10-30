@@ -5,6 +5,9 @@ namespace App\Http\Controllers;
 //use App\Http\Requests\Request;
 use App\Http\Requests\Request;
 use ErrorException;
+use Exception;
+use Facebook\Authentication\AccessToken;
+use Facebook\Facebook;
 use Helpers\Template;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -38,7 +41,7 @@ class Controller extends BaseController
 
 	/**
 	 * Controller constructor.
-	 	*
+	 *
 	 * @param Request $request
 	 */
 	function __construct (Request $request)
@@ -49,7 +52,9 @@ class Controller extends BaseController
 		$template_events = new Collection();
 		$nbOfNotifications = new Collection();
 
-		if (/*Route::currentRouteName() != "home" && */Route::currentRouteName() != "development") {
+		if (/*Route::currentRouteName() != "home" && */
+			Route::currentRouteName() != "development"
+		) {
 
 			$template_news = Template::getNews();
 			$template_events = Template::getEvents();
@@ -58,6 +63,8 @@ class Controller extends BaseController
 		$footer_doctors = Template::getDoctors();
 		$footer_other_contacts = Template::getOtherContacts();
 
+//		$this->test();
+
 		View::share(compact('template_news', 'template_events', 'nbOfNotifications', 'footer_doctors', 'footer_other_contacts'));
 	}
 
@@ -65,6 +72,47 @@ class Controller extends BaseController
 	protected function getPreparedQuery ($class)
 	{
 		return $this->request->getPreparedQuery($class);
+	}
+
+
+	private function test ()
+	{
+		$appId = env('FACEBOOK_CLIENT_ID');
+		$appSecret = env('FACEBOOK_CLIENT_SECRET');
+		$pageId = env('FACEBOOK_APP_PAGE_ID');
+		$pageAccessToken = env('FACEBOOK_APP_PAGE_ACCESS_TOKEN');
+		$userAccessToken = "EAACEdEose0cBAFpevxc6cm48SQbn1VVcNu5Fw0vMARyuoG7zoyFnPCDbeSvm0Nq9D4oZARkl6QkUq1FDcRNetZBxgOfG34ki0OefqW53ZAhZAEmisNQi4I7hZBQxqz8Pm50XNWNJl9pc0bPGGyRO3JrHq8Redy3MvnhDbDE0Hwpj29JUvmuclN45zd4YcmCXVPBUw0ix4HgZDZD";
+
+		$fb = new Facebook([
+			'app_id'                => $appId,
+			'app_secret'            => $appSecret,
+			'default_graph_version' => 'v2.5',
+		]);
+
+		$longLivedToken = $fb->getOAuth2Client()
+							 ->getLongLivedAccessToken($userAccessToken);
+
+		$fb->setDefaultAccessToken($longLivedToken);
+
+		$response = $fb->sendRequest('GET', $pageId, ['fields' => 'access_token'])
+					   ->getDecodedBody();
+
+		$foreverPageAccessToken = $response['access_token'];
+		dd($foreverPageAccessToken);
+
+		//		$fb = new Facebook([
+		//			'app_id'                => $appId,
+		//			'app_secret'            => $appSecret,
+		//			'default_graph_version' => "v2.9",
+		//		]);
+		//
+		//		$fb->setDefaultAccessToken($pageAccessToken);
+		//
+		//		$response = $fb->sendRequest("POST", "$pageId/feed", ['message' => 'Arnaud la saucisse', 'link' => 'http://kine.dev']);
+
+		dd($response);
+
+		$foreverPageAccessToken = $response['access_token'];
 	}
 
 
@@ -93,7 +141,8 @@ class Controller extends BaseController
 
 	public function defaultPut ($class, $id)
 	{
-		$cat = $this->defaultGetById($class, $id)->getData();
+		$cat = $this->defaultGetById($class, $id)
+					->getData();
 
 		if ($cat == null) {
 			return new ResponseData(null, Response::HTTP_BAD_REQUEST);
@@ -297,7 +346,7 @@ class Controller extends BaseController
 			$relation = camel_case(substr($method, 3));
 
 			$relatedModelClassName = str_singular($relation);
-			$relatedModelClassName = 'App\\'.strtoupper(substr($relatedModelClassName, 0, 1)) . substr($relatedModelClassName, 1);
+			$relatedModelClassName = 'App\\' . strtoupper(substr($relatedModelClassName, 0, 1)) . substr($relatedModelClassName, 1);
 
 			$thisModelClassName = getRelatedModelClassName($this);
 

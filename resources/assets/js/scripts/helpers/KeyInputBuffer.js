@@ -8,6 +8,7 @@ export default class KeyInputBuffer{
         {
             if(keyDown.indexOf(ev.which) == -1){
                 keyDown.push(ev.which);
+
             }
         });
 

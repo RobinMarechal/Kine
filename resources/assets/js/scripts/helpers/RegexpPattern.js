@@ -1,8 +1,8 @@
 const patterns = {
-    phone: '((\\+\\d{2})|0)\\d{9}',
-    email: '^([A-Z|a-z|0-9](\\.|_|-){0,1})+[A-Z|a-z|0-9]\\@(\\w+\\.)?([A-Z|a-z|0-9|-])+((\\.){0,1}[A-Z|a-z|0-9]){2}\\.[a-z]{2,3}$',
-    link: '(https?:\\/\\/)?([\\da-z.-]+\\.[a-z.]{2,6}|[\\d.]+)([\\/:?=&#][\\da-z.-]+)*[\\/?]?',
-    time: '(0[0-9]|1[0-9]|2[0-3]|\\d):([0-5]?[0-9])$',
+    phone: /^((\+[0-9]{2})|0)[0-9]{9}$/,
+    email: /^([A-Z|a-z|0-9](\.|_|-)?)+[A-Z|a-z|0-9]@(\w+\.)?([A-Z|a-z|0-9|-])+((\.)?[A-Z|a-z|0-9]){2}\.[a-z]{2,3}$/,
+    link: /^(https?:\/\/)?([\da-z.-]+\.[a-z.]{2,6}|[\d.]+)([\/:?=&#][\da-z.-]+)*[\/?]?$/,
+    time: /^(0[0-9]|1[0-9]|2[0-3]|\d):([0-5]?[0-9])$/,
 };
 
 export default class RegexpPattern {
@@ -12,18 +12,21 @@ export default class RegexpPattern {
     }
 
     static getStringRegexpFromPattern(pattern) {
-        if(pattern == null)
+        if (pattern == null) {
             return '(.)';
+        }
+
+        console.log(pattern);
 
         if (pattern.indexOf('|') != -1) {
-            const patts = pattern.split('|');
+            const arr = pattern.split('|');
             let array = [];
-            for (let i = 0; i < patts.length; i++) {
-                if (patterns[patts[i]] == null) {
+            for (let i = 0; i < arr.length; i++) {
+                if (patterns[arr[i]] == null) {
                     return '(.)';
                 }
 
-                array.push(patterns[patts[i]]);
+                array.push(patterns[arr[i]].toString());
             }
 
             return array.join('|');
@@ -33,6 +36,6 @@ export default class RegexpPattern {
             return '(.)';
         }
 
-        return '(' + patterns[pattern] + ')';
+        return patterns[pattern];
     }
 }

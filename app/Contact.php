@@ -80,7 +80,7 @@ class Contact extends Model
 			}
 
 
-			$tag = "<p data-toggle='tooltip' data-placement='top' title='$this->name'>$res</p>";
+			$tag = "<a href='tel:$this->value' data-toggle='tooltip' data-placement='top' title='$this->name'>$res</a>";
 			return $tag;
 		}
 		else if ($type == "EMAIL") {

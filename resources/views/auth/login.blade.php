@@ -5,7 +5,7 @@
 	<h1>Connexion</h1>
 	<hr>
 
-	<form class="fb-login-button-container" method="get" action="{{url('/connexion/facebook')}}">
+	<form class="fb-login-button-container" method="get" action="{{ $loginUrl }}">
 
 		{{ csrf_field() }}
 		<button class="fb-login-button">

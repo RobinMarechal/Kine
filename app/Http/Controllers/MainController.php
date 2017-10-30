@@ -20,6 +20,13 @@ class MainController extends Controller
 	}
 
 
+	public function test ()
+	{
+		echo $this->request->all();
+		dd();
+	}
+
+
 	public function dev ()
 	{
 		return view('development');

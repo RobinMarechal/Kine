@@ -15,10 +15,11 @@ import Vars from "./scripts/libs/PhpVarCatcher";
 import {addUserContact, removeUserContact} from "./scripts/management/addUserContact";
 import {toggleInput} from "./scripts/management/toggleInputControls";
 import KeyInputBuffer from "./scripts/helpers/KeyInputBuffer";
+import RegexpPattern from "./scripts/helpers/RegexpPattern";
 
 // var url = window.location.pathname;
 
-const alerts = $('.alert').delay(2500).fadeOut(700, function () {
+$('.alert').delay(2500).fadeOut(700, function () {
     $(this).remove();
 });
 

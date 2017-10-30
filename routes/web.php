@@ -17,6 +17,8 @@ Route::get('/', 'MainController@index')
 
 Route::get('user', 'ApiController@user');
 
+Route::get('test', 'MainController@test');
+
 /*
  * Administration routes
  */
