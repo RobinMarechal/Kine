@@ -1,0 +1,129 @@
+* {
+  color: #484848;
+}
+
+.navbar {
+  border-radius: 0 !important;
+  box-shadow: rgba(0, 0, 0, .20) 0 2px 2px;
+}
+
+body {
+  padding-top: 3.5rem;
+}
+
+.banner {
+  box-shadow: inset rgba(0, 0, 0, .20) 0 -3px 3px;
+  -webkit-box-shadow: inset rgba(0, 0, 0, .20) 0 -3px 3px;
+  background: url('../../img/banner.png') no-repeat center 80%;
+  background-size: cover;
+  height: 230px;
+  opacity: 0.85;
+}
+
+@media (min-width: 1440px) {
+  .banner {
+    height: 312px;
+  }
+}
+
+.nav-item.dropdown {
+  cursor: pointer;
+}
+
+.nb-of-notifs {
+  position: absolute;
+  top: -5px;
+  left: -5px;
+  opacity: 0.9;
+  background: #c3544e;
+  padding: 2px 4px;
+  border-radius: 10px;
+  font-size: 12px;
+  font-weight: bold;
+  font-family: calibri;
+  z-index: 1;
+  text-indent: 0 !important;
+  color: #ffffff;
+  transition: all 0.15s ease-in-out;
+  -webkit-transition: all 0.15s ease-in-out;
+  -moz-transition: all 0.15s ease-in-out;
+  -ms-transition: all 0.15s ease-in-out;
+  -o-transition: all 0.15s ease-in-out;
+}
+
+.nb-of-notifs-user {
+  top: 6px;
+  left: 2px;
+  opacity: 0.9;
+  padding: 2px 4px;
+}
+
+.dropdown-menu > li:hover > a > span > .nb-of-notifs {
+  left: 36px;
+}
+
+.dropdown-menu {
+  right: 0;
+  left: unset;
+}
+
+.kine-qsn {
+  padding: 0 25px;
+}
+
+.kine-qsn-img {
+  margin-bottom: 15px;
+}
+
+h1 {
+  font-family: Circular, -apple-system, BlinkMacSystemFont, Roboto, Helvetica Neue, sans-serif !important;
+  font-size: calc(0.5vw + 42px) !important;
+}
+
+h2 {
+  font-size: 32px;
+  line-height: 40px;
+}
+
+.page .jumbotron {
+  border-radius: 0;
+}
+
+.page .jumbotron:last-child {
+  margin-bottom: 0 !important;
+}
+
+@media (min-width: 576px) {
+  .jumbotron {
+    padding-top: 3rem !important;
+    padding-bottom: 3rem !important;
+  }
+}
+
+.shadow-bottom {
+  margin-bottom: 0 !important;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 2px 2px !important;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 2px !important;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 2px 2px !important;
+  position: relative;
+}
+
+.shadow-top {
+  margin-bottom: 0 !important;
+  -webkit-box-shadow: rgba(0, 0, 0, 0.2) 0 -2px 2px !important;
+  -moz-box-shadow: rgba(0, 0, 0, 0.2) 0 -2px 2px !important;
+  box-shadow: rgba(0, 0, 0, 0.2) 0 -2px 2px !important;
+  position: relative;
+}
+
+.bg-logo {
+  background: url('../../img/bandeau.png') no-repeat left 80%;
+}
+
+b, i, strong{
+  color:inherit;
+}
+
+footer a{
+  color: inherit;
+}
