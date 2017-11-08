@@ -113,6 +113,11 @@ Route::prefix('articles')
 			  ->name('articles.preview');
 	 });
 
+Route::prefix('cours')->group(function()
+{
+	Route::get('/', 'CoursesController@index')->name('courses.index');
+});
+
 
 Route::get('{any?}', 'MainController@e404')
 	 ->where('any', '.*')

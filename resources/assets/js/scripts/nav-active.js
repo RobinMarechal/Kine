@@ -11,7 +11,8 @@ export function navActive() {
         routeGroup = path.replace('/', '').split('/')[1];
     }
 
-    $('#nav-' + routeGroup).addClass('active');
+    $('#nav-' + routeGroup).addClass('nav-active');
+    console.log('#nav-' + routeGroup);
 
     if (routeGroup == 'notifications') {
         $('li.dropdown > a.dropdown-toggle').addClass('dropdown-selected');

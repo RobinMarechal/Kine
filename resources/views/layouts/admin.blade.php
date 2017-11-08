@@ -9,8 +9,8 @@ $isCurrentPageHomePage = false;
 if (Route::currentRouteName() === "home" || Route::currentRouteName() === "home") {
 	$isCurrentPageHomePage = true;
 }
-$contentBootstrapClassCol = "col-lg-9";
-//$contentBootstrapClassCol = $isCurrentPageHomePage ? "col-lg-12" : "col-lg-8";
+$contentBootstrapClassCol = "col-md-9";
+//$contentBootstrapClassCol = $isCurrentPageHomePage ? "col-md-12" : "col-md-8";
 
 $events = new Collection();
 
@@ -69,7 +69,7 @@ $events = new Collection();
 	</nav>
 
 	<div id="banner">
-		<div class="col-lg-12">
+		<div class="col-md-12">
 			<img src="{{url('img/logo.jpg')}}" alt="" class="img-banner">
 		</div>
 		{{--<div class="panel banner-panel">--}}
@@ -96,7 +96,7 @@ $events = new Collection();
 	</div>
 
 	{{--@if(!$isCurrentPageHomePage)--}}
-	<aside class="content col-lg-3">
+	<aside class="content col-md-3">
 		<div class="inner">
 			<section class="lastest-news">
 				<h1>Dernières news

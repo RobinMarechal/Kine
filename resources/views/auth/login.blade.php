@@ -5,7 +5,8 @@
 	<h1>Connexion</h1>
 	<hr>
 
-	<form class="fb-login-button-container" method="get" action="{{ $loginUrl }}">
+	{{--<form class="fb-login-button-container" method="get" action="{{ $loginUrl }}">--}}
+	<form class="fb-login-button-container" method="get" action="{{url('/connexion/facebook')}}">
 
 		{{ csrf_field() }}
 		<button class="fb-login-button">
@@ -17,6 +18,7 @@
 			</table>
 		</button>
 	</form>
+	{{--</form>--}}
 
 	<hr width="50%">
 
@@ -24,22 +26,22 @@
 
 		{{ csrf_field() }}
 
-		<div class="col-lg-8 col-lg-offset-2 form-group">
+		<div class="col-md-8 col-md-offset-2 form-group">
 			<input type="email" name="email" class="form-control" placeholder="Votre adresse email">
 		</div>
 
-		<div class="col-lg-8 col-lg-offset-2 form-group">
+		<div class="col-md-8 col-md-offset-2 form-group">
 			<input type="password" name="password" class="form-control" placeholder="Votre mot de passe">
 		</div>
 
-		<div class="col-lg-8 col-lg-offset-2 checkbox">
+		<div class="col-md-8 col-md-offset-2 checkbox">
 			<label for="remember"><input type="checkbox" name="remember" id="remember"> Se souvenir de moi </label>
 		</div>
 
 		<br>
 
-		<div align="center" class="checkbox col-lg-8 col-lg-offset-2">
-			<button class="btn btn-primary col-lg-6 col-lg-offset-3">Connexion</button>
+		<div align="center" class="checkbox col-md-8 col-md-offset-2">
+			<button class="btn btn-primary col-md-6 col-md-offset-3">Connexion</button>
 		</div>
 
 	</form>

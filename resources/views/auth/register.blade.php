@@ -24,7 +24,7 @@
 
 		{{ csrf_field() }}
 
-		<div class="col-lg-8 col-lg-offset-2 form-group {{ $errors->has('name') ? 'has-error' : ''}}">
+		<div class="col-md-8 col-md-offset-2 form-group {{ $errors->has('name') ? 'has-error' : ''}}">
 			<input required type="text" name="name" class="form-control" placeholder="Votre prénom et nom" value="{{old('name')}}">
 			@if($errors->has('name'))
 				<ul class="input-error-block">
@@ -35,7 +35,7 @@
 			@endif
 		</div>
 
-		<div class="col-lg-8 col-lg-offset-2 form-group {{ $errors->has('email') ? 'has-error' : ''}}">
+		<div class="col-md-8 col-md-offset-2 form-group {{ $errors->has('email') ? 'has-error' : ''}}">
 			<input required type="email" name="email" class="form-control" placeholder="Votre adresse email" value="{{old('email')}}">
 			@if($errors->has('email'))
 				<ul class="input-error-block">
@@ -46,7 +46,7 @@
 			@endif
 		</div>
 
-		<div class="col-lg-8 col-lg-offset-2 form-group {{ $errors->has('password') ? 'has-error' : ''}}">
+		<div class="col-md-8 col-md-offset-2 form-group {{ $errors->has('password') ? 'has-error' : ''}}">
 			<input required type="password" name="password" class="form-control" placeholder="Votre mot de passe">
 			@if($errors->has('password'))
 				<ul class="input-error-block">
@@ -57,7 +57,7 @@
 			@endif
 		</div>
 
-		<div class="col-lg-8 col-lg-offset-2 form-group {{ $errors->has('password_confirmation') ? 'has-error' : ''}}">
+		<div class="col-md-8 col-md-offset-2 form-group {{ $errors->has('password_confirmation') ? 'has-error' : ''}}">
 			<input required type="password" name="password_confirmation" class="form-control" placeholder="Confirmation de votre mot de passe">
 			@if($errors->has('password_confirmation'))
 				<ul class="input-error-block">
@@ -68,8 +68,8 @@
 			@endif
 		</div>
 
-		<div align="center" class="form-group col-lg-8 col-lg-offset-2">
-			<button class="btn btn-primary col-lg-6 col-lg-offset-3">Inscription</button>
+		<div align="center" class="form-group col-md-8 col-md-offset-2">
+			<button class="btn btn-primary col-md-6 col-md-offset-3">Inscription</button>
 		</div>
 
 	</form>

@@ -20,10 +20,10 @@ Class Template
 	public static function getDoctors ()
 	{
 		return User::doctors()
-				   ->with(['contacts'/* => function ($query) {
-					   $query->orderBy('type');
-				   }*/])
-				   ->get();
+//				   ->with(['contacts'/* => function ($query) {
+//					   $query->orderBy('type');
+//				   }*/])
+				   ->get(['id', 'name']);
 	}
 
 

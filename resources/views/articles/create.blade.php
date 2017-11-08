@@ -35,7 +35,7 @@ if (isset($article)) {
 		{{ csrf_field() }}
 
 		<div class="row">
-			<div class="col-lg-8">
+			<div class="col-md-8">
 				<div>
 					<div class="form-group">
 						<label class="label-control">Titre :</label>
@@ -57,7 +57,7 @@ if (isset($article)) {
 				</div>
 
 			</div>
-			<div class="col-lg-4">
+			<div class="col-md-4">
 				<div class="form-group">
 					<label>Tags :</label>
 

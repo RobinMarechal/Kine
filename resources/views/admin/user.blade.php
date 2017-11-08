@@ -41,10 +41,10 @@
 
 	<table id="table-contacts" data-table="contacts" class="table table-hover table-striped" data-user-id="{{ $user->id }}">
 		<thead>
-			<td class="col-lg-3">Nom :</td>
-			<td class="col-lg-4">Valeur :</td>
-			<td class="col-lg-4">Description :</td>
-			<td class="col-lg-1"></td>
+			<td class="col-md-3">Nom :</td>
+			<td class="col-md-4">Valeur :</td>
+			<td class="col-md-4">Description :</td>
+			<td class="col-md-1"></td>
 		</thead>
 		<tbody>
 			@forelse($user->contacts as $c)

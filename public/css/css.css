@@ -1,19 +1,20 @@
-.container-fluid > div.content, .container-fluid > aside.content {
+/*@import "fontsize.css";*/
+
+.content {
     margin: 15px 0;
 }
 
 #banner {
-    margin-top: 60px;
     background-color: white;
     background-size: cover;
     /*background: url('../img/bandeau.png') no-repeat;*/
-    height: 350px;
+    height: 270px;
     background-size: cover;
 }
 
 header {
     /* background: #506375; */
-    position: relative;
+    /* position: relative; */
     box-shadow: 0 2px 4px rgb(180, 180, 180);
 }
 
@@ -45,11 +46,13 @@ header {
 }
 
 .img-banner {
-    max-height: 350px;
-    margin: auto;
+    max-height: 250px;
+    /* margin: auto; */
+    margin-top: 10px;
+    max-width: 100%;
 }
 
-div.content > .inner, aside.content > .inner {
+.content > .inner {
     background-color: white;
     box-shadow: 0 0 5px rgb(150, 150, 150);
     padding: 1px 40px;
@@ -82,11 +85,11 @@ div.content > .inner, aside.content > .inner {
     box-shadow: -1px 1px 3px rgba(150, 150, 150, 0.39);
 }
 
-aside.content > .inner > section {
+.content > .inner > section > div {
     margin-bottom: 20px;
 }
 
-aside.content > .inner > section > h1 {
+.content > .inner > section > div > h1 {
     font-size: 22px;
     margin-left: -10px;
     margin-bottom: 15px;
@@ -101,59 +104,50 @@ section p.date {
     font-weight: bold;
 }
 
-a.see-all span {
+.see-all span {
     transform: scale(0.8, 0.5);
     top: 2px;
 }
 
-div.content > .inner {
+.content > .inner {
     padding-bottom: 25px;
 }
 
-div.content > .inner > article > .content-box > p {
+.content > .inner > article > .content-box > p {
     text-align: justify;
     line-height: 24px;
     /* text-indent: 40px; */
 }
 
-div.content > .inner article > h1 {
+.content > .inner article > h1 {
     margin-bottom: 20px;
     font-size: 36px;
 }
 
-div.content > .inner article > h2 {
+.content > .inner article > h2 {
     font-size: 28px;
 }
 
-div.content > .inner article > h3 {
+.content > .inner article > h3 {
     font-size: 24px;
 }
 
-div.content > .inner article > h4 {
+.content > .inner article > h4 {
     font-size: 22px;
 }
 
-div.content > .inner article > h5 {
+.content > .inner article > h5 {
     font-size: 20px;
 }
 
-div.content > .inner article > h6 {
+.content > .inner article > h6 {
     font-size: 18px;
 }
 
-div.content > .inner article table.table-default td {
+.content > .inner article table.table-default td {
     border: 1px solid rgb(80, 80, 80);
 }
 
-div.content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
-
-aside.content {
-    padding-left: 15px;
-    padding-right: 15px;
-}
 
 /*
 .editable::after{
@@ -251,8 +245,8 @@ aside.content {
     -o-transition: all 0.15s ease-in-out;
 }
 
-.dropdown-menu > li > a > .glyphicon {
-    margin-right: 5px;
+.dropdown-menu > li > a > .glyphicon, .dropdown-menu > li > a > .fa {
+    margin-right: 7px;
 }
 
 .dropdown-menu a:hover {
@@ -512,8 +506,13 @@ footer .fa {
     margin-left: 20px;
 }
 
-footer p > b, footer a > b {
-    font-size: 16px;
+.footer-doctor-name {
+    /* font-size: 14px; */
+    cursor: pointer;
+}
+
+.footer-doctor-name:hover{
+    text-decoration:underline;
 }
 
 footer p > a {
@@ -621,6 +620,8 @@ footer p > a {
 /*box-shadow: 0 0 5px rgb(150, 150, 150);*/
 /*z-index: 50;*/
 /*}*/
+
+
 
 .top-left-symbol {
     left: 25px;
@@ -846,4 +847,50 @@ button.add-contact {
 .notification-block.link:hover{
     cursor:pointer;
     background: rgb(252,252,252);
+}
+
+.course-block{
+    padding:10px;
+}
+
+@media (max-width: 900px) {
+    .navbar-nav .open .dropdown-menu {
+        position: static;
+        float: none;
+        width: auto;
+        margin-top: 0;
+        background-color: transparent;
+        border: 0;
+        -webkit-box-shadow: none;
+        box-shadow: none;
+    }
+}
+
+.nav-active > a{
+    color: #bb7e7b !important;
+}
+
+aside img{
+    margin: 10px 0;
+    width:100%;
+}
+
+aside h1{
+    font-size: 24px;:
+}
+
+.no-padding{
+    padding:0;
+}
+
+.network-logo{
+    width:40px;
+    margin-right:5px;
+    border-radius:5px;
+    -webkit-filter: grayscale(1);
+}
+
+.network-logo:hover{
+    -webkit-filter: grayscale(0.1);
+    /*box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);*/
 }

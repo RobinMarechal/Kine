@@ -1083,6 +1083,7 @@ body {
   font-size: 15px;
   line-height: 1.42857143;
   color: #2c3e50;
+  padding-top: 60px;
   background-color: #E0E6EC;
 }
 input,
@@ -3505,7 +3506,7 @@ tbody.collapse.in {
   left: 0;
   z-index: 1000;
   display: none;
-  float: left;
+  float: right;
   min-width: 250px;
   padding: 0;
   margin: 2px 0 0;
@@ -3527,7 +3528,7 @@ tbody.collapse.in {
   height: 1px;
   margin: 9.5px 0;
   overflow: hidden;
-  background-color: #e5e5e5;
+  background-color: #868686;
 }
 .dropdown-menu > li > a {
   display: block;
@@ -4193,7 +4194,7 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
 }
 .navbar-fixed-top .navbar-collapse,
 .navbar-fixed-bottom .navbar-collapse {
-  max-height: 340px;
+  /* max-height: 340px; */
 }
 @media (max-device-width: 480px) and (orientation: landscape) {
   .navbar-fixed-top .navbar-collapse,
@@ -4504,11 +4505,11 @@ select[multiple].input-group-sm > .input-group-btn > .btn {
   background-color: transparent;
 }
 .navbar-default .navbar-toggle {
-  border-color: #1a242f;
+  border-color: #313131;
 }
 .navbar-default .navbar-toggle:hover,
 .navbar-default .navbar-toggle:focus {
-  background-color: #1a242f;
+  background-color: #424141;
 }
 .navbar-default .navbar-toggle .icon-bar {
   background-color: #ffffff;
@@ -6425,7 +6426,7 @@ button.close {
   margin-right: auto;
 }
 .pull-right {
-  float: right !important;
+  /* float: right !important; */
 }
 .pull-left {
   float: left !important;

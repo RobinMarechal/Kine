@@ -12,10 +12,10 @@
 
 	<table id="table-contacts" data-table="contacts" class="table table-hover table-striped">
 		<thead>
-			<td class="col-lg-3">Nom :</td>
-			<td class="col-lg-3">Valeur :</td>
-			<td class="col-lg-3">Description :</td>
-			<td class="col-lg-1"></td>
+			<td class="col-md-3">Nom :</td>
+			<td class="col-md-3">Valeur :</td>
+			<td class="col-md-3">Description :</td>
+			<td class="col-md-1"></td>
 		</thead>
 		<tbody>
 			@forelse($contacts as $c)

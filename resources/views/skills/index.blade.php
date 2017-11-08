@@ -26,7 +26,7 @@
 		@if(isAdmin())
 			<button id="btn-remove-skill" title="Supprimer la rubrique" class="btn btn-primary btn-remove btn-edit trash create-new glyphicon glyphicon-trash"></button>
 		@endif
-		<div id="section-titles" class="col-lg-3">
+		<div id="section-titles" class="col-md-3">
 			@forelse($skills as $s)
 				<span
 						data-skill-id="{{ $s->id }}"
@@ -44,7 +44,7 @@
 		</div>
 
 
-		<div id="section-contents" class="col-lg-9">
+		<div id="section-contents" class="col-md-9">
 			@forelse($skills as $s)
 				<div data-skill-id="{{ $s->id }}" class="skill-section @if($s->id == $skills[0]->id) selected @endif">
 					<h1>{{ $s->title }}</h1>

@@ -10,8 +10,8 @@ $isCurrentPageHomePage = false;
 if (Route::currentRouteName() === "home" || Route::currentRouteName() === "home") {
 	$isCurrentPageHomePage = true;
 }
-$contentBootstrapClassCol = "col-lg-9";
-//$contentBootstrapClassCol = $isCurrentPageHomePage ? "col-lg-12" : "col-lg-8";
+$contentBootstrapClassCol = "col-md-9";
+//$contentBootstrapClassCol = $isCurrentPageHomePage ? "col-md-12" : "col-md-8";
 
 $events = new Collection();
 
@@ -21,6 +21,8 @@ $events = new Collection();
 <head>
 	<meta charset="utf-8">
 	<meta name="csrf-token" content="{{ csrf_token() }}">
+	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
+	<meta http-equiv="X-UA-Compatible" content="ie=edge">
 	<link rel="stylesheet" type="text/css" href="{{url('css/bootstrap.css')}}"/>
 	<link rel="stylesheet" type="text/css" href="{{url('css/hover.min.css')}}"/>
 	<link rel="stylesheet" type="text/css" href="{{url('css/font-awesome.min.css')}}"/>
@@ -33,30 +35,36 @@ $events = new Collection();
 <body>
 
 <header>
-	<nav class="navbar navbar-default navbar-fixed-top">
+	<nav class="navbar navbar-default  navbar-fixed-top ">
 		<div class="container-fluid">
-			<div class="navbar-header">
+			<div id="nav-" class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
 				@if(isAdminZone())
-					<a class="navbar-brand" href="/admin">Kiné</a>
+					<a class="navbar-brand" href="/admin">La Santé en Mouvement</a>
 				@else
-					<a class="navbar-brand" href="/">Kiné</a>
+					<a class="navbar-brand" href="/">La Santé en Mouvement</a>
 				@endif
 			</div>
 
-			<div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+			<div id="navbar" class="collapse navbar-collapse">
 
-				<ul class="nav navbar-nav navbar-right" ng-init="home='active'">
+				<ul class="nav navbar-nav navbar-right">
+
 
 					@include('layouts.parts.nav', ['nav' => [
-						['id' => 'nav-', 'href' => '/', 'html' => 'Accueil'],
+						//['id' => 'nav-', 'href' => '/', 'html' => 'Accueil'],
 						['id' => 'nav-qui-sommes-nous', 'href' => 'qui-sommes-nous', 'html' => 'Qui sommes-nous'],
 						['id' => 'nav-nos-competences', 'href' => 'nos-competences', 'html' => 'Nos compétences'],
 						['id' => 'nav-articles', 'href' => 'articles', 'html' => 'Articles'],
 						['id' => 'nav-news', 'href' => 'news', 'html' => 'L\'actu'],
-						['id' => 'nav-galerie', 'href' => 'galerie', 'html' => 'Galerie'],
+						//['id' => 'nav-galerie', 'href' => 'galerie', 'html' => 'Galerie'],
 						['id' => 'nav-cours', 'href' => 'cours', 'html' => 'Les cours'],
 					]])
-
 
 					@if(Auth::check())
 						@include('layouts.parts.dropdown', compact('nbOfNotifications'))
@@ -73,7 +81,7 @@ $events = new Collection();
 	</nav>
 
 	<div id="banner">
-		<div class="col-lg-12">
+		<div class="col-md-12">
 			<img src="{{url('img/logo.jpg')}}" alt="" class="img-banner">
 		</div>
 		{{--<div class="panel banner-panel">--}}
@@ -99,62 +107,84 @@ $events = new Collection();
 		</div>
 	</div>
 
-	{{--@if(!$isCurrentPageHomePage)--}}
-	<aside class="content col-lg-3">
-		<div class="inner">
-			<section class="lastest-news">
-				<h1>Dernières news
-					@if(isAdmin())
-						<a data-toggle="tooltip" data-placement="left" title="Ajouter une news" href="#" {{--href="{{ url('news/creer') }}"--}}
-						class="absolute-right create-new create-news glyphicon glyphicon-plus btn-hover"></a>
+	<aside class="col-md-3">
+		<section class="content">
+			<div class="inner">
+				<img src="{{ url('img/logo.jpg') }}" alt="">
+			</div>
+		</section>
+
+		<section class="content">
+			<div class="inner">
+				<section class="networks">
+					<h1>Suivez-nous !</h1>
+					<a href="#"><img class="network-logo" src="/img/fb-logo.png" alt=""></a>
+					<a href="#"><img class="network-logo" src="/img/gplus-logo.png" alt=""></a>
+					<a href="#"><img class="network-logo" src="/img/twitter-logo.png" alt=""></a>
+					<a href="#"><img class="network-logo" src="/img/yt-logo.png" alt=""></a>
+				</section>
+			</div>
+		</section>
+
+		{{--@if(!$isCurrentPageHomePage)--}}
+		<section class="content">
+			<div class="inner">
+				<div class="lastest-news">
+					<h1>Dernières news
+						@if(isAdmin())
+							<a data-toggle="tooltip" data-placement="left" title="Ajouter une news" href="#" {{--href="{{ url('news/creer') }}"--}}
+							class="absolute-right create-new create-news glyphicon glyphicon-plus btn-hover"></a>
+						@endif
+					</h1>
+					@if($template_news->count() > 0)
+						@foreach($template_news as $n)
+							<a href="/news/{{$n->id}}">{{$n->title}}</a>
+							<p class="date">{{$n->published_at->format('d/m/Y')}}</p>
+						@endforeach
+
+						<a href="/news" align="right" class="see-all"><p>Tout voir <span class="glyphicon glyphicon-arrow-right"></span></p></a>
+					@else
+						<p>Aucune news récente.</p>
 					@endif
-				</h1>
-				@if($template_news->count() > 0)
-					@foreach($template_news as $n)
-						<a href="/news/{{$n->id}}">{{$n->title}}</a>
-						<p class="date">{{$n->published_at->format('d/m/Y')}}</p>
-					@endforeach
 
-					<a href="/news" align="right" class="see-all"><p>Tout voir <span class="glyphicon glyphicon-arrow-right"></span></p></a>
-				@else
-					<p>Aucune news récente.</p>
-				@endif
+				</div>
 
-			</section>
+			</div>
+		</section>
+		<section class="content">
+			<div class="inner">
+				<div class="incoming-events">
+					<h1>Événements à venir
+						@if(isAdmin())
+							<a data-toggle="tooltip" data-placement="left" title="Ajouter un événement" href="{{ url('evenements/creer') }}"
+							   class="absolute-right create-new create-event glyphicon glyphicon-plus btn-hover"></a>
+						@endif
+					</h1>
+					@if($template_events->count() > 0)
+						@foreach($events as $e)
+							<a data-toggle="tooltip" data-placement="top"
+							   title="{{($today = $e->start->isToday()) ? 'Cet événement à lieu aujourd\'hui !' : 'Cliquez ici pour en savoir plus.'}}"
+							   {{ $today ? 'class=today' : '' }}
+							   href="/evenements/{{$e->id}}">{{$e->name}}
+							</a>
+							<p class="date {{ $today ? 'today' : '' }} ">
+								{{--                                 @if($e->start->dayOfYear == $e->end->dayOfYear)
+																	Le {{$e->start->format('d/m/Y\, \d\e H:i').' à '.$e->end->format('H:i')}}
+																@else
+																	Du {{$e->start->format('d/m').' au '.$e->end->format('d/m Y').', de '.$e->start->format('H:i').' à '.$e->end->format('H:i')}}
+																@endif --}}
+								Début : {{ $e->start->format('d/m/Y \à H:i') }} <br/>Fin : {{ $e->end->format('d/m/Y \à H:i') }}
+							</p>
+						@endforeach
 
-			<hr class="separator">
-
-			<section class="incoming-events">
-				<h1>Événements à venir
-					@if(isAdmin())
-						<a data-toggle="tooltip" data-placement="left" title="Ajouter un événement" href="{{ url('evenements/creer') }}"
-						   class="absolute-right create-new create-event glyphicon glyphicon-plus btn-hover"></a>
+						<a href="/evenements" align="right" class="see-all"><p>Tout voir <span class="glyphicon glyphicon-arrow-right"></span></p></a>
+					@else
+						<p>Aucun événement à venir.</p>
 					@endif
-				</h1>
-				@if($template_events->count() > 0)
-					@foreach($events as $e)
-						<a data-toggle="tooltip" data-placement="top"
-						   title="{{($today = $e->start->isToday()) ? 'Cet événement à lieu aujourd\'hui !' : 'Cliquez ici pour en savoir plus.'}}"
-						   {{ $today ? 'class=today' : '' }}
-						   href="/evenements/{{$e->id}}">{{$e->name}}
-						</a>
-						<p class="date {{ $today ? 'today' : '' }} ">
-							{{--                                 @if($e->start->dayOfYear == $e->end->dayOfYear)
-																Le {{$e->start->format('d/m/Y\, \d\e H:i').' à '.$e->end->format('H:i')}}
-															@else
-																Du {{$e->start->format('d/m').' au '.$e->end->format('d/m Y').', de '.$e->start->format('H:i').' à '.$e->end->format('H:i')}}
-															@endif --}}
-							Début : {{ $e->start->format('d/m/Y \à H:i') }} <br/>Fin : {{ $e->end->format('d/m/Y \à H:i') }}
-						</p>
-					@endforeach
 
-					<a href="/evenements" align="right" class="see-all"><p>Tout voir <span class="glyphicon glyphicon-arrow-right"></span></p></a>
-				@else
-					<p>Aucun événement à venir.</p>
-				@endif
-
-			</section>
-		</div>
+				</div>
+			</div>
+		</section>
 	</aside>
 	{{--@endif--}}
 </div>
