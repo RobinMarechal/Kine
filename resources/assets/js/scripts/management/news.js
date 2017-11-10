@@ -76,10 +76,10 @@ function openNewsDialog(news = null) {
                         published_at: datepicker.toString(),
                     }
 
-                    Api.get('/user', false)
-                        .done((user) => {
+                    Api.get('/doctor', false)
+                        .done((doctor) => {
 
-                            data.user_id = user.id;
+                            data.doctor_id = doctor.id;
 
                             if (data.title === "" || data.content === "" || data.published_at === null) {
                                 Flash.error("Tous les champs sont requis.");

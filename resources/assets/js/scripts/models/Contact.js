@@ -8,9 +8,16 @@ import RegexpPattern from "../helpers/RegexpPattern";
 export default class Contact extends Model {
 
     constructor(obj = null) {
-        super(obj, ['id', 'deleted_at', 'created_at', 'updated_at', 'type', 'value', 'description', 'user_id', 'name']);
+        super(obj, ['id', 'deleted_at', 'created_at', 'updated_at', 'type', 'value', 'description', 'doctor_id', 'name']);
     }
 
+    get doctor_id() {
+        return this._doctor_id;
+    }
+
+    set doctor_id(value) {
+        this._doctor_id = value;
+    }
 
     static create(data) {
         if (data.type == null) {

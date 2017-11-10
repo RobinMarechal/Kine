@@ -18,13 +18,13 @@ class NewsController extends Controller
 	public function index ($incoming = false)
 	{
 		if (!$incoming) {
-			$news = News::with('user')
+			$news = News::with('doctor')
 						->published()
 						->fromNewerToOlder()
 						->paginate(5);
 		}
 		else {
-			$news = News::with('user')
+			$news = News::with('doctor')
 						->notPublished()
 						->fromOlderToNewer()
 						->paginate(5);
@@ -49,14 +49,13 @@ class NewsController extends Controller
 	 */
 	public function show ($id)
 	{
-		$news = News::with('user', 'medias')
+		$news = News::with('doctor', 'medias')
 					->findOrFail($id);
 
 		if (!isAdmin()) {
 			$news->views++;
 			$news->save();
 		}
-
 
 		return view('news.show', compact('news'));
 	}

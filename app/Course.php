@@ -32,7 +32,7 @@ class Course extends Model
 
     public function doctors ()
     {
-        return $this->belongsToMany('App\User', 'course_doctor');
+        return $this->belongsToMany('App\Doctor');
     }
 
 

@@ -18,13 +18,13 @@ class Contact extends Model
 	use SoftDeletes;
 
 	protected $dates = ['deleted_at'];
-	protected $fillable = ['created_at', 'updated_at', 'type', 'value', 'description', 'user_id', 'name'];
+	protected $fillable = ['created_at', 'updated_at', 'type', 'value', 'description', 'doctor_id', 'name'];
 	public $temporalField = 'created_at';
 
 
 	public function doctor ()
 	{
-		return $this->belongsTo('App\User');
+		return $this->belongsTo('App\Doctor');
 	}
 
 

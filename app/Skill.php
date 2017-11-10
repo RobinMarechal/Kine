@@ -13,18 +13,18 @@ class Skill extends Model
 	public $urlNamespace = 'nos-compétences';
 	protected $dates = ['deleted_at'];
 	public $timestamps = true;
-	protected $fillable = ['title', 'content', 'user_id', 'index'];
+	protected $fillable = ['title', 'content', 'doctor_id', 'index'];
 	public $temporalField = 'created_at';
 
 
 	public function author ()
 	{
-		return $this->belongsTo('App\User');
+		return $this->belongsTo('App\Doctor');
 	}
 
 
-	public function user ()
+	public function doctor ()
 	{
-		return $this->belongsTo('App\User');
+		return $this->belongsTo('App\Doctor');
 	}
 }

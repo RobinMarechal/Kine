@@ -8,7 +8,7 @@ function isAdmin ()
 {
 	$user = Auth::user();
 
-	return $user != null && ($user->is_doctor || $user->level > 0);
+	return isset($user) && $user->is_doctor === 1;
 }
 
 function getGoogleConfigs ()
@@ -23,8 +23,9 @@ function getGoogleApiKey ()
 
 function getTimeString ($time, $withSeconds = false)
 {
-	if(!isset($time))
+	if (!isset($time)) {
 		return null;
+	}
 
 	$time = Carbon::parse($time);
 
@@ -200,7 +201,7 @@ function getRelatedModelClassName (\App\Http\Controllers\Controller $controller)
 	return 'App\\' . singular($reducedName);
 }
 
-function isAdminZone()
+function isAdminZone ()
 {
 	return strpos(Route::current()->uri, 'admin') !== false;
 }

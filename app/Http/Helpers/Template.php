@@ -10,20 +10,20 @@ namespace Helpers;
 
 
 use App\Contact;
+use App\Doctor;
 use App\Event;
 use App\News;
 use App\User;
 use Illuminate\Support\Facades\Auth;
+use PhpParser\Comment\Doc;
 
 Class Template
 {
 	public static function getDoctors ()
 	{
-		return User::doctors()
-//				   ->with(['contacts'/* => function ($query) {
-//					   $query->orderBy('type');
-//				   }*/])
-				   ->get(['id', 'name']);
+		$d = Doctor::all(['id', 'name']);
+
+		return $d;
 	}
 
 
@@ -63,8 +63,8 @@ Class Template
 
 	public static function getContacts ()
 	{
-		return Contact::whereNotNull('user_id')
-					  ->orderBy('user_id')
+		return Contact::whereNotNull('doctor_id')
+					  ->orderBy('doctor_id')
 					  ->orderBy('type')
 					  ->get();
 	}
@@ -72,7 +72,7 @@ Class Template
 
 	public static function getOtherContacts ()
 	{
-		return Contact::whereNull('user_id')
+		return Contact::whereNull('doctor_id')
 					  ->orderBy('type')
 					  ->get();
 	}

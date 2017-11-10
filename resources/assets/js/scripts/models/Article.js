@@ -8,7 +8,7 @@ import Model from "../libs/Model";
 export default class Article extends Model {
 
     constructor(obj = null) {
-        super(obj, ['id', 'created_at', 'updated_at', 'deleted_at', 'user_id', 'title', 'content', 'picture',' views']);
+        super(obj, ['id', 'created_at', 'updated_at', 'deleted_at', 'doctor_id', 'title', 'content', 'picture',' views']);
     }
 
     get id() {
@@ -43,12 +43,12 @@ export default class Article extends Model {
         this._updated_at = value;
     }
 
-    get user_id() {
-        return this._user_id;
+    get doctor_id() {
+        return this._doctor_id;
     }
 
-    set user_id(value) {
-        this._user_id = value;
+    set doctor_id(value) {
+        this._doctor_id = value;
     }
 
     get title() {

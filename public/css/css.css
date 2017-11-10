@@ -148,7 +148,6 @@ section p.date {
     border: 1px solid rgb(80, 80, 80);
 }
 
-
 /*
 .editable::after{
  	/* content:"\270f"; */
@@ -307,7 +306,7 @@ a.see-all span.glyphicon-arrow-left {
 
 .absolute-right {
     position: absolute;
-    right: 0;
+    right: -15px;
     top: 2px;
 }
 
@@ -511,8 +510,8 @@ footer .fa {
     cursor: pointer;
 }
 
-.footer-doctor-name:hover{
-    text-decoration:underline;
+.footer-doctor-name:hover {
+    text-decoration: underline;
 }
 
 footer p > a {
@@ -620,8 +619,6 @@ footer p > a {
 /*box-shadow: 0 0 5px rgb(150, 150, 150);*/
 /*z-index: 50;*/
 /*}*/
-
-
 
 .top-left-symbol {
     left: 25px;
@@ -836,21 +833,21 @@ button.add-contact {
     cursor: text;
 }
 
-#table-contacts{
+#table-contacts {
     table-layout: fixed;
 }
 
-#table-contacts td{
+#table-contacts td {
     overflow: hidden;
 }
 
-.notification-block.link:hover{
-    cursor:pointer;
-    background: rgb(252,252,252);
+.notification-block.link:hover {
+    cursor: pointer;
+    background: rgb(252, 252, 252);
 }
 
-.course-block{
-    padding:10px;
+.course-block {
+    padding: 10px;
 }
 
 @media (max-width: 900px) {
@@ -866,31 +863,35 @@ button.add-contact {
     }
 }
 
-.nav-active > a{
+.nav-active > a {
     color: #bb7e7b !important;
 }
 
-aside img{
+aside img {
     margin: 10px 0;
-    width:100%;
+    width: 100%;
 }
 
-aside h1{
-    font-size: 24px;:
+aside h1 {
+    font-size: 22px;:
 }
 
-.no-padding{
-    padding:0;
+.no-padding {
+    padding: 0 !important;
 }
 
-.network-logo{
-    width:40px;
-    margin-right:5px;
-    border-radius:5px;
+.aside-inner-img{
+    padding: 10px 15px !important;
+}
+
+.network-logo {
+    width: 30px;
+    margin-right: 5px;
+    border-radius: 5px;
     -webkit-filter: grayscale(1);
 }
 
-.network-logo:hover{
+.network-logo:hover {
     -webkit-filter: grayscale(0.1);
     /*box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);*/
 }

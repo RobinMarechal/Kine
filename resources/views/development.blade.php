@@ -80,7 +80,8 @@ $appearance->add(new Feature('Menus', true));
 $appearance->add(new Feature('Contenu principal', true));
 $appearance->add(new Feature('Rubriques latérales', true));
 $appearance->add(new Feature('Pied de page', true));
-$appearance->add(new Feature('Logo'));
+$appearance->add(new Feature('Logo', true));
+$appearance->add(new Feature('Bannière'));
 
 $featureSections[] = $appearance;
 
@@ -109,11 +110,11 @@ $nosCompetences->add(new Feature("Plusieurs rubriques", true));
 
 $featureSections[] = $nosCompetences;
 
-$galerie = new FeatureSection("Médias");
-$galerie->add(new Feature("Galerie générale"));
-$galerie->add(new Feature("Galerie par post"));
-
-$featureSections[] = $galerie;
+//$galerie = new FeatureSection("Médias");
+//$galerie->add(new Feature("Galerie générale"));
+//$galerie->add(new Feature("Galerie par post"));
+//
+//$featureSections[] = $galerie;
 
 $articles = new FeatureSection("Articles");
 $articles->add(new Feature("Créer un article", true));
@@ -121,7 +122,7 @@ $articles->add(new Feature("Prévisualiser avant de publier", true));
 $articles->add(new Feature("Publier un article", true));
 $articles->add(new Feature("Modifier un article", true));
 $articles->add(new Feature("Supprimer un article", true));
-$articles->add(new Feature("Gérer les médias"));
+//$articles->add(new Feature("Gérer les médias"));
 $articles->add(new Feature("Gérer les tags", true));
 
 $featureSections[] = $articles;
@@ -133,24 +134,24 @@ $news->add(new Feature("Supprimer un news", true));
 
 $featureSections[] = $news;
 
-$events = new FeatureSection("Événements");
-$events->add(new Feature("Créer un événement"));
-$events->add(new Feature("Modifier un événement"));
-$events->add(new Feature("Supprimer un événement"));
-$events->add(new Feature("Avertir sur le site"));
-
-$featureSections[] = $events;
-
-$cours = new FeatureSection("Cours");
-$cours->add(new Feature("Créer un cours"));
-$cours->add(new Feature("Modifier un cours"));
-$cours->add(new Feature("Supprimer un cours"));
-$cours->add(new Feature("Ajouter un docteur à un cours"));
-$cours->add(new Feature("Supprimer un docteur d'un cours"));
-$cours->add(new Feature("Ajouter un participant à un cours"));
-$cours->add(new Feature("Supprimer un participant d'un cours"));
-
-$featureSections[] = $cours;
+//$events = new FeatureSection("Événements");
+//$events->add(new Feature("Créer un événement"));
+//$events->add(new Feature("Modifier un événement"));
+//$events->add(new Feature("Supprimer un événement"));
+//$events->add(new Feature("Avertir sur le site"));
+//
+//$featureSections[] = $events;
+//
+//$cours = new FeatureSection("Cours");
+//$cours->add(new Feature("Créer un cours"));
+//$cours->add(new Feature("Modifier un cours"));
+//$cours->add(new Feature("Supprimer un cours"));
+//$cours->add(new Feature("Ajouter un docteur à un cours"));
+//$cours->add(new Feature("Supprimer un docteur d'un cours"));
+//$cours->add(new Feature("Ajouter un participant à un cours"));
+//$cours->add(new Feature("Supprimer un participant d'un cours"));
+//
+//$featureSections[] = $cours;
 
 $contacts = new FeatureSection("Contacts");
 $contacts->add(new Feature("Ajouter un contact (tel/mail/réseau social)", true));

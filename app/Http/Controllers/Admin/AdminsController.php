@@ -3,10 +3,12 @@ namespace App\Http\Controllers\Admin;
 
 
 use App\Contact;
+use App\Doctor;
 use App\Http\Controllers\Controller;
 use App\User;
 use function array_merge;
 use function compact;
+use PhpParser\Comment\Doc;
 
 class AdminsController extends Controller
 {
@@ -15,13 +17,12 @@ class AdminsController extends Controller
 	{
 		$users = User::with('courses', 'tags')
 					 ->orderByName()
-					 ->whereLevel(0)
+					 ->whereIsDoctor(0)
 					 ->get();
 
-		$doctors = User::with('supervisedCourses', 'articles', 'news')
-					   ->orderByName()
-					   ->whereBetween('level', [1, 10])
-					   ->get();
+		$doctors = Doctor::with('courses', 'articles', 'news', 'user')
+						 ->orderByName()
+						 ->get();
 
 		return view('admin.users', compact('users', 'doctors'));
 	}
@@ -29,12 +30,11 @@ class AdminsController extends Controller
 
 	public function contacts ()
 	{
-		$doctors = User::orderByName()
-					   ->doctors()
-					   ->with('contacts')
-					   ->get();
+		$doctors = Doctor::orderByName()
+						 ->with('contacts')
+						 ->get();
 		$contacts = Contact::orderBy('type')
-						   ->whereNull('user_id')
+						   ->whereNull('doctor_id')
 						   ->get();
 
 		return view('admin.contacts', compact('doctors', 'contacts'));
@@ -43,14 +43,14 @@ class AdminsController extends Controller
 
 	public function showUser ($id)
 	{
-		$user = User::with('contacts',
-						'supervisedCourses.tags',
-						'supervisedCourses.users',
-						'articles.tags',
-						'news')
-					->findOrFail($id);
+		$doctor = Doctor::with('contacts',
+			'courses.tags',
+			'courses.users',
+			'articles.tags',
+			'news')
+						->findOrFail($id);
 
-		return view('admin.user', compact('user'));
+		return view('admin.user', compact('doctor'));
 	}
 
 

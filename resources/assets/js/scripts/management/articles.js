@@ -61,9 +61,9 @@ function openArticleDialog(article) {
                         content: Editor.getActiveEditorContent(),
                     }
 
-                    Api.get('/user', false)
+                    Api.get('/user?with=doctor', false)
                         .done((user) => {
-                            data.user_id = user.id;
+                            data.doctor_id = user.id;
 
                             if (data.title === "" || data.content === "") {
                                 Flash.error("Tous les champs sont requis.");
@@ -103,6 +103,9 @@ function openArticleDialog(article) {
 export function articles() {
     $('#btn-remove-article').click(function () {
         const articleId = $(this).data('id');
+
+        if(articleId <= 0)
+            return;
 
         let dialog = new RemovingConfirmDialog();
         dialog.message = "Voulez-vous vraiment supprimer cet article ?";
@@ -149,6 +152,7 @@ export function articles() {
 // {
 //     const tagName = $(this).html();
 //
+//     tags.remove(tagName);
 //     tags.remove(tagName);
 //
 //     $('#add-tag-input').val(tagName);
@@ -358,6 +362,7 @@ function prepareTagsField() {
 
 function submitForm(event) {
     prepareTagsField();
+    console.log("run");
     $('#article-creation-form').submit();
 }
 

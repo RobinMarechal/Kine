@@ -8,7 +8,7 @@ import Model from "../libs/Model";
 export default class User extends Model {
 
     constructor(obj = null) {
-        super(obj, ['id', 'deleted_at', 'created_at', 'updated_at', 'email', 'name', 'facebook_id', 'level', 'phone', 'starts_at', 'ends_at', 'is_doctor']);
+        super(obj, ['id', 'deleted_at', 'created_at', 'updated_at', 'email', 'name', 'facebook_id', 'doctor_id', 'connections']);
     }
 
     static getClass() {
@@ -75,50 +75,17 @@ export default class User extends Model {
         this._facebook_id = value;
     }
 
-    get level() {
-        return this._level;
+    get doctor_id() {
+        return this._doctor_id;
     }
 
-    set level(value) {
-        this._level = value;
+    set doctor_id(value) {
+        this._doctor_id = value;
     }
 
-    get phone() {
-        return this._phone;
-    }
-
-    set phone(value) {
-        this._phone = value;
-    }
-
-    get starts_at() {
-        return this._starts_at;
-    }
-
-    set starts_at(value) {
-        this._starts_at = value;
-    }
-
-    get ends_at() {
-        return this._ends_at;
-    }
-
-    set ends_at(value) {
-        this._ends_at = value;
-    }
-
-    get is_doctor() {
-        return this._is_doctor;
-    }
-
-    set is_doctor(value) {
-        if (value === true) {
-            this._is_doctor = 1;
-        } else if (value === false) {
-            this._is_doctor = 0;
-        } else {
-            this._is_doctor = value;
-        }
+    isDoctor()
+    {
+        return this._doctor_id != null;
     }
 
 
@@ -151,17 +118,15 @@ export default class User extends Model {
     }
 
     update(params = "") {
-        console.log(this);
         return new Promise((resolve, reject) => {
             Api.sendData('users/' + this.id + "?" + params, 'PUT', this.toJson())
                 .done((response) => {
-                    console.log(response);
                     const news = new User(response);
-                    Flash.success("L'utilisateur a bien été modifié !");
+                    // Flash.success("L'utilisateur a bien été modifié !");
                     resolve(news);
                 })
                 .fail((error) => {
-                    Flash.error('Impossible de modifier l\'utilisateur. Si le problème persiste, contactez l\'administrateur.');
+                    // Flash.error('Impossible de modifier l\'utilisateur. Si le problème persiste, contactez l\'administrateur.');
                     reject(error);
                 });
         });
@@ -171,11 +136,11 @@ export default class User extends Model {
         return new Promise((resolve, reject) => {
             Api.sendData('users/' + id, 'DELETE')
                 .done((response) => {
-                    Flash.success('L\'User a bien été supprimé.');
+                    // Flash.success('L\'User a bien été supprimé.');
                     resolve(response);
                 })
                 .fail((error) => {
-                    Flash.error('Une erreur est survenue, l\'User n\'a pas été supprimé.');
+                    // Flash.error('Une erreur est survenue, l\'User n\'a pas été supprimé.');
                     reject(error);
                 });
         });

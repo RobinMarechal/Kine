@@ -3,6 +3,7 @@ import Tag from "../models/Tag";
 import Api from "../libs/Api";
 import Flash from "../libs/Flash";
 import Helper from "../helpers/Helper";
+import Doctor from "../models/Doctor";
 
 function updateUserTagListInTable(response) {
     const userId = response.user_id;
@@ -167,14 +168,14 @@ function buildCoursesTable(user) {
     thead.append('<td>Tags</td>');
     thead.append('<td align="center">Utilisateurs inscrits</td>');
 
-    if (user.supervised_courses.length == 0) {
+    if (user.courses.length == 0) {
         tbody.append('<td>-</td>');
         tbody.append('<td>-</td>');
         tbody.append('<td align="center">-</td>');
     }
     else {
-        for (let i = 0; i < user.supervised_courses.length; i++) {
-            const course = user.supervised_courses[i];
+        for (let i = 0; i < user.courses.length; i++) {
+            const course = user.courses[i];
             const tr = $('<tr></tr>');
 
             const tdTitle = `<td><a href="/cours/${course.id}">${course.name}</a>`;
@@ -300,7 +301,7 @@ function buildDoctorUserHtml(user) {
         // div.append(tableArticles);
 
         const thead = $('<thead></thead>');
-        thead.append('<td>')
+        thead.append('<td>');
 
 
         resolve(div);
@@ -308,7 +309,7 @@ function buildDoctorUserHtml(user) {
 }
 
 function buildHtml(user) {
-    return user.level == 0 ? buildStandardUserHtml(user) : buildDoctorUserHtml(user);
+    return user instanceof Doctor || user.is_doctor == 1 || user.user_id != null ? buildDoctorUserHtml(user) : buildStandardUserHtml(user);
 }
 
 function editUser(target) {
@@ -319,107 +320,140 @@ function editUser(target) {
     let size;
     if (tr.hasClass('doctor')) {
         // params = 'with=articles.tags,news,supervisedCourses.users,supervisedCourses.tags';
-        params = 'with=contacts'
+        params = 'with=contacts';
         size = 'small';
+
+        Doctor.get(userId, params).then((doctor) => {
+            buildHtml(doctor)
+                .then((html) => {
+                    bootbox.dialog({
+                        title: doctor.name,
+                        message: html,
+                        size: size,
+                        buttons: {
+                            cancel: {
+                                label: "Annuler",
+                                className: "btn-default",
+                            },
+                            submit: {
+                                label: "Valider",
+                                className: "btn-primary",
+                                callback: function () {
+                                    return submit();
+                                }
+                            }
+                        }
+                    });
+                })
+                .catch((error) => {
+                    throw error;
+                });
+        });
     }
     else {
         params = 'with=tags';
         size = 'small';
-    }
 
-    User.get(userId, params).then((user) => {
-
-        buildHtml(user)
-            .then((html) => {
-                bootbox.dialog({
-                    title: user.name,
-                    message: html,
-                    size: size,
-                    buttons: {
-                        cancel: {
-                            label: "Annuler",
-                            className: "btn-default",
-                        },
-                        submit: {
-                            label: "Valider",
-                            className: "btn-primary",
-                            callback: function () {
-                                return submit();
+        User.get(userId, params).then((user) => {
+            buildHtml(user)
+                .then((html) => {
+                    bootbox.dialog({
+                        title: user.name,
+                        message: html,
+                        size: size,
+                        buttons: {
+                            cancel: {
+                                label: "Annuler",
+                                className: "btn-default",
+                            },
+                            submit: {
+                                label: "Valider",
+                                className: "btn-primary",
+                                callback: function () {
+                                    return submit();
+                                }
                             }
                         }
-                    }
+                    });
+                })
+                .catch((error) => {
+                    throw error;
                 });
-            })
-            .catch((error) => {
-                throw error;
-            });
-
-
-    });
-
+        });
+    }
 }
 
 function downgradeDoctor(target) {
     const tr = $(target).parents('tr');
     const userId = tr.data('id');
 
-    User.get(userId).then((user) => {
-        user.level = 0;
-        user.is_doctor = false;
-        user.update('with=courses,tags').then((user) => {
+    Doctor.remove(userId).then(() => {
 
-            const usersTable = $('#users-list');
-            const tbody = usersTable.children('tbody');
+        User.get(userId).then((user) => {
 
-            const newTr = $('<tr></tr>');
-            newTr.addClass('user');
-            newTr.attr('data-id', user.id);
+            user.is_doctor = 0;
+            user.update('with=courses,tags').then((user) => {
+                const usersTable = $('#users-list');
+                const tbody = usersTable.children('tbody');
 
-            const name = $('<td>' + user.name + '</td>');
+                const newTr = $('<tr></tr>');
+                newTr.addClass('user');
+                newTr.attr('data-id', user.id);
 
-            const courses = '<td align="center" class="user-courses user-info"> ' + user.courses.length + ' </td>';
+                const name = $('<td>' + user.name + '</td>');
 
-            const tags = $('<td></td>');
-            tags.addClass('user-tags');
-            tags.addClass('user-info');
+                const courses = '<td align="center" class="user-courses user-info"> ' + user.courses.length + ' </td>';
 
-            let i;
-            for (i = 0; i < user.tags.length; i++) {
-                const tag = user.tags[i];
-                const html = $(`<span>${tag.name}</span>`);
-                html.addClass('tag');
-                tags.append(html);
-            }
+                const tags = $('<td></td>');
+                tags.addClass('user-tags');
+                tags.addClass('user-info');
 
-            if (i == 0) {
-                tags.append('-');
-            }
+                let i;
+                for (i = 0; i < user.tags.length; i++) {
+                    const tag = user.tags[i];
+                    const html = $(`<span>${tag.name}</span>`);
+                    html.addClass('tag');
+                    tags.append(html);
+                }
 
-            const upgrade = $('<i title="Ajouter cet utilisateur à la liste des docteurs" class="fa fa-plus-circle upgrade-user" aria-hidden="true"></i>');
-            const edit = $('<i title="Voir la fiche de cet utilisateur" class="glyphicon glyphicon-pencil edit-user"></i>');
+                if (i == 0) {
+                    tags.append('-');
+                }
 
-            upgrade.click(function (el) {
-                upgradeUser(upgrade);
-            });
+                const upgrade = $('<i title="Ajouter cet utilisateur à la liste des docteurs" class="fa fa-plus-circle upgrade-user" aria-hidden="true"></i>');
+                const edit = $('<i title="Voir la fiche de cet utilisateur" class="glyphicon glyphicon-pencil edit-user"></i>');
 
-            edit.click(function (el) {
-                editUser(edit);
-            });
+                upgrade.click(function (el) {
+                    upgradeUser(upgrade);
+                });
 
-            const controls = $('<td></td>');
-            controls.attr('align', 'center');
-            controls.addClass('controls');
-            controls.append(upgrade);
-            controls.append(edit);
+                edit.click(function (el) {
+                    editUser(edit);
+                });
 
-            newTr.append(name);
-            newTr.append(courses);
-            newTr.append(tags);
-            newTr.append(controls);
+                const controls = $('<td></td>');
+                controls.attr('align', 'center');
+                controls.addClass('controls');
+                controls.append(upgrade);
+                controls.append(edit);
 
-            tbody.append(newTr);
-            tr.remove();
+                newTr.append(name);
+                newTr.append(courses);
+                newTr.append(tags);
+                newTr.append(controls);
+
+                tbody.append(newTr);
+                tr.remove();
+            })
+                .catch(() => {
+                    throw 3;
+                });
+        }).catch((error) => {
+            throw error == 3 ? error : 2;
         });
+    }).catch((error) => {
+        console.log(error);
+        Flash.error("Une erreur est survenue, l'utilisateur n'a pas été rétrogradé.");
     });
 }
 
@@ -428,50 +462,64 @@ function upgradeUser(target) {
 
     const userId = tr.data('id');
 
+    // ICI
     User.get(userId).then((user) => {
-        user.level = 1;
-        user.is_doctor = true;
-        user.update('with=supervisedCourses,news,articles').then((user) => {
+        user.is_doctor = 1;
+        user.update(/*'with=courses,news,articles'*/).then((user) => {
+            let doc = {
+                id: user.id,
+                name: user.name
+            };
 
-            const usersTable = $('#doctors-list');
-            const tbody = usersTable.children('tbody');
 
-            const newTr = $('<tr></tr>');
-            newTr.addClass('user');
-            newTr.addClass('doctor');
-            newTr.attr('data-id', user.id);
+            Doctor.create(doc, 'with=courses,news,articles')
+                .then((doctor) => {
 
-            const name = $(`<td><a title="Voir la fiche détaillée de cet utilisateur" href="/admin/utilisateurs/${user.id}">${user.name}</a></td>`)
+                    const usersTable = $('#doctors-list');
+                    const tbody = usersTable.children('tbody');
 
-            const courses = '<td align="center" class="supervised-courses user-info"> ' + user.supervised_courses.length + ' </td>';
-            const news = '<td align="center" class="published-news user-info"> ' + user.news.length + ' </td>';
-            const articles = '<td align="center" class="published-articles user-info"> ' + user.articles.length + ' </td>';
+                    const newTr = $('<tr></tr>');
+                    newTr.addClass('user');
+                    newTr.addClass('doctor');
+                    newTr.attr('data-id', doctor.id);
 
-            const downgrade = $('<i title="Supprimer cet utilisateur de la liste des docteurs" class="fa fa-times-circle downgrade-doctor" aria-hidden="true"></i>');
-            const edit = $('<i title="Voir la fiche de cet utilisateur" class="glyphicon glyphicon-pencil edit-user"></i>');
+                    const name = $(`<td><a title="Voir la fiche détaillée de cet utilisateur" href="/admin/utilisateurs/${doctor.id}">${doctor.name}</a></td>`);
 
-            downgrade.click(function () {
-                downgradeDoctor(downgrade);
-            });
+                    const courses = '<td align="center" class="supervised-courses user-info"> ' + doctor.courses.length + ' </td>';
+                    const news = '<td align="center" class="published-news user-info"> ' + doctor.news.length + ' </td>';
+                    const articles = '<td align="center" class="published-articles user-info"> ' + doctor.articles.length + ' </td>';
 
-            edit.click(function () {
-                editUser(edit);
-            });
+                    const downgrade = $('<i title="Supprimer cet utilisateur de la liste des docteurs" class="fa fa-times-circle downgrade-doctor" aria-hidden="true"></i>');
+                    const edit = $('<i title="Voir la fiche de cet utilisateur" class="glyphicon glyphicon-pencil edit-user"></i>');
 
-            const controls = $('<td></td>');
-            controls.attr('align', 'center');
-            controls.addClass('controls');
-            controls.append(downgrade);
-            controls.append(edit);
+                    downgrade.click(function () {
+                        downgradeDoctor(downgrade);
+                    });
 
-            newTr.append(name);
-            newTr.append(courses);
-            newTr.append(news);
-            newTr.append(articles);
-            newTr.append(controls);
+                    edit.click(function () {
+                        editUser(edit);
+                    });
 
-            tbody.append(newTr);
-            tr.remove();
+                    const controls = $('<td></td>');
+                    controls.attr('align', 'center');
+                    controls.addClass('controls');
+                    controls.append(downgrade);
+                    controls.append(edit);
+
+                    newTr.append(name);
+                    newTr.append(courses);
+                    newTr.append(news);
+                    newTr.append(articles);
+                    newTr.append(controls);
+
+                    tbody.append(newTr);
+                    tr.remove();
+                })
+                .catch((error) => {
+                    user.is_doctor = 0;
+                    user.update();
+                    Flash.error("L'utilisateur n'a pas pu être promu.");
+                });
         });
     });
 }

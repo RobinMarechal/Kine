@@ -14,7 +14,7 @@ class CreateContentsTable extends Migration {
 			$table->string('name', 255)->unique();
 			$table->string('title', 255)->nullable();
 			$table->text('content')->nullable();
-			$table->integer('user_id')->unsigned()->nullable();
+			$table->integer('doctor_id')->unsigned()->nullable();
 		});
 	}
 

@@ -18,7 +18,7 @@ class CreateMediasTable extends Migration {
 			$table->integer('mediaable_id')->nullable();
 			$table->text('description')->nullable();
 			$table->string('title', 255);
-			$table->integer('user_id')->unsigned()->nullable();
+			$table->integer('doctor_id')->unsigned()->nullable();
 			$table->integer('views')->default('0');
 		});
 	}

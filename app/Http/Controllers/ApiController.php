@@ -18,6 +18,15 @@ class ApiController extends Controller
 		return Auth::user();
 	}
 
+	public function doctor()
+	{
+		$u = Auth::user();
+		$d = $u->doctor;
+		$d->user = $u;
+
+		return $d;
+	}
+
 
 	public function dispatch ($resource, $id = null, $relation = null, $relatedId = null)
 	{

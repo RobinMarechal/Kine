@@ -1,6 +1,9 @@
 <?php
 
+use App\Article;
+use App\Console\Commands\ClearDB;
 use Illuminate\Foundation\Inspiring;
+use Illuminate\Support\Facades\Artisan;
 
 /*
 |--------------------------------------------------------------------------
@@ -14,5 +17,10 @@ use Illuminate\Foundation\Inspiring;
 */
 
 Artisan::command('inspire', function () {
-    $this->comment(Inspiring::quote());
-})->describe('Display an inspiring quote');
+	$this->comment(Inspiring::quote());
+})
+	   ->describe('Display an inspiring quote');
+
+Artisan::command('migrate:cleardb', function () {
+	(new ClearDB())->handle();
+});

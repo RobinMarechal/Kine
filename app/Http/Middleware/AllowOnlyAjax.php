@@ -3,12 +3,9 @@
 namespace App\Http\Middleware;
 
 use Closure;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Redirect;
-use Laracasts\Flash\Flash;
-use function redirect;
 
-class RedirectIfNotAdmin
+class AllowOnlyAjax
 {
     /**
      * Handle an incoming request.
@@ -19,11 +16,8 @@ class RedirectIfNotAdmin
      */
     public function handle($request, Closure $next)
     {
-		if(!isAdmin())
-        {
-            Flash::error('Cette section est réservée aux administrateurs.');
-            return Redirect::back();
-        }
+    	if(!$request->ajax())
+    		return Redirect::back();
 
         return $next($request);
     }

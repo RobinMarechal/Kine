@@ -15,7 +15,7 @@ class Article extends Model
 	use SoftDeletes;
 
 	protected $dates = ['deleted_at'];
-	protected $fillable = ['user_id', 'title', 'content', 'picture', 'views', 'created_at', 'updated_at', 'views'];
+	protected $fillable = ['doctor_id', 'title', 'content', 'picture', 'views', 'created_at', 'updated_at', 'views'];
 	public $temporalField = 'created_at';
 
 
@@ -27,13 +27,13 @@ class Article extends Model
 
 	public function author ()
 	{
-		return $this->belongsTo('App\User');
+		return $this->belongsTo('App\Doctor');
 	}
 
 
-	public function user ()
+	public function doctor ()
 	{
-		return $this->belongsTo('App\User');
+		return $this->belongsTo('App\Doctor');
 	}
 
 

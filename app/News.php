@@ -16,19 +16,19 @@ class News extends Model
 	use SoftDeletes;
 
 	protected $dates = ['deleted_at', 'published_at'];
-	protected $fillable = ['created_at', 'updated_at', 'user_id', 'title', 'content', 'published_at', 'views'];
+	protected $fillable = ['created_at', 'updated_at', 'doctor_id', 'title', 'content', 'published_at', 'views'];
 	public $temporalField = 'published_at';
 
 
 	public function author ()
 	{
-		return $this->belongsTo('App\User');
+		return $this->belongsTo('App\Doctor');
 	}
 
 
-	public function user ()
+	public function doctor ()
 	{
-		return $this->belongsTo('App\User');
+		return $this->belongsTo('App\Doctor');
 	}
 
 

@@ -6,7 +6,7 @@ import Model from "../libs/Model";
 export default class Skill extends Model{
 
     constructor(obj = null) {
-        super(obj, ['id', 'content', 'created_at', 'updated_at', 'title', 'index']);
+        super(obj, ['id', 'content', 'created_at', 'updated_at', 'title', 'index', 'doctor_id']);
     }
 
     get index() {
@@ -61,16 +61,24 @@ export default class Skill extends Model{
         this._title = value;
     }
 
-    toJson() {
-        return {
-            id: this.id,
-            content: this.content,
-            created_at: this.createdAt,
-            updated_at: this.updatedAt,
-            title: this.title,
-            index: this.index,
-        };
+    get doctor_id() {
+        return this._doctor_id;
     }
+
+    set doctor_id(value) {
+        this._doctor_id = value;
+    }
+
+    // toJson() {
+    //     return {
+    //         id: this.id,
+    //         content: this.content,
+    //         created_at: this.createdAt,
+    //         updated_at: this.updatedAt,
+    //         title: this.title,
+    //         index: this.index,
+    //     };
+    // }
 
     static get(id) {
         return new Promise((resolve, reject) => {

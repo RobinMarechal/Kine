@@ -10,7 +10,7 @@ class CreateCourseDoctorTable extends Migration {
 		Schema::create('course_doctor', function(Blueprint $table) {
 			$table->increments('id');
 			$table->integer('course_id')->unsigned();
-			$table->integer('user_id')->unsigned();
+			$table->integer('doctor_id')->unsigned();
 		});
 	}
 

@@ -16,13 +16,15 @@ class CreateUsersTable extends Migration {
 			$table->string('name', 255);
 			$table->string('facebook_id', 255)->nullable();
 			$table->string('password', 255)->nullable();
-			$table->integer('level')->default('0');
-			$table->string('phone')->nullable();
-			$table->time('starts_at')->nullable();
-			$table->time('ends_at')->nullable();
-			$table->boolean('is_doctor')->default(0);
+//			$table->integer('level')->default('0');
+//			$table->string('phone')->nullable();
+//			$table->time('starts_at')->nullable();
+//			$table->time('ends_at')->nullable();
+//			$table->boolean('is_doctor')->default(0);
 			$table->string('remember_token', 255)->nullable();
 			$table->integer('connections')->default(1)->unsigned();
+//			$table->integer('doctor_id')->unsigned()->nullable();
+			$table->boolean('is_doctor')->unsigned()->nullable(false)->default(false);
 		});
 	}
 

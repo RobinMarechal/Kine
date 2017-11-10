@@ -59,7 +59,7 @@ function createContact() {
         name: name,
         value: value,
         description: description,
-        user_id: userId,
+        doctor_id: userId,
     };
 
     return Contact.create(data)

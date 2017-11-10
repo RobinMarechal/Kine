@@ -14,7 +14,7 @@ class CreateEventsTable extends Migration {
 			$table->string('name', 255);
 			$table->text('description')->nullable();
 			$table->integer('article_id')->unsigned()->nullable();
-			$table->integer('user_id')->unsigned()->nullable();
+			$table->integer('doctor_id')->unsigned()->nullable();
 			$table->softDeletes();
 			$table->integer('views')->default('0');
 			$table->timestamp('startsAt')->nullable();

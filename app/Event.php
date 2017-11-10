@@ -12,7 +12,7 @@ class Event extends Model
 	protected $table = 'events';
 	public $urlNamespace = 'evenements';
 	public $timestamps = true;
-	protected $fillable = ['created_at', 'updated_at', 'name', 'description', 'article_id', 'user_id', 'views', 'startsAt', 'endsAt'];
+	protected $fillable = ['created_at', 'updated_at', 'name', 'description', 'article_id', 'doctor_id', 'views', 'startsAt', 'endsAt'];
 	protected $dates = ['deleted_at', 'date'];
 	public $temporalField = 'date';
 
@@ -25,13 +25,13 @@ class Event extends Model
 
 	public function creator ()
 	{
-		return $this->belongsTo('App\User');
+		return $this->belongsTo('App\Doctor');
 	}
 
 
-	public function user ()
+	public function doctor ()
 	{
-		return $this->belongsTo('App\User');
+		return $this->belongsTo('App\Doctor');
 	}
 
 

@@ -1,36 +1,55 @@
 @extends('layouts.admin')
 
 @section('title')
-	{{ $user->name }}
+	{{ $doctor->name }}
 @endsection
 
 
 @section('content')
-	<h1> {{ $user->name }} </h1>
+	<h1> {{ $doctor->name }} </h1>
 	<hr>
 
 	<h4>Informations principales :</h4>
 
 	<table data-table="users" class="table table-hover table-striped">
 		<tbody>
-			<tr data-id="{{ $user->id }}" data-namespace="users">
-				<td width="150">Adresse email</td>
-				<td data-pattern="email" data-field="email" class="user-edition-field-container" data-toggle="input" data-max-length="80"> {{ $user->email }} </td>
-			</tr>
-			<tr data-id="{{ $user->id }}" data-namespace="users">
+			{{--<tr data-id="{{ $doctor->id }}" data-namespace="users">--}}
+			{{--<td width="150">Adresse email</td>--}}
+			{{--<td data-pattern="email" data-field="email" class="user-edition-field-container" data-toggle="input" data-max-length="80"> {{ $doctor->email }} </td>--}}
+			{{--</tr>--}}
+			<tr data-id="{{ $doctor->id }}" data-namespace="doctors">
 				<td width="150">Téléphone</td>
-				<td data-pattern="phone" data-field="phone" class="user-edition-field-container" data-toggle="input" data-max-length="12"> {{ $user->phone }} </td>
+				<td data-pattern="phone" data-field="phone" class="user-edition-field-container" data-toggle="input" data-max-length="12"> {{ $doctor->phone }} </td>
 			</tr>
-			<tr data-id="{{ $user->id }}" data-namespace="users">
+			<tr data-id="{{ $doctor->id }}" data-namespace="doctors">
 				<td width="150">Embauche à</td>
 				<td data-field="starts_at" data-pattern="time" class="user-edition-field-container" data-toggle="input" data-input-type="time" data-max-length="12">
-					{{ !isset($user->starts_at) ? '' : DateTime::createFromFormat("H:i:s", $user->starts_at)->format("H:i") }}
+					{{ !isset($doctor->starts_at) ? '' : DateTime::createFromFormat("H:i:s", $doctor->starts_at)->format("H:i") }}
 				</td>
 			</tr>
-			<tr data-id="{{ $user->id }}" data-namespace="users">
+			<tr data-id="{{ $doctor->id }}" data-namespace="doctors">
 				<td width="150">Débauche à</td>
 				<td data-field="ends_at" data-pattern="time" class="user-edition-field-container" data-toggle="input" data-input-type="time" data-max-length="12">
-					{{ !isset($user->ends_at) ? '' :  DateTime::createFromFormat("H:i:s", $user->ends_at)->format("H:i") }}
+					{{ !isset($doctor->ends_at) ? '' :  DateTime::createFromFormat("H:i:s", $doctor->ends_at)->format("H:i") }}
+				</td>
+			</tr>
+			<tr data-id="{{ $doctor->id }}" data-namespace="doctors">
+				<td width="150">Résumé</td>
+				<td data-field="resume" data-pattern="varchar" class="user-edition-field-container" data-toggle="input" data-max-length="255">
+					{{ $doctor->resume }}
+				</td>
+			</tr>
+			<tr data-id="{{ $doctor->id }}" data-namespace="doctors">
+				<td width="150">Description</td>
+				<td data-pattern="text">
+						<textarea data-toggle="focus-sensitive-editor"
+								  data-namespace="doctors"
+								  data-id="{{ $doctor->id }}"
+								  class="form-control"
+								  name="description"
+								  id="description">
+							{{ $doctor->description }}
+						</textarea>
 				</td>
 			</tr>
 		</tbody>
@@ -39,7 +58,7 @@
 	<hr>
 	<h4>Contacts : </h4>
 
-	<table id="table-contacts" data-table="contacts" class="table table-hover table-striped" data-user-id="{{ $user->id }}">
+	<table id="table-contacts" data-table="contacts" class="table table-hover table-striped" data-user-id="{{ $doctor->id }}">
 		<thead>
 			<td class="col-md-3">Nom :</td>
 			<td class="col-md-4">Valeur :</td>
@@ -47,7 +66,7 @@
 			<td class="col-md-1"></td>
 		</thead>
 		<tbody>
-			@forelse($user->contacts as $c)
+			@forelse($doctor->contacts as $c)
 				<tr data-id="{{ $c->id }}" data-namespace="contacts">
 					<td class="user-edition-field-container" data-field="name" data-toggle="input" data-max-length="255">{{ $c->name }}</td>
 					<td data-pattern="link|address|phone|email" class="user-edition-field-container" data-field="value" data-toggle="input" data-max-length="255">{{ $c->value

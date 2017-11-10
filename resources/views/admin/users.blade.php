@@ -27,7 +27,7 @@
 					{{--{{ $d->name }}--}}
 				</td>
 				<td align="center" class="supervised-courses user-info">
-					{{ $d->supervisedCourses->count() }}
+					{{ $d->courses->count() }}
 				</td>
 				<td align="center" class="published-news user-info">
 					{{ $d->news->count() }}

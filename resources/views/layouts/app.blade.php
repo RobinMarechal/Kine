@@ -109,7 +109,7 @@ $events = new Collection();
 
 	<aside class="col-md-3">
 		<section class="content">
-			<div class="inner">
+			<div class="inner aside-inner-img">
 				<img src="{{ url('img/logo.jpg') }}" alt="">
 			</div>
 		</section>

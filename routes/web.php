@@ -15,7 +15,8 @@ Route::get('/', 'MainController@index')
 	 ->name('home');
 
 
-Route::get('user', 'ApiController@user');
+Route::get('user', 'ApiController@user')->name('api.user')->middleware('doctor');
+Route::get('doctor', 'ApiController@doctor')->name('api.doctor')->middleware('doctor');
 
 Route::get('test', 'MainController@test');
 

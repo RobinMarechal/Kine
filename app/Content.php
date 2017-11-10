@@ -9,19 +9,19 @@ class Content extends Model
 
 	protected $table = 'contents';
 	public $timestamps = true;
-	protected $fillable = ['name', 'title', 'content', 'updated_at', 'user_id'];
+	protected $fillable = ['name', 'title', 'content', 'updated_at', 'doctor_id'];
 	public $temporalField = 'created_at';
 
 
 	public function author ()
 	{
-		return $this->belongsTo('App\User');
+		return $this->belongsTo('App\Doctor');
 	}
 
 
-	public function user ()
+	public function doctor ()
 	{
-		return $this->belongsTo('App\User');
+		return $this->belongsTo('App\Doctor');
 	}
 
 

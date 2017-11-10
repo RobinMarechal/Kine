@@ -20,6 +20,8 @@ export function editContents() {
             name = $(this).data('name');
 
 
+
+
         const inputId = "bb_content-" + id + "-title";
         const textareaId = "bb_content-" + id + "-content";
 

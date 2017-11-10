@@ -21,7 +21,7 @@ class CreateSkillsTable extends Migration
 			$table->timestamp('deleted_at')->nullable();
 			$table->string('title')->nullable(false);
 			$table->text('content')->nullable(false);
-			$table->integer('user_id')->nullable()->unsigned();
+			$table->integer('doctor_id')->nullable()->unsigned();
 			$table->integer('index')->default(0);
 		});
     }

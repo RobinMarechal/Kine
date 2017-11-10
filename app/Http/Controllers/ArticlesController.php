@@ -31,7 +31,7 @@ class ArticlesController extends Controller
 		// Select all the articles that the connected user can access
 
 		if (isAdmin()) {
-			$articles = Article::with('tags', 'user', 'medias')
+			$articles = Article::with('tags', 'doctor', 'medias')
 							   ->fromNewerToOlder()
 							   ->paginate(5);
 		}
@@ -40,7 +40,7 @@ class ArticlesController extends Controller
 			$tags = Auth::check() ? Auth::user()->tags : [];
 
 			$articles = Article::leftJoin('article_tag', 'articles.id', '=', 'article_tag.article_id')
-							   ->with('tags', 'user', 'medias')
+							   ->with('tags', 'doctor', 'medias')
 							   ->whereNull('tag_id')
 							   ->orWhereIn('tag_id', $tags)
 							   ->fromNewerToOlder()
@@ -55,7 +55,7 @@ class ArticlesController extends Controller
 	{
 		$articles = Article::join('article_tag', 'article_id', '=', 'articles.id')
 						   ->join('tags', 'tag_id', '=', 'tags.id')
-						   ->with('user', 'tags', 'medias')
+						   ->with('doctor', 'tags', 'medias')
 						   ->where('tags.name', $tagName)
 						   ->fromNewerToOlder()
 						   ->paginate(10, ['articles.*']);
@@ -91,7 +91,8 @@ class ArticlesController extends Controller
 		$article = new stdClass();
 		$article->title = $this->request->title;
 		$article->content = $this->request->get('content');
-		$article->user = Auth::user();
+		$article->doctor = Auth::user()->doctor;
+		$article->doctor->user = Auth::user();
 		$article->views = 0;
 		$article->created_at = Carbon::now();
 		$article->tags = [];
@@ -114,10 +115,10 @@ class ArticlesController extends Controller
 	 */
 	public function store ()
 	{
+
 		$validation = $this->validator($this->request->all());
 
 		$data = $this->request->only('title', 'content');
-
 
 		if ($validation->fails()) {
 			Flash::error("Le formulaire n'a pas été rempli correctement, l'article n'a pas été publié.");
@@ -126,10 +127,9 @@ class ArticlesController extends Controller
 						   ->withErrors($validation->errors());
 		}
 
-		$data['user_id'] = Auth::user()->id;
+		$data['doctor_id'] = Auth::user()->doctor->id;
 
 		$article = Article::create($data);
-
 
 		if ($article == null) {
 			Flash::error("Une erreur est survenue, l'article n'as pas été publié.");
@@ -137,6 +137,7 @@ class ArticlesController extends Controller
 			return Redirect::back()
 						   ->withInput($data);
 		}
+
 
 		$formTags = $this->request->tags == "" ? [] : explode(";", $this->request->tags);
 		$tagNameId = [];
@@ -183,7 +184,7 @@ class ArticlesController extends Controller
 	 */
 	public function show ($id)
 	{
-		$article = Article::with('tags', 'user', 'medias')
+		$article = Article::with('tags', 'doctor', 'medias')
 						  ->findOrFail($id);
 
 		if (!isAdmin()) {

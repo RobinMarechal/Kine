@@ -15,19 +15,19 @@ class Media extends Model
     use SoftDeletes;
 
     protected $dates = ['deleted_at'];
-    protected $fillable = ['created_at', 'updated_at', 'type', 'path', 'post_type', 'post_id', 'description', 'title', 'user_id', 'views'];
+    protected $fillable = ['created_at', 'updated_at', 'type', 'path', 'post_type', 'post_id', 'description', 'title', 'doctor_id', 'views'];
 	public $temporalField = 'created_at';
 
 
-    public function user ()
+    public function doctor ()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Doctor');
     }
 
 
     public function author ()
     {
-        return $this->belongsTo('App\User');
+        return $this->belongsTo('App\Doctor');
     }
 
 

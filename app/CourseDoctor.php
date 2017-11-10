@@ -9,6 +9,6 @@ class CourseDoctor extends Model
 
     protected $table = 'course_doctor';
     public $timestamps = false;
-    protected $fillable = array('course_id', 'user_id');
+    protected $fillable = array('course_id', 'doctor_id');
 
 }

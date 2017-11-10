@@ -9,6 +9,7 @@
 
 
 @section('content')
+
 	<div class="editable content-editable">
 		@if(isAdmin())
 			<div id="news-visibility-info" class="top-left-info" @if(!$news->published_at->gt(new Carbon\Carbon())) hidden @endif >
@@ -41,7 +42,7 @@
 		</div>
 
 
-		<p class="written-by" align="right">Publiée par {{$news->user->name}}, le <span id="news-published_at" class="news-published_at">{{$news->published_at->format('d/m/Y')
+		<p class="written-by" align="right">Publiée par {{$news->doctor->name}}, le <span id="news-published_at" class="news-published_at">{{$news->published_at->format('d/m/Y')
 	}}</span></p>
 			<p class="written-by nb-of-views" align="right">Vue {{number_format($news->views, 0, '.', ' ')}} fois</p>
 

@@ -8,7 +8,7 @@ import Model from "../libs/Model";
 export default class News extends Model{
 
     constructor(obj = null) {
-        super(obj, ['id', 'deleted_at', 'created_at', 'updated_at', 'user_id', 'title', 'content', 'published_at', 'views']);
+        super(obj, ['id', 'deleted_at', 'created_at', 'updated_at', 'doctor_id', 'title', 'content', 'published_at', 'views']);
     }
 
     get id() {
@@ -43,12 +43,12 @@ export default class News extends Model{
         this._updated_at = value;
     }
 
-    get user_id() {
-        return this._user_id;
+    get doctor_id() {
+        return this._doctor_id;
     }
 
-    set user_id(value) {
-        this._user_id = value;
+    set doctor_id(value) {
+        this._doctor_id = value;
     }
 
     get title() {
@@ -83,19 +83,19 @@ export default class News extends Model{
         this._views = value;
     }
 
-    toJson() {
-        return {
-            id: this.id,
-            deleted_at: this.deleted_at,
-            created_at: this.created_at,
-            updated_at: this.updated_at,
-            user_id: this.user_id,
-            title: this.title,
-            content: this.content,
-            published_at: this.published_at,
-            views: this.views,
-        }
-    }
+    // toJson() {
+    //     return {
+    //         id: this.id,
+    //         deleted_at: this.deleted_at,
+    //         created_at: this.created_at,
+    //         updated_at: this.updated_at,
+    //         doctor_id: this.doctor_id,
+    //         title: this.title,
+    //         content: this.content,
+    //         published_at: this.published_at,
+    //         views: this.views,
+    //     }
+    // }
 
 
     static get(id) {

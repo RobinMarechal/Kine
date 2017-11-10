@@ -21,7 +21,7 @@ export default class Editor {
 
         for (let prop in params) {
             if (params.hasOwnProperty(prop)) {
-                defaultParams.setProperty(prop, params.getPropertyValue(prop));
+                defaultParams[prop] =  params[prop];
             }
         }
 
@@ -37,30 +37,38 @@ export default class Editor {
     }
 
     static getActiveEditorContent() {
-        return tinymce.activeEditor.getContent();
+        return Editor.getActiveEditor().getContent();
     }
 
-    static createUnique(selector) {
-        Editor.remove(selector);
-        Editor.create(selector);
-    }
-
-    static prepare(el)
+    static getActiveEditor()
     {
+        return tinymce.activeEditor;
+    }
+
+    static createUnique(selector, params = null) {
+        Editor.remove(selector);
+        Editor.create(selector, params);
+    }
+
+    static prepare(el, params = null)
+    {
+        if(el == null || el.length == 0)
+            return;
+
         if(Array.isArray(el))
         {
-            Editor.prepareArray(el);
+            Editor.prepareArray(el, params);
         }
 
         const id = el.attr('id');
-        Editor.create('#' + id);
+        Editor.create('#' + id, params);
     }
 
-    static prepareArray(array)
+    static prepareArray(array, params = null)
     {
         for(let i = 0; i < array.length; i++)
         {
-            Editor.prepare($(array[i]));
+            Editor.prepare($(array[i]), params);
         }
     }
 }

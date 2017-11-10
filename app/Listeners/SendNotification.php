@@ -36,15 +36,14 @@ class SendNotification
 
 		if (count($tagIds) == 0) {
 			if ($article->wasRecentlyCreated) {
-				$users = User::ofLevel(0)
+				$users = User::whereIsDoctor(0)
 							 ->get(['id']);
 				$content = 'Un nouvel article publique vient d\'être publié : « ' . $article->title . ' ».';
 			}
 			else {
 				$users = User::distinct()
 							 ->leftJoin('notifications', 'user_id', '=', 'users.id')
-							 ->ofLevel(0)
-							 ->where('is_doctor', false)
+							 ->whereIsDoctor(1)
 							 ->whereNotIn('users.id', function ($query) use ($article) {
 								 $query->select('user_id')
 									   ->from('notifications')
@@ -60,8 +59,7 @@ class SendNotification
 				$users = User::distinct()
 							 ->join('tag_user', 'users.id', '=', 'tag_user.user_id')
 							 ->whereIn('tag_id', $tagIds)
-							 ->whereLevel(0)
-							 ->whereIsDoctor(false)
+							 ->whereIsDoctor(0)
 							 ->get(['users.id']);
 
 
@@ -72,8 +70,7 @@ class SendNotification
 							 ->join('tag_user', 'users.id', '=', 'tag_user.user_id')
 							 ->leftJoin('notifications', 'users.id', '=', 'notifications.user_id')
 							 ->whereIn('tag_id', $tagIds)
-							 ->whereLevel(0)
-							 ->whereIsDoctor(false)
+							 ->whereIsDoctor(1)
 							 ->whereNotIn('users.id', function ($query) use ($article) {
 								 $query->select('user_id')
 									   ->from('notifications')
@@ -84,7 +81,6 @@ class SendNotification
 				$content = 'Vous avez maintenant accès à un nouvel article : « ' . $article->title . ' ».';
 			}
 		}
-
 
 
 		$notifications = [];

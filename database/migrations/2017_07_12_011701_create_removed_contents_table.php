@@ -13,7 +13,7 @@ class CreateRemovedContentsTable extends Migration {
 			$table->timestamp('updated_at');
 			$table->string('name', 255);
 			$table->text('content')->nullable();
-			$table->integer('user_id')->unsigned()->nullable();
+			$table->integer('doctor_id')->unsigned()->nullable();
 			$table->timestamp('removed_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 		});
 	}

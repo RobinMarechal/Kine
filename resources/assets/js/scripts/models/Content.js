@@ -9,7 +9,7 @@ import Model from "../libs/Model";
 export default class Content extends Model{
 
     constructor(obj = null) {
-        super(obj, ['id', 'content', 'created_at', 'updated_at', 'title', 'name']);
+        super(obj, ['id', 'content', 'created_at', 'updated_at', 'title', 'name', 'doctor_id']);
     }
 
     static get apiUrl() {
@@ -64,16 +64,24 @@ export default class Content extends Model{
         this._title = value;
     }
 
-    toJson() {
-        return {
-            id: this.id,
-            content: this.content,
-            created_at: this.createdAt,
-            updated_at: this.updatedAt,
-            title: this.title,
-            name: this.name
-        };
+    get doctor_id() {
+        return this._doctor_id;
     }
+
+    set doctor_id(value) {
+        this._doctor_id = value;
+    }
+
+    // toJson() {
+    //     return {
+    //         id: this.id,
+    //         content: this.content,
+    //         created_at: this.createdAt,
+    //         updated_at: this.updatedAt,
+    //         title: this.title,
+    //         name: this.name
+    //     };
+    // }
 
     static get(id) {
         return new Promise((resolve, reject) => {

@@ -169,7 +169,6 @@ class Controller extends BaseController
 		}
 
 		$cat->delete();
-
 		$res = $cat;
 
 		if ($this->request->userWantsAll()) {
@@ -186,8 +185,19 @@ class Controller extends BaseController
 
 		$res = $cat;
 
+//		dd($res);
+
 		if ($this->request->userWantsAll()) {
 			$res = $this->all();
+		}
+		else if($this->request->has("with"))
+		{
+			$with = $this->request->get('with');
+			$with = explode(',', $with);
+
+			foreach ($with as $w) {
+				$res->load($w);
+			}
 		}
 
 		return new ResponseData($res, Response::HTTP_CREATED);
