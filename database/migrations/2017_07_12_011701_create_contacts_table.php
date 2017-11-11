@@ -9,12 +9,12 @@ class CreateContactsTable extends Migration {
 	{
 		Schema::create('contacts', function(Blueprint $table) {
 			$table->increments('id');
-			$table->softDeletes();
+//			$table->softDeletes();
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->enum('type', array('PHONE', 'EMAIL', 'ADDRESS', 'LINK'));
 			$table->string('value', 255);
-			$table->string('description', 255)->nullable();
+			$table->string('display', 255)->nullable();
 			$table->integer('doctor_id')->unsigned()->nullable();
 			$table->string('name', 60)->nullable();
 		});

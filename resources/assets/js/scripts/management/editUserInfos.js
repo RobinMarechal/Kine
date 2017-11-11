@@ -2,7 +2,6 @@ import Api from "../libs/Api";
 import RegexpPattern from "../helpers/RegexpPattern";
 
 export function inputFocusout(input) {
-
     const td = $(input).parents('td');
     const tr = td.parents('tr');
 
@@ -13,12 +12,10 @@ export function inputFocusout(input) {
     let data = {};
     data[field] = input.val();
 
-    console.log(data);
-
     const id = tr.data('id');
     const namespace = tr.data('namespace');
 
-    if (regexp.test(data[field]) == false) {
+    if (regexp.test(data[field]) == false && data[field] != "") {
         return false;
     }
 

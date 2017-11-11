@@ -461,6 +461,18 @@ noscript {
     border-radius: 2px;
 }
 
+@media (max-width: 450px)
+{
+    .fb-login-button {
+        font-size: 16px !important;
+    }
+
+    .fb-login-button-container {
+        margin: 0 auto;
+        width: 100%;
+    }
+}
+
 /*
 Footer
  */
@@ -609,6 +621,7 @@ footer p > a {
 
 .tooltip-inner {
     max-width: 450px !important;
+    text-align:center;
 }
 
 /*.content-header {*/
@@ -894,4 +907,26 @@ aside h1 {
 .network-logo:hover {
     -webkit-filter: grayscale(0.1);
     /*box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);*/
+}
+
+.show-doctor-dialog .fa{
+    margin-right: 10px;
+}
+
+.show-doctor-dialog{text-align:center;}
+
+.show-doctor-dialog h4{
+    margin-bottom:20px;
+}
+
+.text-indent>p{
+    text-indent:20px;
+}
+
+.text-align-left>p{
+    text-align:left;
+}
+
+.text-justify>p{
+    text-align:justify;
 }

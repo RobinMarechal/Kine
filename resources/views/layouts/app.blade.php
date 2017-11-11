@@ -30,7 +30,7 @@ $events = new Collection();
 
 	<link rel="stylesheet" type="text/css" href="{{url('css/css.css')}}"/>
 
-	<title>Kine | @section('title') Accueil @show </title>
+	<title>La Santé en Mouvement | @section('title') Accueil @show </title>
 </head>
 <body>
 

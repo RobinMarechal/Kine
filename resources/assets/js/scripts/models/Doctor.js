@@ -68,10 +68,15 @@ export default class Doctor extends Model {
         return this._description;
     }
 
+    // get user(){
+    //     return this._user;
+    // }
+
     static get(id, params = "") {
         return new Promise((resolve, reject) => {
             Api.get('doctors/' + id + "?" + params)
                 .done((response) => {
+                    // console.log(response);
                     if (response === null || response.id === null) {
                         resolve(null);
                     } else {
@@ -88,7 +93,7 @@ export default class Doctor extends Model {
         return new Promise((resolve, reject) => {
             Api.sendData('doctors?' + params, 'POST', data)
                 .done((response) => {
-                    console.log(response);
+                    // console.log(response);
                     resolve(new Doctor(response));
                 })
                 .fail((error) => {
@@ -98,7 +103,7 @@ export default class Doctor extends Model {
     }
 
     update(params = "") {
-        console.log(this);
+        // console.log(this);
         return new Promise((resolve, reject) => {
             Api.sendData('doctors/' + this.id + "?" + params, 'PUT', this.toJson())
                 .done((response) => {
@@ -122,7 +127,7 @@ export default class Doctor extends Model {
                     resolve(response);
                 })
                 .fail((error) => {
-                    Flash.error('Une erreur est survenue, l\'User n\'a pas été supprimé.');
+                    Flash.error('Une erreur est survenue, l\'utilisateur n\'a pas été supprimé.');
                     reject(error);
                 });
         });

@@ -15,10 +15,10 @@ class Contact extends Model
 	protected $table = 'contacts';
 	public $timestamps = true;
 
-	use SoftDeletes;
+//	use SoftDeletes;
 
 	protected $dates = ['deleted_at'];
-	protected $fillable = ['created_at', 'updated_at', 'type', 'value', 'description', 'doctor_id', 'name'];
+	protected $fillable = ['created_at', 'updated_at', 'type', 'value', 'display', 'doctor_id', 'name'];
 	public $temporalField = 'created_at';
 
 
@@ -61,7 +61,7 @@ class Contact extends Model
 	public function getFormattedValue ()
 	{
 		$type = $this->type;
-		$value = $this->value;
+		$value = $this->display ?: $this->value;
 
 		if ($type == "PHONE") {
 			$value = str_replace(" ", "", $value);
@@ -69,14 +69,19 @@ class Contact extends Model
 
 			$res = "";
 
-			if (isset($value[9])) {
-				for ($i = 0; $i < 10; $i += 2) {
-					$res .= ' ' . $value[ $i ] . $value[ $i + 1 ];
+			if(!isset($this->display)) {
+				if (isset($value[9])) {
+					for ($i = 0; $i < 10; $i += 2) {
+						$res .= ' ' . $value[ $i ] . $value[ $i + 1 ];
+					}
+					$res = substr($res, 1);
 				}
-				$res = substr($res, 1);
+				else {
+					return "ERROR";
+				}
 			}
 			else{
-				return "ERROR";
+				$res = $this->display;
 			}
 
 
@@ -84,26 +89,33 @@ class Contact extends Model
 			return $tag;
 		}
 		else if ($type == "EMAIL") {
-			$name = $this->value == null ? $this->name : $this->value;
+			$display = $this->display ?: $this->value;
 
-			$tag = "<a href='mailto:$this->value' data-toggle='tooltip' data-placement='top' title='$this->name'> $name </a>";
+			$tag = "<a href='mailto:$this->value' data-toggle='tooltip' data-placement='top' title='$this->name'> $display </a>";
 			return $tag;
 		}
 		else if ($type == "ADDRESS") {
 			$link = "https://www.google.fr/maps?q=" . $this->value;
-			$name = $this->name == null ? $this->value : $this->name;
+			$display = $this->display ?: $this->value;
 
-			$tag = "<a target='_blank' href='$link' data-toggle='tooltip' data-placement='top' title='$this->name'> $name </a>";
+			$tag = "<a target='_blank' href='$link' data-toggle='tooltip' data-placement='top' title='$this->name'> $display </a>";
 			return $tag;
 		}
 		else if ($type == "LINK") {
 			$name = $this->name;
-			if ($name == null) {
-				$name = $this->value;
-				$name = str_replace("http://", "", $name);
-				$name = str_replace("https://", "", $name);
+			if(!isset($this->display)) {
+				if ($name == null) {
+					$name = $this->value;
+					$name = str_replace("http://", "", $name);
+					$name = str_replace("https://", "", $name);
+					$display = $name;
+				}
 			}
-			$tag = "<a target='_blank' href='$this->value' data-toggle='tooltip' data-placement='top' title='$this->name'> $name </a>";
+			else{
+				$display = $this->display;
+			}
+
+			$tag = "<a target='_blank' href='$this->value' data-toggle='tooltip' data-placement='top' title='$this->name'> $display </a>";
 
 			return $tag;
 		}

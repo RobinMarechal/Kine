@@ -127,7 +127,7 @@ class ArticlesController extends Controller
 						   ->withErrors($validation->errors());
 		}
 
-		$data['doctor_id'] = Auth::user()->doctor->id;
+		$data['doctor_id'] = Auth::user()->id;
 
 		$article = Article::create($data);
 

@@ -67,7 +67,7 @@ $(document).ready(function () {
                         editor.startContent = newContent;
                         Flash.success("L'information a bien été modifiée !");
                     })
-                    .catch((e) => {
+                    .catch(() => {
                         editor.setContent(startContent);
                         Flash.error("Une erreur est survenue, l'information n'a pas été modifiée... 2");
                     });
@@ -92,6 +92,11 @@ Array.prototype.remove = function () {
             this.splice(ax, 1);
         }
     }
+    return this;
+};
+
+Array.prototype.insertAt = function (index, el) {
+    this.splice(index, 0, el);
     return this;
 };
 

@@ -21,6 +21,7 @@ class AdminsController extends Controller
 					 ->get();
 
 		$doctors = Doctor::with('courses', 'articles', 'news', 'user')
+						 ->where('id', '>', 1)
 						 ->orderByName()
 						 ->get();
 
@@ -31,6 +32,7 @@ class AdminsController extends Controller
 	public function contacts ()
 	{
 		$doctors = Doctor::orderByName()
+						 ->where('id', '>', 1)
 						 ->with('contacts')
 						 ->get();
 		$contacts = Contact::orderBy('type')

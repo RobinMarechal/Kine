@@ -15,7 +15,7 @@ export default class RegexpPattern {
 
     static getStringRegexpFromPattern(pattern) {
         if (pattern == null) {
-            return '(.)';
+            return '.*';
         }
 
         console.log(pattern);

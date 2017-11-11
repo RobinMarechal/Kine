@@ -4,14 +4,33 @@
 
 import Contact from "../models/Contact";
 import Flash from "../libs/Flash";
+import {toggleInputClicked} from "./toggleInputControls";
 
 function addContact(contact) {
+    console.log(contact);
+    console.log(contact.name);
+    console.log(contact.value);
+    console.log(contact.display);
     const tbody = $('#table-contacts tbody');
     const tr = $(`<tr data-id="${contact.id}" data-namespace="contacts">`);
 
-    tr.append(`<td class="user-edition-field-container" data-field="name" data-toggle="input" data-max-length="255">${contact.name}</td>`);
-    tr.append(`<td data-pattern="link|address|phone|email" class="user-edition-field-container" data-field="value" data-toggle="input" data-max-length="255">${contact.value}</td>`);
-    tr.append(`<td class="user-edition-field-container" data-field="description" data-toggle="input" data-max-length="255">${contact.description}</td>`);
+    let tdName = $(`<td class="user-edition-field-container" data-field="name" data-toggle="input" data-max-length="255">${contact.name}</td>`);
+    let tdValue = $(`<td data-pattern="link|address|phone|email" class="user-edition-field-container" data-field="value" data-toggle="input" data-max-length="255">${contact.value}</td>`);
+    let tdDisplay = $(`<td class="user-edition-field-container" data-field="display" data-toggle="input" data-max-length="255">${contact.display}</td>`);
+
+    tr.append(tdName);
+    tr.append(tdValue);
+    tr.append(tdDisplay);
+
+    tdName.click(function() {
+        toggleInputClicked($(this));
+    });
+    tdValue.click(function() {
+        toggleInputClicked($(this));
+    });
+    tdDisplay.click(function() {
+        toggleInputClicked($(this));
+    });
 
     const td = $('<td class="controls" align="center"></td>');
     const fa = $('<i title="Supprimer cette ligne" class="fa fa-times-circle delete-contact" aria-hidden="true"></i>');
@@ -58,7 +77,7 @@ function createContact() {
     const data = {
         name: name,
         value: value,
-        description: description,
+        display: description,
         doctor_id: userId,
     };
 

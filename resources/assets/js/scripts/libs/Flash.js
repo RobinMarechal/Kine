@@ -14,15 +14,15 @@ export default class Flash {
         });
     }
 
-    static ok() {
-        var html = '<div id="alert" class="js-alert-success alert-sucess"><span class="glyphicon glyphicon-ok flash"></span></div>';
-        $('.js-alert-success').remove();
-        $('body').append(html);
-        $('#alert.js-alert-success').animate({'opacity': '+0.8'}, 350);
-        $('#alert.js-alert-success').delay(500).animate({'opacity': '-1.2'}, 550, function () {
-            $(this).remove();
-        });
-    }
+    // static ok() {
+    //     var html = '<div id="alert" class="js-alert-success alert-sucess"><span class="glyphicon glyphicon-ok flash"></span></div>';
+    //     $('.js-alert-success').remove();
+    //     $('body').append(html);
+    //     $('#alert.js-alert-success').animate({'opacity': '+0.8'}, 350);
+    //     $('#alert.js-alert-success').delay(500).animate({'opacity': '-1.2'}, 550, function () {
+    //         $(this).remove();
+    //     });
+    // }
 
     static error(message, delay = null) {
         Flash.display(message, "danger", delay);

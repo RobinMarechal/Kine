@@ -63,7 +63,7 @@ class CreateForeignKeys extends Migration
 			$table->foreign('doctor_id')
 				  ->references('id')
 				  ->on('doctors')
-				  ->onDelete('set null')
+				  ->onDelete('cascade')
 				  ->onUpdate('cascade');
 		});
 		Schema::table('events', function (Blueprint $table) {

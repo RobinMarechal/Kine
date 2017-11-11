@@ -21,7 +21,8 @@ Class Template
 {
 	public static function getDoctors ()
 	{
-		$d = Doctor::all(['id', 'name']);
+		$d = Doctor::where('id', '>', 1)
+				   ->get(['id', 'name']);
 
 		return $d;
 	}
@@ -49,7 +50,8 @@ Class Template
 	{
 		$nbOfNotifications = null;
 		if (Auth::check()) {
-			$user = new User(Auth::user()->toArray());
+			$user = new User(Auth::user()
+								 ->toArray());
 			$user->id = Auth::user()->id;
 			$nbOfNotifications = $user->getNbOfUnseenNotifications();
 			if ($nbOfNotifications == 0) {

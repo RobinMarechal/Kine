@@ -13,7 +13,7 @@ export default class Model {
             for (let prop in obj) {
                 if (obj.hasOwnProperty(prop)) {
                     let thisProp = fields.indexOf(prop) == -1 ? prop : '_' + prop;
-                    this[prop] = obj[prop];
+                    this[thisProp] = obj[prop];
                 }
             }
         }
@@ -36,10 +36,11 @@ export default class Model {
         let json = {};
         for (let prop in this) {
             if (this.hasOwnProperty(prop) && this[prop] != null) {
-                if (prop.indexOf('_') == 0)
+                if (prop.indexOf('_') == 0) {
                     json[prop.substr(1)] = this[prop];
-                else
+                } else {
                     json[prop] = this[prop];
+                }
             }
         }
 

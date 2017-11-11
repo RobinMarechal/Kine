@@ -14,7 +14,7 @@
 		<thead>
 			<td class="col-md-3">Nom :</td>
 			<td class="col-md-3">Valeur :</td>
-			<td class="col-md-3">Description :</td>
+			<td class="col-md-3">Texte :</td>
 			<td class="col-md-1"></td>
 		</thead>
 		<tbody>
@@ -23,7 +23,7 @@
 					<td class="user-edition-field-container" data-field="name" data-toggle="input" data-max-length="255">{{ $c->name }}</td>
 					<td data-pattern="link|address|phone|email" class="user-edition-field-container" data-field="value" data-toggle="input" data-max-length="255">{{ $c->value
 					}}</td>
-					<td class="user-edition-field-container" data-field="description" data-toggle="input" data-max-length="255">{{ $c->description }}</td>
+					<td class="user-edition-field-container" data-field="display" data-toggle="input" data-max-length="255">{{ $c->display }}</td>
 					<td class="controls" align="center">
 						<i title="Supprimer cette ligne" class="fa fa-times-circle delete-contact" aria-hidden="true"></i>
 					</td>
