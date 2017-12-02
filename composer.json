@@ -6,19 +6,14 @@
     "type": "project",
     "require": {
         "php": ">=5.6.4",
-        "barryvdh/laravel-debugbar": "^2.4",
-        "facebook/graph-sdk": "^5.6",
         "laracasts/flash": "^3.0",
         "laravel/framework": "5.4.*",
         "laravel/socialite": "^3.0",
-        "laravel/tinker": "~1.0",
         "nesbot/carbon": "^1.22",
+        "laravel/tinker": "~1.0",
         "sammyk/laravel-facebook-sdk": "^3.0"
     },
     "require-dev": {
-        "fzaninotto/faker": "~1.4",
-        "mockery/mockery": "0.9.*",
-        "phpunit/phpunit": "~5.7"
     },
     "autoload": {
         "classmap": [
@@ -28,17 +23,17 @@
             "App\\": "app/"
         },
         "files":[
-            "App\\Http\\Helpers\\helpers.php",
-            "App\\Http\\Helpers\\Template.php",
-            "App\\Http\\Helpers\\JsVar.php",
-            "App\\Http\\Helpers\\JsVar.php",
-            "App\\Http\\Helpers\\FacebookHelper.php",
-            "app/Http/Helpers/ResponseData.php"
+            "app\\Http\\Helpers\\helpers.php",
+            "app\\Http\\Helpers\\Template.php",
+            "app\\Http\\Helpers\\JsVar.php",
+            "app\\Http\\Helpers\\JsVar.php",
+            "app\\Http\\Helpers\\FacebookHelper.php",
+            "app\\Http\\Helpers\\ResponseData.php"
         ]
     },
     "autoload-dev": {
         "psr-4": {
-            "Tests\\": "tests/"
+            "Tests\\": "tests\\"
         }
     },
     "scripts": {

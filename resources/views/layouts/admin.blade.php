@@ -110,18 +110,6 @@ $events = new Collection();
 			</div>
 		</section>
 
-		<section class="content">
-			<div class="inner">
-				<section class="networks">
-					<h1>Suivez-nous !</h1>
-					<a href="#"><img class="network-logo" src="/img/fb-logo.png" alt=""></a>
-					<a href="#"><img class="network-logo" src="/img/gplus-logo.png" alt=""></a>
-					<a href="#"><img class="network-logo" src="/img/twitter-logo.png" alt=""></a>
-					<a href="#"><img class="network-logo" src="/img/yt-logo.png" alt=""></a>
-				</section>
-			</div>
-		</section>
-
 		{{--@if(!$isCurrentPageHomePage)--}}
 		<section class="content">
 			<div class="inner">

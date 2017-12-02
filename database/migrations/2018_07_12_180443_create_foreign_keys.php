@@ -14,14 +14,14 @@ class CreateForeignKeys extends Migration
 			$table->foreign('doctor_id')
 				  ->references('id')
 				  ->on('doctors')
-				  ->onDelete('set null')
+				  ->onDelete('restrict')
 				  ->onUpdate('cascade');
 		});
 		Schema::table('articles', function (Blueprint $table) {
 			$table->foreign('doctor_id')
 				  ->references('id')
 				  ->on('doctors')
-				  ->onDelete('set null')
+				  ->onDelete('restrict')
 				  ->onUpdate('cascade');
 		});
 		Schema::table('article_tag', function (Blueprint $table) {
@@ -56,7 +56,7 @@ class CreateForeignKeys extends Migration
 			$table->foreign('doctor_id')
 				  ->references('id')
 				  ->on('doctors')
-				  ->onDelete('set null')
+				  ->onDelete('restrict')
 				  ->onUpdate('cascade');
 		});
 		Schema::table('contacts', function (Blueprint $table) {
@@ -70,35 +70,35 @@ class CreateForeignKeys extends Migration
 			$table->foreign('article_id')
 				  ->references('id')
 				  ->on('articles')
-				  ->onDelete('set null')
+				  ->onDelete('restrict')
 				  ->onUpdate('cascade');
 		});
 		Schema::table('events', function (Blueprint $table) {
 			$table->foreign('doctor_id')
 				  ->references('id')
 				  ->on('doctors')
-				  ->onDelete('set null')
+				  ->onDelete('restrict')
 				  ->onUpdate('cascade');
 		});
 		Schema::table('medias', function (Blueprint $table) {
 			$table->foreign('doctor_id')
 				  ->references('id')
 				  ->on('doctors')
-				  ->onDelete('set null')
+				  ->onDelete('restrict')
 				  ->onUpdate('cascade');
 		});
 		Schema::table('news', function (Blueprint $table) {
 			$table->foreign('doctor_id')
 				  ->references('id')
 				  ->on('doctors')
-				  ->onDelete('set null')
+				  ->onDelete('restrict')
 				  ->onUpdate('cascade');
 		});
 		Schema::table('courses', function (Blueprint $table) {
 			$table->foreign('article_id')
 				  ->references('id')
 				  ->on('articles')
-				  ->onDelete('set null')
+				  ->onDelete('restrict')
 				  ->onUpdate('cascade');
 		});
 		Schema::table('course_doctor', function (Blueprint $table) {
@@ -154,7 +154,7 @@ class CreateForeignKeys extends Migration
 			$table->foreign('doctor_id')
 				  ->references('id')
 				  ->on('doctors')
-				  ->onDelete('set null')
+				  ->onDelete('restrict')
 				  ->onUpdate('cascade');
 		});
 		Schema::table('logins', function (Blueprint $table) {
@@ -175,7 +175,7 @@ class CreateForeignKeys extends Migration
 			$table->foreign('id')
 				  ->references('id')
 				  ->on('users')
-				  ->onDelete('cascade')
+				  ->onDelete('restrict')
 				  ->onUpdate('cascade');
 		});
 	}

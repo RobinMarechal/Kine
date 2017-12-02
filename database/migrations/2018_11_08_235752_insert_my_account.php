@@ -15,6 +15,17 @@ class InsertMyAccount extends Migration
      */
     public function up()
     {
+    	$adm = User::create([
+    		'email' => 'lsem@dmin',
+			'name' => 'Admin',
+			'is_doctor' => 1
+		]);
+
+    	Doctor::create([
+			'id' => $adm->id,
+			'name' => $adm->name
+		]);
+
         $u = User::create([
         	'email' => 'robin-marechal@hotmail.fr',
 			'name' => 'Robin Marechal',

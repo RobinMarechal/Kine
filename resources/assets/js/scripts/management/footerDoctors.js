@@ -6,7 +6,6 @@ import JQueryHelper from "../helpers/JQueryHelper";
 import JQueryObject from "../libs/JQueryObject";
 
 function buildHtml(doctor) {
-    console.log(doctor);
     if (doctor == null) {
         Flash.error("Une erreur est survenue, veuillez recharger la page. Si le problème persiste, contactez un administrateur.");
         return '<p align="center">-</p>';
@@ -18,16 +17,21 @@ function buildHtml(doctor) {
 
     let principalCoo = $('<div></div>');
     principalCoo.addClass('principal-coordinates');
-    principalCoo.addClass('col-md-6');
     principalCoo.append('<h4>Coordonnées principales :</h4>');
-
     let otherCoo = $('<div></div>');
+
     otherCoo.addClass('other-coordinates');
-    otherCoo.addClass('col-md-6');
     otherCoo.append('<h4>Autres coordonnées :</h4>');
-
-
     // starts_at and ends_at.
+
+    if (doctor.contacts.length > 0) {
+        principalCoo.addClass('col-md-6');
+        otherCoo.addClass('col-md-6');
+    }
+    else {
+        principalCoo.addClass('col-md-12');
+    }
+
     if (doctor.starts_at != null && doctor.ends_at != null) {
         let pHoraires = new JQueryObject('p');
         pHoraires.icon = 'clock-o';

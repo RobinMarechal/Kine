@@ -19,6 +19,10 @@ import RegexpPattern from "./scripts/helpers/RegexpPattern";
 import footerDoctors from "./scripts/management/footerDoctors";
 import Api from "./scripts/libs/Api";
 import Flash from "./scripts/libs/Flash";
+import FormGenerator from "./scripts/helpers/FormGenerator";
+import News from "./scripts/models/News";
+import manageAbouts from "./scripts/management/manageAbouts";
+import manageDataCreation from "./scripts/management/manageDataCreation";
 
 // var url = window.location.pathname;
 
@@ -107,6 +111,16 @@ navActive();
 editContents();
 createNews();
 footerDoctors();
+manageDataCreation();
+
+// News.get(1).then((news) => {
+//     let fg = FormGenerator.create('news', news);
+//     fg.onValidate = function(formGenerator){
+//         const updated = formGenerator.buildObject();
+//         (new News(updated)).update();
+//     };
+//     fg.displayInDialog();
+// });
 
 Router.addRoute('articles\\/(rediger)|(\\d+\\/modifier)\\/?', [
     () => createArticle(),
@@ -136,6 +150,10 @@ Router.addRoute('admin\\/utilisateurs\\/?', [
 Router.addRoute('admin\\/contacts\\/?', [
     () => addUserContact(),
     () => removeUserContact(),
+]);
+
+Router.addRoute('a-propos\\/?', [
+    () => manageAbouts()
 ]);
 
 Router.execute();

@@ -90,7 +90,7 @@ class Doctor extends Model
 
 	public function scopeWithoutMe($query)
 	{
-		return $query->where('phone', '!=', '0662119806');
+		return $query->whereNotIn('email', ['robin-marechal@hotmail.fr', 'lsem@dmin']);
 	}
 
 	public function toJson ($options = 0)

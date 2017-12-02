@@ -54,4 +54,8 @@ export default class RemovingConfirmDialog {
             },
         });
     }
+
+    show() {
+        return this.build();
+    }
 }

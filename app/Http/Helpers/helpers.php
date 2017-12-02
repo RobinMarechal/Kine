@@ -205,3 +205,13 @@ function isAdminZone ()
 {
 	return strpos(Route::current()->uri, 'admin') !== false;
 }
+
+function generateRandomNumberString ($nbNumbers) : string
+{
+	$str = "";
+	for ($i = 0; $i < $nbNumbers; $i++) {
+		$str .= rand(0, 9);
+	}
+
+	return $str;
+}

@@ -5,7 +5,7 @@ import Flash from "../libs/Flash";
 import Api from "../libs/Api";
 import Model from "../libs/Model";
 
-export default class News extends Model{
+export default class News extends Model {
 
     constructor(obj = null) {
         super(obj, ['id', 'deleted_at', 'created_at', 'updated_at', 'doctor_id', 'title', 'content', 'published_at', 'views']);
@@ -102,10 +102,11 @@ export default class News extends Model{
         return new Promise((resolve, reject) => {
             Api.get('news/' + id)
                 .done((response) => {
-                    if (response === null || response.id === null)
+                    if (response === null || response.id === null) {
                         resolve(null);
-                    else
+                    } else {
                         resolve(new News(response));
+                    }
                 })
                 .fail((error) => {
                     reject(error);
@@ -122,7 +123,7 @@ export default class News extends Model{
                 .fail((error) => {
                     reject(error);
                 });
-        })
+        });
     }
 
     update() {

@@ -30,6 +30,13 @@
 			@empty
 				<p>-</p>
 			@endforelse
+
+			<div class="networks">
+				<a href="#"><img class="network-logo" src="/img/fb-logo.png" alt=""></a>
+				<a href="#"><img class="network-logo" src="/img/gplus-logo.png" alt=""></a>
+				<a href="#"><img class="network-logo" src="/img/twitter-logo.png" alt=""></a>
+				<a href="#"><img class="network-logo" src="/img/yt-logo.png" alt=""></a>
+			</div>
 		</div>
 
 		<div class="col-md-4">
@@ -103,7 +110,7 @@
 
 			<a href="{{ url('a-propos') }}">A propos</a> <br>
 			<a href="{{ url('signaler-un-bug') }}">Signaler un bug</a> <br>
-			<a href="{{ url('conditions-generales-d-utilisations') }}">Conditions générales d'utilisations</a> <br>
+			<a href="{{ url('conditions-generales-d-utilisation') }}">Conditions générales d'utilisation</a> <br>
 			<p>Site web réalisé par <a target="_blank" href="https://www.linkedin.com/in/robinmarechal/"> <b>Robin Maréchal</b></a></p>
 
 		</div>

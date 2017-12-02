@@ -181,7 +181,7 @@ class Controller extends BaseController
 
 	public function defaultPost ($class)
 	{
-		$cat = $class::create($this->request->post);
+		$cat = $class::create($this->request->all());
 
 		$res = $cat;
 

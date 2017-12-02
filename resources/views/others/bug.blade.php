@@ -1,13 +1,12 @@
 @extends('layouts.app')
 
 @section('title')
-	À Propos
+	Signaler un bug
 @endsection
 
 
 @section('content')
-	<h1>À Propos...</h1>
-	<hr>
+
 @endsection
 
 

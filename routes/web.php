@@ -120,6 +120,11 @@ Route::prefix('cours')->group(function()
 });
 
 
+Route::get('a-propos', 'MainController@about')->name('about');
+Route::get('signaler-un-bug', 'MainController@bug')->name('bug');
+Route::get('conditions-generales-d\'utilisation', 'MainController@cgu')->name('cgu');
+
+
 Route::get('{any?}', 'MainController@e404')
 	 ->where('any', '.*')
 	 ->name('404');

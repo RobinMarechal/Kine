@@ -114,17 +114,35 @@ $events = new Collection();
 			</div>
 		</section>
 
-		<section class="content">
-			<div class="inner">
-				<section class="networks">
-					<h1>Suivez-nous !</h1>
-					<a href="#"><img class="network-logo" src="/img/fb-logo.png" alt=""></a>
-					<a href="#"><img class="network-logo" src="/img/gplus-logo.png" alt=""></a>
-					<a href="#"><img class="network-logo" src="/img/twitter-logo.png" alt=""></a>
-					<a href="#"><img class="network-logo" src="/img/yt-logo.png" alt=""></a>
-				</section>
-			</div>
-		</section>
+
+		{{--<section class="content">--}}
+		{{--<div class="inner">--}}
+		{{--<h1>Rechercher</h1>--}}
+		{{--<form action="recherche" class="content input-inline">--}}
+		{{--	<div class="icon-inside-input input-group" title="Appuyez sur Entrer">--}}
+		{{--		<div class="input-group-addon" title="Cliquez ici pour lancer la recherche">--}}
+		{{--			<button class="invisible-btn">--}}
+		{{--				<i class="fa fa-search fa-lg" aria-hidden="true"></i>--}}
+		{{--			</button>--}}
+		{{--		</div>--}}
+		{{--		<input type="text" class="form-control" placeholder="Recherche..." name="q">--}}
+				{{--<div class="input-group-addon input-group-addon-btn"> <button type="submit" class="btn btn-primary">Go !</button></div>--}}
+		{{--	</div>--}}
+		{{--</form>--}}
+		{{--</div>--}}
+		{{--</section>--}}
+
+		{{--<section class="content">--}}
+		{{--<div class="inner">--}}
+		{{--<section class="networks">--}}
+		{{--<h1>Suivez-nous !</h1>--}}
+		{{--<a href="#"><img class="network-logo" src="/img/fb-logo.png" alt=""></a>--}}
+		{{--<a href="#"><img class="network-logo" src="/img/gplus-logo.png" alt=""></a>--}}
+		{{--<a href="#"><img class="network-logo" src="/img/twitter-logo.png" alt=""></a>--}}
+		{{--<a href="#"><img class="network-logo" src="/img/yt-logo.png" alt=""></a>--}}
+		{{--</section>--}}
+		{{--</div>--}}
+		{{--</section>--}}
 
 		{{--@if(!$isCurrentPageHomePage)--}}
 		<section class="content">
@@ -194,13 +212,16 @@ $events = new Collection();
 
 
 {{--<script src="{{ url('/js/jquery.min.js') }}"></script>--}}
-<script
-		src="http://code.jquery.com/jquery-3.2.1.min.js"
-		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-		crossorigin="anonymous">
-</script>
-<script src="{{ url('/js/bootstrap.min.js') }}"></script>
-<script src="{{ url('/js/bootbox.min.js') }}"></script>
+{{--<script--}}
+		{{--src="http://code.jquery.com/jquery-3.2.1.min.js"--}}
+		{{--integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="--}}
+		{{--crossorigin="anonymous">--}}
+{{--</script>--}}
+{{--<script src="{{ url('/js/bootstrap.min.js') }}"></script>--}}
+{{--<script src="{{ url('/js/bootbox.min.js') }}"></script>--}}
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/bootbox.js/4.4.0/bootbox.min.js"></script>
 <script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=6dsidl73nkp1p71n04g9rr7dieh5e1whc8kp1ju40t4wzgn4"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
 

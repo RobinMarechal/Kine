@@ -254,7 +254,7 @@ section p.date {
 
 .btn.btn-edit {
     position: absolute;
-    top: 0;
+    top: 0px;
     border-radius: 0;
     z-index: 1;
     right: 15px;
@@ -461,8 +461,7 @@ noscript {
     border-radius: 2px;
 }
 
-@media (max-width: 450px)
-{
+@media (max-width: 450px) {
     .fb-login-button {
         font-size: 16px !important;
     }
@@ -481,6 +480,7 @@ footer {
     background-color: #373737;
     border-top: 5px solid #5c5c5c;
     margin-top: 30px;
+    padding-bottom: 20px;
 }
 
 footer hr {
@@ -621,7 +621,7 @@ footer p > a {
 
 .tooltip-inner {
     max-width: 450px !important;
-    text-align:center;
+    text-align: center;
 }
 
 /*.content-header {*/
@@ -893,40 +893,146 @@ aside h1 {
     padding: 0 !important;
 }
 
-.aside-inner-img{
+.aside-inner-img {
     padding: 10px 15px !important;
 }
 
 .network-logo {
-    width: 30px;
-    margin-right: 5px;
-    border-radius: 5px;
+    width: 35px;
+    margin-right: 10px;
+    border-radius: 8px;
     -webkit-filter: grayscale(1);
 }
 
 .network-logo:hover {
-    -webkit-filter: grayscale(0.1);
+    -webkit-filter: grayscale(0.5);
     /*box-shadow: 0 2px 0 rgba(0, 0, 0, 0.2);*/
 }
 
-.show-doctor-dialog .fa{
+.show-doctor-dialog .fa {
     margin-right: 10px;
 }
 
-.show-doctor-dialog{text-align:center;}
-
-.show-doctor-dialog h4{
-    margin-bottom:20px;
+.show-doctor-dialog {
+    text-align: center;
 }
 
-.text-indent>p{
-    text-indent:20px;
+.show-doctor-dialog h4 {
+    margin-bottom: 20px;
 }
 
-.text-align-left>p{
-    text-align:left;
+.text-indent > p {
+    text-indent: 20px;
 }
 
-.text-justify>p{
-    text-align:justify;
+.text-align-left > p {
+    text-align: left;
+}
+
+.text-justify > p {
+    text-align: justify;
+}
+
+footer .networks {
+    margin-top: 10px
+}
+
+.icon-inside-input {
+    position: relative;
+    box-shadow: 0 0 5px rgb(150, 150, 150);
+    -webkit-transition: box-shadow 0.1s ease-in-out;
+    -moz-transition: box-shadow 0.1s ease-in-out;
+    -ms-transition: box-shadow 0.1s ease-in-out;
+    -o-transition: box-shadow 0.1s ease-in-out;
+    transition: box-shadow 0.1s ease-in-out;
+}
+
+.icon-inside-input .fa {
+    padding: 0 10px;
+    -webkit-filter: contrast(0);
+    filter: contrast(0);
+    -webkit-transition: all 0.15s ease-in-out;
+    -moz-transition: all 0.15s ease-in-out;
+    -ms-transition: all 0.15s ease-in-out;
+    -o-transition: all 0.15s ease-in-out;
+    transition: all 0.15s ease-in-out;
+    padding: 11px 9px;
+    border-radius: 38px;
+}
+
+.icon-inside-input > input {
+    /*padding-left:40px;*/
+    padding-left: 0;
+    border: none;
+    border-radius: 0;
+}
+
+.icon-inside-input:focus-within {
+    box-shadow: 0 0 7px rgb(100, 100, 100);
+}
+
+.icon-inside-input:focus-within .fa {
+    -webkit-filter: contrast(0.8) !important;
+    filter: contrast(0.8) !important;
+}
+
+aside form .input-group-addon {
+    padding: 0;
+    border: none;
+    background: white;
+}
+
+/*aside form .input-group-addon button {*/
+/*border-top-left-radius: 0;*/
+/*border-bottom-left-radius: 0;*/
+/*}*/
+
+/*.input-group-addon .btn {*/
+/*border-top-right-radius: 0px;*/
+/*border-bottom-right-radius: 0px;*/
+/*border: 0;*/
+/*!* height: -webkit-fill-available; *!*/
+/*}*/
+
+/*.input-group-addon-btn{*/
+/*background:#2c3e50 !important;*/
+/*}*/
+
+/*.input-group-addon-btn:hover{*/
+/*background:#1a242f !important;*/
+/*}*/
+
+.invisible-btn {
+    border: none;
+    background: transparent;
+    height: 45px;
+}
+
+.icon-inside-input button:hover > .fa {
+    /*background: rgba(200,200,200, 0.3);*/
+    text-shadow: -1px 0px 7px #d0d0d0;
+}
+
+.about-title {
+    border-bottom: 1px solid rgba(230, 230, 230, 0.8);
+    padding-bottom: 5px;
+    position: relative;
+}
+
+.about-block {
+    margin: 30px 0;
+}
+
+.about-block:first-of-type {
+    margin-top: 0;
+}
+
+.about-title .btn-edit {
+    right: 0px;
+    box-shadow: none !important;
+    bottom: 0px;
+}
+
+.about-title .btn-remove {
+    right: 50px;
 }

@@ -19,7 +19,7 @@
 
 			<p class="news-content">{!! cut($n->content, 400) !!}</p>
 
-			<p class="news-published_at written-by">Publiée par {{ $n->user->name }}, le {{ $n->published_at->format('d/m/Y') }}</p>
+			<p class="news-published_at written-by">Publiée par {{ $n->doctor->name }}, le {{ $n->published_at->format('d/m/Y') }}</p>
 			<p class="written-by">Vue {{number_format($n->views, 0, '.', ' ')}} fois</p>
 
 		</div>

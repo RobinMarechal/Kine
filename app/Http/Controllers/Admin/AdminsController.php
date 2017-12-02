@@ -2,6 +2,7 @@
 namespace App\Http\Controllers\Admin;
 
 
+use App\BugReport;
 use App\Contact;
 use App\Doctor;
 use App\Http\Controllers\Controller;
@@ -66,69 +67,29 @@ class AdminsController extends Controller
 	}
 
 
-	/**
-	 * Show the form for creating a new resource.
-	 * @return Response
-	 */
-	public function create ()
+	public function showPendingBugReports()
 	{
+		$reports = BugReport::whereNull('solved_at')->paginate(20);
+		$code = BugReport::PENDING;
+
+		return view('admin.bugs', compact('reports', 'code'));
 	}
 
 
-	/**
-	 * Store a newly created resource in storage.
-	 * @return Response
-	 */
-	public function store ()
+	public function showSolvedBugReports()
 	{
+		$reports = BugReport::whereNotNull('solved_at')->paginate(20);
+		$code = BugReport::SOLVED;
+
+		return view('admin.bugs', compact('reports', 'code'));
 	}
 
-
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int $id
-	 *
-	 * @return Response
-	 */
-	public function show ($id)
+	public function showAllBugReports()
 	{
-	}
+		$reports = BugReport::orderBy('created_at')->paginate(20);
+		$code = BugReport::ALL;
 
-
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int $id
-	 *
-	 * @return Response
-	 */
-	public function edit ($id)
-	{
-	}
-
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int $id
-	 *
-	 * @return Response
-	 */
-	public function update ($id)
-	{
-	}
-
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int $id
-	 *
-	 * @return Response
-	 */
-	public function destroy ($id)
-	{
+		return view('admin.bugs', compact('reports', 'code'));
 	}
 
 }

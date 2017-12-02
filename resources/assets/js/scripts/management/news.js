@@ -9,6 +9,7 @@ import News from "../models/News";
 import Helper from "../helpers/Helper";
 import Api from "../libs/Api";
 import RemovingConfirmDialog from "../helpers/RemovingConfirmDialog";
+import {config_pikaday} from "../data/pikaday.data";
 
 function buildForm(news = null) {
 
@@ -139,29 +140,11 @@ function openNewsDialog(news = null) {
     });
 
     Editor.createUnique('#bb_content');
-    datepicker = new Pikaday({
-        field: $('#bb_published_at')[0],
-        toString(date, format)
-        {
-            let day = date.getDate();
-            let month = date.getMonth() + 1;
-            const year = date.getFullYear();
 
-            if (day < 10)
-                day = "0" + day;
-            if (month < 10)
-                month = "0" + month;
+    const pikadayConfig = config_pikaday;
+    pikadayConfig.field = $('#bb_published_at')[0];
 
-            return `${year}-${month}-${day}`;
-        },
-        i18n: {
-            previousMonth: 'Mois précédent',
-            nextMonth: 'Mois suivant',
-            months: ['Janvier', 'Février', 'Mars', 'Avril', 'Mai', 'Juin', 'Juillet', 'Août', 'Septembre', 'Octobre', 'Novembre', 'Décembre'],
-            weekdays: ['Dimanche', 'Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi'],
-            weekdaysShort: ['Dim', 'Lun', 'Mar', 'Mer', 'Jeu', 'Ven', 'Sam'],
-        }
-    });
+    datepicker = new Pikaday(pikadayConfig);
 }
 
 export function createNews() {
