@@ -2,7 +2,7 @@
  * Created by Utilisateur on 11/07/2017.
  */
 
-import Flash from "../libs/Flash";
+import Flash from "../libs/flash/Flash";
 import Api from "../libs/Api";
 import Model from "../libs/Model";
 

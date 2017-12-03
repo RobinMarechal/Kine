@@ -2,6 +2,7 @@
 
 namespace App;
 
+use function array_key_exists;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
@@ -23,13 +24,18 @@ class About extends Model
 	 */
 	public static function create (array $attributes = [])
 	{
-		$random = generateRandomNumberString(rand(5, 10));
+		$attributes['slug'] = str_slug($attributes['title']);
 
-		$attributes['slug'] = str_slug($attributes['title']) . '-' . $random;
-
-		$model = static::query()
-					   ->create($attributes);
-
-		return $model;
+		return static::query()->create($attributes);
 	}
+
+
+	public function update (array $attributes = [], array $options = [])
+	{
+		$attributes['slug'] = isset($attributes['title']) ? str_slug($attributes['title']) : $attributes['slug'];
+
+		return parent::update($attributes, $options);
+	}
+
+
 }

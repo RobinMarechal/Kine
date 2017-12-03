@@ -12,13 +12,13 @@ class CreateEventsTable extends Migration {
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->string('name', 255);
-			$table->text('description')->nullable();
-			$table->integer('article_id')->unsigned()->nullable();
+			$table->string('description')->nullable();
+			$table->text('article')->nullable();
 			$table->integer('doctor_id')->unsigned()->nullable();
 			$table->softDeletes();
 			$table->integer('views')->default('0');
-			$table->timestamp('startsAt')->nullable();
-			$table->timestamp('endsAt')->nullable();
+			$table->timestamp('starts_at')->nullable();
+			$table->timestamp('ends_at')->nullable();
 		});
 	}
 

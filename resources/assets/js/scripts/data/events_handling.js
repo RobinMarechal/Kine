@@ -1,10 +1,11 @@
-import Flash from "../libs/Flash";
+import Flash from "../libs/flash/Flash";
 import {dataRemovingButtonClicked, dataUpdatingButtonClicked, manageDataRemovingAndUpdate} from "../management/manageDataCreation";
 
 export const EVENT_CALLBACKS = {
     creation_abouts: creation_abouts,
     update_abouts: update_abouts,
     deletion_abouts: deletion_abouts,
+    before_events: before_events,
 };
 
 export function creation_abouts(about) {
@@ -18,6 +19,7 @@ export function creation_abouts(about) {
     newBlock.addClass('about-block');
     newBlock.addClass('editable');
     newBlock.addClass('content-editable');
+    newBlock.attr('data-id', about.id);
 
     const newBlockTitle = $('<h3></h3>');
     newBlockTitle.addClass('about-title');
@@ -77,10 +79,10 @@ export function creation_abouts(about) {
 }
 
 export function update_abouts(about) {
-    const tagId = '#' + about.slug;
+    const aboutSelector = '[data-id=' + about.id + ']';
 
-    const aboutTitle = $(tagId + ' .about-title');
-    const aboutContent = $(tagId + ' .about-content');
+    const aboutTitle = $(aboutSelector + ' .about-title');
+    const aboutContent = $(aboutSelector + ' .about-content');
 
     const editBtn = aboutTitle.children('.update-data');
     const removeBtn = aboutTitle.children('.remove-data');
@@ -101,13 +103,35 @@ export function update_abouts(about) {
     Flash.success("La rubrique a bien été modifiée.");
 }
 
-export function deletion_abouts(blockId)
-{
-    const block = $('#'+ blockId);
-    if(!block)
+export function deletion_abouts(blockId) {
+    const block = $('#' + blockId);
+    if (!block) {
         throw null;
+    }
 
     block.remove();
 
     Flash.success("La rubrique a été supprimée avec succès.");
+}
+
+export function before_events(data){
+    console.log('before', data);
+
+    data.starts_at = data.start_date;
+    data.ends_at = data.end_date;
+
+    if(data.start_time)
+        data.starts_at += ' '+ data.start_time;
+
+    if(data.ends_at && data.end_time)
+        data.ends_at += ' ' + data.end_time;
+
+    delete data.start_date;
+    delete data.end_date;
+    delete data.start_time;
+    delete data.end_time;
+
+    console.log('after', data);
+
+    return data;
 }

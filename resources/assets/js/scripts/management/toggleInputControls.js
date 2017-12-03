@@ -1,4 +1,4 @@
-import Flash from "../libs/Flash";
+import Flash from "../libs/flash/Flash";
 import {inputFocusout} from "./editUserInfos";
 import KeyInputBuffer from "../helpers/KeyInputBuffer";
 

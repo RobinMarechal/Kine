@@ -18,7 +18,7 @@ import KeyInputBuffer from "./scripts/helpers/KeyInputBuffer";
 import RegexpPattern from "./scripts/helpers/RegexpPattern";
 import footerDoctors from "./scripts/management/footerDoctors";
 import Api from "./scripts/libs/Api";
-import Flash from "./scripts/libs/Flash";
+import Flash from "./scripts/libs/flash/Flash";
 import FormGenerator from "./scripts/helpers/FormGenerator";
 import News from "./scripts/models/News";
 import manageAbouts from "./scripts/management/manageAbouts";
@@ -113,14 +113,6 @@ createNews();
 footerDoctors();
 manageDataCreation();
 
-// News.get(1).then((news) => {
-//     let fg = FormGenerator.create('news', news);
-//     fg.onValidate = function(formGenerator){
-//         const updated = formGenerator.buildObject();
-//         (new News(updated)).update();
-//     };
-//     fg.displayInDialog();
-// });
 
 Router.addRoute('articles\\/(rediger)|(\\d+\\/modifier)\\/?', [
     () => createArticle(),

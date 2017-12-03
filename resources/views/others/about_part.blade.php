@@ -1,4 +1,4 @@
-<section id="{{ $about->slug }}" class="about-block editable content-editable">
+<section id="{{ $about->slug }}" data-id="{{ $about->id }}" class="about-block editable content-editable">
 	<h3 class="about-title">
 		{{ $about->title }}
 		@if(isAdmin())

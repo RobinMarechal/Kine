@@ -1,7 +1,9 @@
 import JQueryObject from "../libs/JQueryObject";
 import Editor from "./Editor";
 import {config_pikaday} from "../data/pikaday.data";
-import {INPUT_TYPES, modelsFormData} from "../data/models_formData";
+import {INPUT_TYPES, MODELS_FORM_DATA} from "../data/models_formData";
+import Flash from "../libs/flash/Flash";
+import FlashMessage from "../libs/flash/FlashMessage";
 
 
 /**
@@ -79,7 +81,7 @@ export default class FormGenerator {
     /**
      * Create a bootstrap input
      * @param name the value of the name attribute
-     * @param data the information of the data. => modelsFormData[namespace][name]
+     * @param data the information of the data. => MODELS_FORM_DATA[namespace][name]
      * @returns {jQuery} jquery element
      */
     createInput(name, data) {
@@ -98,16 +100,16 @@ export default class FormGenerator {
         }
         else if (tag == INPUT_TYPES.DATE) {
             input = $('<input/>');
-            input.attr('type', 'text');
+            input.attr('type', 'date');
             input.attr('placeholder', 'yyyy-mm-dd');
-            const className = this._generateRandomClassName();
-            this.datepickerSelector = '.' + className;
-            input.addClass(className);
+            // const className = this._generateRandomClassName();
+            // this.datepickerSelector = '.' + className;
+            // input.addClass(className);
         }
         else if (tag == INPUT_TYPES.TIME) {
             input = $('<input/>');
             input.attr('placeholder', 'HH:mm');
-            input.attr('type', 'text');
+            input.attr('type', 'time');
         }
         else if (tag == INPUT_TYPES.DATETIME) {
             input = $('<input/>');
@@ -145,7 +147,7 @@ export default class FormGenerator {
      * @returns {jQuery} the form jQuery element
      */
     generateFormBody() {
-        const fields = modelsFormData[this.namespace];
+        const fields = MODELS_FORM_DATA[this.namespace];
         const fieldNames = fields.fields;
         const formTag = new JQueryObject('form');
         formTag.attr('method', this.method);
@@ -155,10 +157,10 @@ export default class FormGenerator {
         }
 
         for (let i = 0; i < fieldNames.length; i++) {
-            const fieldName = fieldNames[i];
-            const field = fields[fieldName];
-            const label = this.createLabel(field.label);
-            const input = this.createInput(fieldName, field.input);
+            const fieldName = fieldNames[i]; // model attribute name
+            const fieldData = fields[fieldName];
+            const label = this.createLabel(fieldData.label);
+            const input = this.createInput(fieldName, fieldData.input);
             const formGroup = this.createFormGroup(input, label);
 
             formTag.append(formGroup);
@@ -201,7 +203,7 @@ export default class FormGenerator {
                     className: "btn-primary",
                     callback: () => {
                         if (this.onValidate) {
-                            this.onValidate(this);
+                            return this.onValidate(this);
                         }
                     }
                 }
@@ -222,17 +224,25 @@ export default class FormGenerator {
     /**
      * Build a JS object containing the values of the form's inputs
      * @returns {{}}
+     * @throw {FlashMessage} if some fields have not been filled correctly
      */
     buildObject() {
-        const fields = modelsFormData[this.namespace];
+        const fields = MODELS_FORM_DATA[this.namespace];
         const obj = {};
+
+        let fieldsAreMissing = false;
 
         for (let i = 0; i < this.inputs.length; i++) {
             const input = this.inputs[i];
             const name = this.inputs[i].attr('name');
             const attribute = fields[name];
+            const required = attribute.required;
             const inputTag = attribute.input.tag;
             let value;
+
+            const parentFormGroup = input.parents('.form-group');
+            if(parentFormGroup)
+                parentFormGroup.removeClass('has-error');
 
             if (inputTag == INPUT_TYPES.TEXTAREA) {
                 value = Editor.getActiveEditorContent();
@@ -241,7 +251,28 @@ export default class FormGenerator {
                 value = input.val();
             }
 
+            if (required && (!value || value.length == 0)) {
+                fieldsAreMissing = true;
+                if(parentFormGroup)
+                    parentFormGroup.addClass('has-error');
+            }
+
             obj[input.attr('name')] = value;
+        }
+
+        if (fieldsAreMissing) {
+            // let start = "Les champs suivants n'ont pas été remplis correctement : ";
+            // let middle = missingFields[0];
+            //
+            // for (let i = 1; i < missingFields.length; i++) {
+            //     middle += ", " + missingFields[i];
+            // }
+            //
+            // const msg = start + middle;
+
+            let msg = "Tous les champs n'ont pas été correctement remplis.";
+
+            throw new FlashMessage(msg);
         }
 
         const id = this.formTag.data('resource-id');

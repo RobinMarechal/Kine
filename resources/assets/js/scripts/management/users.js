@@ -1,7 +1,7 @@
 import User from "../models/User";
 import Tag from "../models/Tag";
 import Api from "../libs/Api";
-import Flash from "../libs/Flash";
+import Flash from "../libs/flash/Flash";
 import Helper from "../helpers/Helper";
 import Doctor from "../models/Doctor";
 

@@ -24,12 +24,7 @@ class ArticlesController extends Controller
 	 */
 	public function index ()
 	{
-		//		$articles = Article::with('user', 'tags')->orderBy('title', 'DESC')->paginate(10);
-		//
-		//		return view('articles.index', compact('articles'));
-
 		// Select all the articles that the connected user can access
-
 		if (isAdmin()) {
 			$articles = Article::with('tags', 'doctor', 'medias')
 							   ->fromNewerToOlder()

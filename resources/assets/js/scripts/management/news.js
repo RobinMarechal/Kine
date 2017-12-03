@@ -3,7 +3,7 @@
  */
 
 import Editor from "../helpers/Editor";
-import Flash from "../libs/Flash";
+import Flash from "../libs/flash/Flash";
 import Form from "../helpers/Form";
 import News from "../models/News";
 import Helper from "../helpers/Helper";

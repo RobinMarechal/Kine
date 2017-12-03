@@ -59,6 +59,11 @@ class Doctor extends Model
 		return $this->belongsTo('App\RemovedContent');
 	}
 
+	public function coursesCreated()
+	{
+		return $this->hasMany('App\Courses');
+	}
+
 
 	public function courses ()
 	{

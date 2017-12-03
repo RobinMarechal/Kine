@@ -12,15 +12,9 @@ class Event extends Model
 	protected $table = 'events';
 	public $urlNamespace = 'evenements';
 	public $timestamps = true;
-	protected $fillable = ['created_at', 'updated_at', 'name', 'description', 'article_id', 'doctor_id', 'views', 'startsAt', 'endsAt'];
-	protected $dates = ['deleted_at', 'date'];
-	public $temporalField = 'date';
-
-
-	public function article ()
-	{
-		return $this->belongsTo('App\Article');
-	}
+	protected $fillable = ['name', 'description', 'article', 'doctor_id', 'views', 'starts_at', 'ends_at'];
+	protected $dates = ['deleted_at', 'starts_at', 'ends_at'];
+	public $temporalField = 'starts_at';
 
 
 	public function creator ()
@@ -43,13 +37,13 @@ class Event extends Model
 
 	public function scopeFuture ($query)
 	{
-		return $query->where('startsAt', '>', getCurrentDatetime());
+		return $query->where('starts_at', '>', getCurrentDatetime());
 	}
 
 
 	public function scopePassed ($query)
 	{
-		return $query->where('endsAt', '<', getCurrentDatetime());
+		return $query->where('ends_at', '<', getCurrentDatetime());
 	}
 
 
@@ -57,22 +51,22 @@ class Event extends Model
 	{
 		$cdt = getCurrentDatetime();
 
-		return $query->where('startsAt', '<=', $cdt)
-					 ->where('endsAt', '>=', $cdt);
+		return $query->where('starts_at', '<=', $cdt)
+					 ->where('ends_at', '>=', $cdt);
 	}
 
 
 	public function scopeFromNewerToOlder ($query)
 	{
-		return $query->orderBy('startsAt', 'DESC')
-					 ->orderBy('endsAt', 'DESC');
+		return $query->orderBy('starts_at', 'DESC')
+					 ->orderBy('ends_at', 'DESC');
 	}
 
 
 	public function scopeFromOlderToNewer ($query)
 	{
-		return $query->orderBy('startsAt', 'ASC')
-					 ->orderBy('endsAt', 'ASC');
+		return $query->orderBy('starts_at', 'ASC')
+					 ->orderBy('ends_at', 'ASC');
 	}
 
 }

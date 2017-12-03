@@ -13,9 +13,9 @@ class CreateCoursesTable extends Migration {
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->softDeletes();
 			$table->string('name');
-			$table->integer('article_id')->unsigned()->nullable();
+			$table->text('article')->nullable();
 			$table->text('description')->nullable();
-			$table->integer('views')->default('0');
+			$table->integer('views')->default(0);
 		});
 	}
 

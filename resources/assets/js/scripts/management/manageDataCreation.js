@@ -1,14 +1,30 @@
 import FormGenerator from "../helpers/FormGenerator";
 import Api from "../libs/Api";
-import Flash from "../libs/Flash";
+import Flash from "../libs/flash/Flash";
 import EventHandler, {EVENT_TYPES} from "../libs/EventHandler";
 import RemovingConfirmDialog from "../helpers/RemovingConfirmDialog";
+import FlashMessage from "../libs/flash/FlashMessage";
 
 function onSubmit(formGenerator) {
     const namespace = formGenerator.namespace;
     let sendDataTo;
     let method = 'POST';
-    const obj = formGenerator.buildObject();
+    let obj;
+
+    try {
+        obj = formGenerator.buildObject();
+    } catch (e) {
+        if (e instanceof FlashMessage) {
+            Flash.error(e);
+            return false;
+        }
+    }
+
+    console.log("before event call", obj);
+
+    obj = EventHandler.event(EVENT_TYPES.BEFORE, namespace, obj);
+
+    console.log("after event call", obj);
 
     sendDataTo = namespace;
     if (obj.id) {
@@ -51,9 +67,6 @@ export function dataUpdatingButtonClicked(button) {
     const namespace = button.data('namespace');
     const dataId = button.data('id');
 
-    console.log(button);
-    console.log(namespace);
-
     Api.get(namespace + '/' + dataId)
         .then((response) => {
             const generator = FormGenerator.create(namespace, response);
@@ -77,8 +90,9 @@ export function dataRemovingButtonClicked(button) {
     dialog.callback = function () {
         Api.sendData(namespace + '/' + dataId, 'DELETE')
             .then((response) => {
-                if(!response)
+                if (!response) {
                     throw null;
+                }
 
                 EventHandler.event(EVENT_TYPES.DELETED, namespace, blockId);
             })
@@ -91,7 +105,8 @@ export function dataRemovingButtonClicked(button) {
 }
 
 export default function manageDataCreation() {
-    $('.create-data').click(function () {
+    $('.create-data').click(function (ev) {
+        ev.preventDefault();
         dataCreationButtonClicked($(this));
     });
 
@@ -99,11 +114,13 @@ export default function manageDataCreation() {
 }
 
 export function manageDataRemovingAndUpdate() {
-    $('.update-data').click(function () {
+    $('.update-data').click(function (ev) {
+        ev.preventDefault();
         dataUpdatingButtonClicked($(this));
     });
 
-    $('.remove-data').click(function () {
+    $('.remove-data').click(function (ev) {
+        ev.preventDefault();
         dataRemovingButtonClicked($(this));
     });
 }

@@ -1036,3 +1036,85 @@ aside form .input-group-addon {
 .about-title .btn-remove {
     right: 50px;
 }
+
+.has-error .mce-panel {
+    border-color: #e74c3c;
+    border-width: 1px !important;
+}
+
+.course-block .fa {
+    width: 20px;
+    font-size: 15px;
+}
+
+.no-margin-top {
+    margin-top: 0;
+}
+
+.fit-width {
+    width: 100%;
+}
+
+.max-width-fit {
+    max-width: 100%;
+}
+
+.course-block-img-container {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    height: 180px;
+}
+
+.course-block-description {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    height: 180px;
+}
+
+.course-block-img {
+    max-width: 100%;
+    height: auto;
+}
+
+.course-block .tags-block {
+    max-height: 69px;
+    overflow-y: auto;
+}
+
+.course-block.row {
+    margin-bottom: 15px;
+    background-color: #ecf0f173;
+    margin-right: -5px;
+    box-shadow: 1px 1px 2px #7b7f80ad;
+}
+
+/*.course-block:hover{*/
+    /*box-shadow: 2px 2px 4px #7b7f80b3;*/
+    /*background-color: #ecf0f1f5;*/
+/*}*/
+
+.course-block .col-xs-3 {
+    width: 30%;
+}
+
+.course-block .col-xs-9 {
+    width: 70%;
+}
+
+.course-block-title {
+    margin-bottom: 20px;
+}
+
+.top-left {
+    position: absolute;
+    left: 5px;
+    top: 5px;
+}
+
+.course-is-followed .fa{
+    font-size: 20px;
+    opacity: 0.8;
+    color:#b7716e;
+}

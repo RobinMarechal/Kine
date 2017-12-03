@@ -4,7 +4,7 @@
 
 import Editor from "../helpers/Editor";
 import Skill from "../models/Skill";
-import Flash from "../libs/Flash";
+import Flash from "../libs/flash/Flash";
 import Content from "../models/Content";
 
 const titleDataTag = $('data#title-template');

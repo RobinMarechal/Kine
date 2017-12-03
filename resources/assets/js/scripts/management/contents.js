@@ -4,7 +4,7 @@
 
 import Content from "../models/Content";
 import Editor from "../helpers/Editor";
-import Flash from "../libs/Flash";
+import Flash from "../libs/flash/Flash";
 
 function reloadHtml(content) {
     let h1 = $('#content-'+content.id+'-title');

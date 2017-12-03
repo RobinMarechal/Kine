@@ -1,5 +1,5 @@
 import Api from "../libs/Api";
-import Flash from "../libs/Flash";
+import Flash from "../libs/flash/Flash";
 import * as $ from "jquery";
 import Model from "../libs/Model";
 

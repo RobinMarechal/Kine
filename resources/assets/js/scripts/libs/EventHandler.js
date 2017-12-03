@@ -3,7 +3,8 @@ import {EVENT_CALLBACKS} from "../data/events_handling";
 export const EVENT_TYPES = {
     CREATED: 'creation',
     UPDATED: 'update',
-    DELETED: 'deletion'
+    DELETED: 'deletion',
+    BEFORE: 'before',
 };
 
 export default class EventHandler {
@@ -18,8 +19,10 @@ export default class EventHandler {
         const eventName = eventType + '_' + namespace;
         const callback = EVENT_CALLBACKS[eventName];
 
+        console.log('calling ', eventName);
+
         if (callback) {
-            callback(data);
+            return callback(data);
         }
     }
 }

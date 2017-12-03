@@ -3,7 +3,7 @@
  */
 
 import Api from "../libs/Api";
-import Flash from "../libs/Flash";
+import Flash from "../libs/flash/Flash";
 import Model from "../libs/Model";
 export default class User extends Model {
 

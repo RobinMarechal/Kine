@@ -1,8 +1,13 @@
 /**
  * Created by Utilisateur on 12/07/2017.
  */
+import FlashMessage from "./FlashMessage";
+
 export default class Flash {
     static display(message, type = "error", delay = null) {
+        if(message instanceof FlashMessage)
+            message = message.message;
+
         delay = delay == null ? 2000 : delay;
 
         var html = '<div title="Cliquez pour masquer le message" id="alert" class="alert js-alert alert-' + type + '">' + message + '</div>';
@@ -25,10 +30,14 @@ export default class Flash {
     // }
 
     static error(message, delay = null) {
+        if(message instanceof FlashMessage)
+            message = message.message;
         Flash.display(message, "danger", delay);
     }
 
     static success(message, delay = null) {
+        if(message instanceof FlashMessage)
+            message = message.message;
         Flash.display(message, "success", delay);
     }
 }

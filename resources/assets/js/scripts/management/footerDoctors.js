@@ -1,5 +1,5 @@
 import Doctor from "../models/Doctor";
-import Flash from "../libs/Flash";
+import Flash from "../libs/flash/Flash";
 import Helper from "../helpers/Helper";
 import FA from "../helpers/FA";
 import JQueryHelper from "../helpers/JQueryHelper";

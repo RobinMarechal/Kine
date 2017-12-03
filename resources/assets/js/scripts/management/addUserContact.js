@@ -3,7 +3,7 @@
  */
 
 import Contact from "../models/Contact";
-import Flash from "../libs/Flash";
+import Flash from "../libs/flash/Flash";
 import {toggleInputClicked} from "./toggleInputControls";
 
 function addContact(contact) {
