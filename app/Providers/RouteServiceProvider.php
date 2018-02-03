@@ -23,8 +23,6 @@ class RouteServiceProvider extends ServiceProvider
      */
     public function boot()
     {
-        //
-
 		Route::pattern('id', '[0-9]+');
         parent::boot();
     }
@@ -39,8 +37,6 @@ class RouteServiceProvider extends ServiceProvider
         $this->mapApiRoutes();
 
         $this->mapWebRoutes();
-
-        //
     }
 
     /**
@@ -68,6 +64,7 @@ class RouteServiceProvider extends ServiceProvider
     {
         Route::prefix('api')
              ->middleware('api')
+             ->middleware('ajax')
              ->namespace($this->namespace)
              ->group(base_path('routes/api.php'));
     }

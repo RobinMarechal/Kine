@@ -23,6 +23,7 @@ import FormGenerator from "./scripts/helpers/FormGenerator";
 import News from "./scripts/models/News";
 import manageAbouts from "./scripts/management/manageAbouts";
 import manageDataCreation from "./scripts/management/manageDataCreation";
+import updateImage from "./scripts/management/updateImage";
 
 // var url = window.location.pathname;
 
@@ -112,6 +113,7 @@ editContents();
 createNews();
 footerDoctors();
 manageDataCreation();
+updateImage();
 
 
 Router.addRoute('articles\\/(rediger)|(\\d+\\/modifier)\\/?', [

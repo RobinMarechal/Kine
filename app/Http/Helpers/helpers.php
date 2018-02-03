@@ -37,7 +37,7 @@ function getTimeString ($time, $withSeconds = false)
 	return $time->format($format);
 }
 
-function printButtonContent ($name, array $attrs = [], $addClasses = '')
+function printButtonContent ($name, array $attrs = [], $addClasses = '', $glyphicon = 'pencil', $glyphType = "glyphicon", $tag = 'button')
 {
 	if (isAdmin()) {
 		$attrStr = '';
@@ -58,8 +58,10 @@ function printButtonContent ($name, array $attrs = [], $addClasses = '')
 			}
 		}
 
-		$str = '<button' . $attrStr . ' data-name="' . $name . '" class="btn btn-edit btn-primary ' .
-			$addClasses . '"><span class="glyphicon glyphicon-pencil"></span></button>';
+		$str = "<$tag $attrStr data-name='$name' class='btn btn-edit btn-primary $addClasses'><span class='".glyph($glyphicon, $glyphType)."'></span></$tag>";
+
+		// $str = '<'.$tag.' ' . $attrStr . ' data-name="' . $name . '" class="btn btn-edit btn-primary ' .
+		// 	$addClasses . '"><span class="'.glyph($glyphicon, $glyphType).'"></span></'.$tag.'>';
 
 		return $str;
 	}
@@ -112,9 +114,9 @@ function cut ($str, $n, $link = false)
 	return $string;
 }
 
-function glyph ($str)
+function glyph ($str, $type = 'glyphicon')
 {
-	return 'glyphicon glyphicon-' . $str;
+    return "$type $type-$str";
 }
 
 function getWeekDay ($date = "")

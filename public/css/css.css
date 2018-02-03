@@ -178,9 +178,17 @@ section p.date {
     text-shadow: 0 0 5px rgb(120, 120, 120);
 }
 
+.notification-block{
+    font-size:17px;
+}
+
+.notification-block .date{
+    color: rgb(150, 150, 150);
+}
+
 .nb-of-notifs {
     position: absolute;
-    top: 23px;
+    top: 45px;
     left: 26px;
     background: #c3544e;
     padding: 0 4px;
@@ -199,8 +207,8 @@ section p.date {
 }
 
 .nb-of-notifs-user {
-    top: -5px;
-    left: -5px;
+    top: 16px;
+    left: 7px;
     padding: 2px 4px;
 }
 
@@ -208,7 +216,7 @@ section p.date {
     left: 36px;
 }
 
-.btn-edit.btn, .btn-toggle.btn {
+.btn-edit.btn, .btn-toggle.btn, .btn-top-right.btn {
     padding: 5px 15px;
     opacity: 0;
     transition: all 0.15s ease-in-out;
@@ -218,16 +226,16 @@ section p.date {
     -ms-transition: all 0.15s ease-in-out;
 }
 
-.editable h1 .btn-edit.btn {
+.editable h1 .btn-edit.btn, .editable h1 .btn-top-right.btn  {
     margin-left: 10px;
 }
 
-.editable:hover .btn-edit.btn {
+.editable:hover .btn-edit.btn, .editable:hover .btn-top-right.btn {
     opacity: 0.9;
     box-shadow: 0px 1px 3px rgb(150, 150, 150);
 }
 
-.btn-edit.btn:hover {
+.btn-edit.btn:hover,  .btn-top-right.btn:hover {
     opacity: 1;
     box-shadow: 0px 2px 5px rgb(50, 50, 50);
 }
@@ -252,7 +260,7 @@ section p.date {
     color: #fff !important;
 }
 
-.btn.btn-edit {
+.btn.btn-edit,  .btn-top-right.btn  {
     position: absolute;
     top: 0px;
     border-radius: 0;
@@ -531,11 +539,11 @@ footer p > a {
 }
 
 .notification-block {
-    /*border:1px solid #b7716e;*/
+    border: 1px solid #f7f7f7;
     /*border-radius:2px;*/
-    -webkit-box-shadow: 2px 2px 5px 0px #975552;
+    -webkit-box-shadow: 2px 2px 5px 0px #696969;
     -moz-box-shadow: 2px 2px 5px 0px #975552;
-    box-shadow: 2px 2px 5px 0px #975552;
+    box-shadow: 1px 2px 6px 0px #696969;
     padding: 15px 20px;
     margin-top: 5px;
     margin-bottom: 5px;
@@ -895,6 +903,7 @@ aside h1 {
 
 .aside-inner-img {
     padding: 10px 15px !important;
+    position: relative;
 }
 
 .network-logo {
@@ -1027,7 +1036,7 @@ aside form .input-group-addon {
     margin-top: 0;
 }
 
-.about-title .btn-edit {
+.about-title .btn-edit, .about-title .btn-top-right {
     right: 0px;
     box-shadow: none !important;
     bottom: 0px;
@@ -1087,7 +1096,7 @@ aside form .input-group-addon {
     margin-bottom: 15px;
     background-color: #ecf0f173;
     margin-right: -5px;
-    box-shadow: 1px 1px 2px #7b7f80ad;
+    box-shadow: 0px 2px 2px #7b7f80ad;
 }
 
 /*.course-block:hover{*/
@@ -1117,4 +1126,22 @@ aside form .input-group-addon {
     font-size: 20px;
     opacity: 0.8;
     color:#b7716e;
+}
+
+.img-banner-block{
+    position: relative;
+}
+
+.update-img, .undo-img{
+    margin-top:15px;
+    font-size: 16px;
+}
+
+.undo-img{
+    margin-right:55px;
+}
+
+.center{
+    margin:auto;
+    text-align: center;
 }

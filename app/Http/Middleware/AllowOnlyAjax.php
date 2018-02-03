@@ -16,8 +16,9 @@ class AllowOnlyAjax
      */
     public function handle($request, Closure $next)
     {
-    	if(!$request->ajax())
-    		return Redirect::back();
+    	if(!$request->ajax()){
+            return view('errors.404');
+        }
 
         return $next($request);
     }

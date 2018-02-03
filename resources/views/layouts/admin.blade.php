@@ -18,20 +18,9 @@ $events = new Collection();
 ?>
 		<!DOCTYPE html>
 <html>
-<head>
-	<meta charset="utf-8">
-	<meta name="csrf-token" content="{{ csrf_token() }}">
-	<meta name="viewport" content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0">
-	<meta http-equiv="X-UA-Compatible" content="ie=edge">
-	<link rel="stylesheet" type="text/css" href="{{url('css/bootstrap.css')}}"/>
-	<link rel="stylesheet" type="text/css" href="{{url('css/hover.min.css')}}"/>
-	<link rel="stylesheet" type="text/css" href="{{url('css/font-awesome.min.css')}}"/>
-	<link rel="stylesheet" type="text/css" href="{{ url('css/pikaday.min.css') }}"/>
 
-	<link rel="stylesheet" type="text/css" href="{{url('css/css.css')}}"/>
+@include('layouts.parts.head', ['title' => 'Administration'])
 
-	<title>La Santé en Mouvement | @section('title') Administration @show </title>
-</head>
 <body>
 
 <header>
@@ -76,20 +65,8 @@ $events = new Collection();
 		<hr class="border">
 	</nav>
 
-	<div id="banner">
-		<div class="col-md-12">
-			<img src="{{url('img/logo.jpg')}}" alt="" class="img-banner">
-		</div>
-		{{--<div class="panel banner-panel">--}}
-		{{--<div id="banner-content">--}}
-		{{--<img class="logo" src="{{url('/img/logo.jpg')}}" alt="Logo du cabinet">--}}
-		{{--</div>--}}
-		{{--</div>--}}
-	</div>
-
-	<noscript>
-		Ce site nécessite d'activer JavaScript pour fonctionner correctement.
-	</noscript>
+	@include('layouts.parts.banner')
+	@include('layouts.parts.noscript')
 
 </header>
 
@@ -104,99 +81,17 @@ $events = new Collection();
 	</div>
 
 	<aside class="col-md-3">
-		<section class="content">
-			<div class="inner aside-inner-img">
-				<img src="{{ url('img/logo.jpg') }}" alt="">
-			</div>
-		</section>
 
-		{{--@if(!$isCurrentPageHomePage)--}}
-		<section class="content">
-			<div class="inner">
-				<div class="lastest-news">
-					<h1>Dernières news
-						@if(isAdmin())
-							<a data-toggle="tooltip" data-placement="left" title="Ajouter une news" href="#" {{--href="{{ url('news/creer') }}"--}}
-							class="absolute-right create-new create-news glyphicon glyphicon-plus btn-hover"></a>
-						@endif
-					</h1>
-					@if($template_news->count() > 0)
-						@foreach($template_news as $n)
-							<a href="/news/{{$n->id}}">{{$n->title}}</a>
-							<p class="date">{{$n->published_at->format('d/m/Y')}}</p>
-						@endforeach
+		@include('layouts.parts.aside.logo')
+		@include('layouts.parts.aside.news')
+		@include('layouts.parts.aside.events')
 
-						<a href="/news" align="right" class="see-all"><p>Tout voir <span class="glyphicon glyphicon-arrow-right"></span></p></a>
-					@else
-						<p>Aucune news récente.</p>
-					@endif
-
-				</div>
-
-			</div>
-		</section>
-		<section class="content">
-			<div class="inner">
-				<div class="incoming-events">
-					<h1>Événements à venir
-						@if(isAdmin())
-							<a data-toggle="tooltip" data-placement="left" title="Ajouter un événement" href="{{ url('evenements/creer') }}"
-							   class="absolute-right create-new create-event glyphicon glyphicon-plus btn-hover"></a>
-						@endif
-					</h1>
-					@if($template_events->count() > 0)
-						@foreach($events as $e)
-							<a data-toggle="tooltip" data-placement="top"
-							   title="{{($today = $e->start->isToday()) ? 'Cet événement à lieu aujourd\'hui !' : 'Cliquez ici pour en savoir plus.'}}"
-							   {{ $today ? 'class=today' : '' }}
-							   href="/evenements/{{$e->id}}">{{$e->name}}
-							</a>
-							<p class="date {{ $today ? 'today' : '' }} ">
-								{{--                                 @if($e->start->dayOfYear == $e->end->dayOfYear)
-																	Le {{$e->start->format('d/m/Y\, \d\e H:i').' à '.$e->end->format('H:i')}}
-																@else
-																	Du {{$e->start->format('d/m').' au '.$e->end->format('d/m Y').', de '.$e->start->format('H:i').' à '.$e->end->format('H:i')}}
-																@endif --}}
-								Début : {{ $e->start->format('d/m/Y \à H:i') }} <br/>Fin : {{ $e->end->format('d/m/Y \à H:i') }}
-							</p>
-						@endforeach
-
-						<a href="/evenements" align="right" class="see-all"><p>Tout voir <span class="glyphicon glyphicon-arrow-right"></span></p></a>
-					@else
-						<p>Aucun événement à venir.</p>
-					@endif
-
-				</div>
-			</div>
-		</section>
 	</aside>
-	{{--@endif--}}
 </div>
 
 
 @include('layouts.app.footer', $footer_doctors)
-
-
-{{--<script src="{{ url('/js/jquery.min.js') }}"></script>--}}
-<script
-		src="http://code.jquery.com/jquery-3.2.1.min.js"
-		integrity="sha256-hwg4gsxgFZhOsEEamdOYGBf13FyQuiTwlAQgxVSNgt4="
-		crossorigin="anonymous">
-</script>
-<script src="{{ url('/js/bootstrap.min.js') }}"></script>
-<script src="{{ url('/js/bootbox.min.js') }}"></script>
-<script src="https://cloud.tinymce.com/stable/tinymce.min.js?apiKey=6dsidl73nkp1p71n04g9rr7dieh5e1whc8kp1ju40t4wzgn4"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/pikaday/1.6.1/pikaday.min.js"></script>
-
-@if(JsVar::getVars() != null && !empty(JsVar::getVars()))
-	<div id="js-vars-relayer">
-		@foreach(JsVar::getVars() as $var)
-			<span hidden data-var-name="{{ $var->getName() }}"> {{ $var->getJson() }} </span>
-		@endforeach
-	</div>
-@endif
-
-<script src="{{ url('/js/app.js') }}"></script>
+@include('layouts.parts.js')
 
 @yield('js')
 

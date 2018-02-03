@@ -8,7 +8,7 @@
 		@endif
 
 		<h4 align="center" class="course-block-title no-margin-top">
-			<a href="{{ url('courses/' . $course->id) }}">{{ $course->name }}</a>
+			<a href="{{ url('cours/' . $course->id) }}">{{ $course->name }}</a>
 		</h4>
 		<div class="col-xs-3 course-block-img-container no-padding">
 			<img class="course-block-img" src="https://sandrine-guerin-masseur-kinesitherapeute
@@ -46,53 +46,14 @@
 						@endif
 					</span>
 				</div>
-				<div class="tags-block">
-					@if($course->tags->count() > 0)
+				@if($course->tags->count() > 0)
+					<div class="tags-block">
 						<i class="fa fa-tags" aria-hidden="true" title="Tags"></i>
 						@foreach($course->tags as $tag)
-							<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>
+							<a href="{{ route('courses.ofTag', $tag->name) }}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>
 						@endforeach
-						@foreach($course->tags as $tag)
-						<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>
-						@endforeach
-						@foreach($course->tags as $tag)
-						<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>
-						@endforeach
-						@foreach($course->tags as $tag)
-						<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>
-						@endforeach
-						@foreach($course->tags as $tag)
-						<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>
-						@endforeach
-						{{--@foreach($course->tags as $tag)--}}
-						{{--<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>--}}
-						{{--@endforeach--}}
-						{{--@foreach($course->tags as $tag)--}}
-						{{--<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>--}}
-						{{--@endforeach--}}
-						{{--@foreach($course->tags as $tag)--}}
-						{{--<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>--}}
-						{{--@endforeach--}}
-						{{--@foreach($course->tags as $tag)--}}
-						{{--<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>--}}
-						{{--@endforeach--}}
-						{{--@foreach($course->tags as $tag)--}}
-						{{--<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>--}}
-						{{--@endforeach--}}
-						{{--@foreach($course->tags as $tag)--}}
-						{{--<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>--}}
-						{{--@endforeach--}}
-						{{--@foreach($course->tags as $tag)--}}
-						{{--<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>--}}
-						{{--@endforeach--}}
-						{{--@foreach($course->tags as $tag)--}}
-						{{--<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>--}}
-						{{--@endforeach--}}
-						{{--@foreach($course->tags as $tag)--}}
-						{{--<a href="{{url('articles/tag/'.$tag->name)}}" class="tag" title="Cliquez pour voir tous les articles possédant ce tag">{{$tag->name}}</a>--}}
-						{{--@endforeach--}}
-					@endif
-				</div>
+					</div>
+				@endif
 			</div>
 		</div>
 	</div>

@@ -61,19 +61,6 @@ class LoginController extends Controller
 		return Socialite::driver('facebook')
 						->scopes(['email', 'manage_pages'])
 						->redirect();
-
-		//		$fb = FacebookHelper::getFacebookInstance();
-		//
-		//		$helper = $fb->getRedirectLoginHelper();
-		//		$loginUrl = $helper->getLoginUrl('http://kine.dev/login/facebook/callback', ['email', 'manage_pages']);
-		//
-		//		dd($loginUrl);
-		//
-		//		dd($helper->getAccessToken());
-		//		$permissions = ['email', 'manage_pages'];
-		//		$loginUrl = $helper->getLoginUrl('http://kine.dev/login/facebook/callback', $permissions);
-		//
-		//		return redirect($loginUrl, 301);
 	}
 
 
@@ -81,19 +68,6 @@ class LoginController extends Controller
 	{
 		$social = Socialite::driver('facebook')
 						   ->user();
-
-		//		$fb = FacebookHelper::getFacebookInstance();
-		//
-		//		$helper = $fb->getRedirectLoginHelper();
-		//
-		//		try{
-		//			$accessToken = $helper->getAccessToken();
-		//		}catch(FacebookResponseException $e)
-		//		{
-		//			dd($e->getMessage());
-		//		}
-		//
-		//		dd(1, $accessToken);
 
 		$user = User::whereFacebookId($social->id)
 					->first();

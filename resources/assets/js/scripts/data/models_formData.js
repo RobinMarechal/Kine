@@ -104,4 +104,3 @@ MODELS_FORM_DATA.events = {
         label: "Heure de fin de l'événement : ",
     }
 };
-

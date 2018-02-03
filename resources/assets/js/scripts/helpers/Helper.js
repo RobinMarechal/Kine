@@ -63,4 +63,8 @@ export default class Helper {
         return format;
     }
 
+    static csrfToken() {
+        const token = $('meta[name=csrf-token]').attr('content');
+        return `<input type="hidden" name="_token" value="${token}" />`;
+    }
 }

@@ -39,7 +39,7 @@ class CoursesController extends Controller
 	{
 		$courses = Course::join('course_tag', 'course_id', '=', 'courses.id')
 						 ->join('tags', 'tag_id', '=', 'tags.id')
-						 ->with('doctor', 'tags', 'medias')
+						 ->with('doctors', 'tags', 'medias', 'clients', 'creator')
 						 ->where('tags.name', $tagName)
 						 ->fromNewerToOlder()
 						 ->paginate(10, ['courses.*']);
