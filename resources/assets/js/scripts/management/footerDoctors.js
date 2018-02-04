@@ -21,12 +21,13 @@ function buildHtml(doctor) {
     let otherCoo = $('<div></div>');
 
     otherCoo.addClass('other-coordinates');
+    otherCoo.append('<hr>');
     otherCoo.append('<h4>Autres coordonnées :</h4>');
     // starts_at and ends_at.
 
     if (doctor.contacts.length > 0) {
-        principalCoo.addClass('col-md-6');
-        otherCoo.addClass('col-md-6');
+        principalCoo.addClass('col-md-12');
+        otherCoo.addClass('col-md-12');
     }
     else {
         principalCoo.addClass('col-md-12');
@@ -125,7 +126,8 @@ function showDoctorDialog(el) {
             bootbox.dialog({
                 title: doctor.name,
                 message: html,
-                // size: 'small',
+                size: 'small',
+                backdrop: true,
                 onEscape: true,
             });
         })
