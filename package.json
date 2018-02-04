@@ -18,6 +18,7 @@
     "vue": "^2.1.10"
   },
   "dependencies": {
+    "jquery": "^3.3.1",
     "pikaday-time": "^1.6.1",
     "tinymce": "^4.6.4",
     "underscore": "^1.8.3"

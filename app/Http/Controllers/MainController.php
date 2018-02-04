@@ -105,9 +105,9 @@ class MainController extends Controller
     		return Redirect::back();
     	}
 
-    	$storage->move($filename, $tmpFilename);
-    	$storage->move($backupFilename, $filename);
-    	$storage->move($tmpFilename, $backupFilename);
+    	$storage->move($filename, $tmpFilename); // banner.png, banner.png.bckp.tmp
+    	$storage->move($backupFilename, $filename); // banner.png.bckp, banner.png
+    	$storage->move($tmpFilename, $backupFilename); // banner.png.bckp.tmp, banner.png.bckp
 
 		if($type === "banner")
 			Flash::success("L'ancienne image de couverture a bien été rétablie.");

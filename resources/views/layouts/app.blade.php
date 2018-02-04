@@ -95,6 +95,6 @@ $events = Template::getEvents();
 	</aside>
 </div>
 @include('layouts.app.footer', $footer_doctors)
-@include('layouts.parts.js');
+@include('layouts.parts.js')
 </body>
 </html>
