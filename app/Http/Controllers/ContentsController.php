@@ -95,19 +95,19 @@ class ContentsController extends Controller
 	}
 
 
-	public function post ()
-	{
-		$data = $this->request->all();
-
-		$data['name'] = 'skills__' . str_slug($data['title']);
-
-		while (Content::where('name', $data['name'])
-					  ->first() != null) {
-			$data['name'] .= random_int(0, 99999);
-		}
-
-		$content = Content::create($data);
-
-		return $content;
-	}
+//	public function post ()
+//	{
+//		$data = $this->request->all();
+//
+//		$data['name'] = 'skills__' . str_slug($data['title']);
+//
+//		while (Content::where('name', $data['name'])
+//					  ->first() != null) {
+//			$data['name'] .= random_int(0, 99999);
+//		}
+//
+//		$content = Content::create($data);
+//
+//		return $content;
+//	}
 }

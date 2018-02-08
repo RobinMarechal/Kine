@@ -16,6 +16,10 @@ $contentBootstrapClassCol = "col-md-9";
 $events = Template::getEvents();
 //$events = new Collection();
 
+$authUser = Auth::user();
+JsVar::create('userId', Auth::guest() ? 0 : $authUser->id);
+JsVar::create('user', $authUser);
+
 ?>
 		<!DOCTYPE html>
 <html>

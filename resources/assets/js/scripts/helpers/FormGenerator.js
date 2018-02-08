@@ -91,6 +91,7 @@ export default class FormGenerator {
 
         if (tag == INPUT_TYPES.INPUT) {
             input = $('<input />');
+            input.attr('maxlength', '255');
         }
         else if (tag == INPUT_TYPES.TEXTAREA) {
             input = $('<textarea></textarea>');
@@ -125,7 +126,7 @@ export default class FormGenerator {
             if (tag == INPUT_TYPES.TEXTAREA) {
                 input.html(this.data[name]);
             } else {
-                input.attr('value', this.data[name]);
+                input.val(this.data[name]);
             }
         }
 
@@ -152,6 +153,7 @@ export default class FormGenerator {
         const formTag = new JQueryObject('form');
         formTag.attr('method', this.method);
         formTag.attr('data-namespace', this.namespace);
+        formTag.addClass('modal-form');
         if (this.data && this.data.id) {
             formTag.attr('data-resource-id', this.data.id);
         }
@@ -182,10 +184,13 @@ export default class FormGenerator {
     displayInDialog() {
         const formBody = this.generateFormBody();
         this.formTag = formBody;
+        let title = MODELS_FORM_DATA[this.namespace].dialogTitle;
+        if(title.includes('{{action}}'))
+            title = title.replace("{{action}}", 'Créer/Modifier');
 
         bootbox.dialog({
             message: formBody,
-            title: 'Modifier un article',
+            title: title,
             backdrop: true,
             onEscape: true,
             buttons: {

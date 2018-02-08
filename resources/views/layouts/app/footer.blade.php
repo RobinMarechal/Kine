@@ -63,7 +63,7 @@
 			@endif
 
 			<a href="{{ url('a-propos') }}">A propos</a> <br>
-			<a href="{{ url('signaler-un-bug') }}">Signaler un bug</a> <br>
+			<a href="#" data-creator data-namespace="bugs">Signaler un bug</a> <br>
 			<a href="{{ url('conditions-generales-d-utilisation') }}">Conditions générales d'utilisation</a> <br>
 			<p>Site web réalisé par <a target="_blank" href="https://www.linkedin.com/in/robinmarechal/"> <b>Robin Maréchal</b></a></p>
 

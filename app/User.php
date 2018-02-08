@@ -107,13 +107,13 @@ class User extends Authenticatable
 	}
 
 
-	public function toJson ($options = 0)
-	{
-		$tmp = $this->getRelation('user');
-		$this->setRelation('user', null);
-		$json = parent::__toString();
-		$this->setRelation('user', $tmp);
-
-		return $json;
-	}
+//	public function toJson ($options = 0)
+//	{
+//		$tmp = $this->getRelation('user');
+//		$this->setRelation('user', null);
+//		$json = parent::__toString();
+//		$this->setRelation('user', $tmp);
+//
+//		return $json;
+//	}
 }

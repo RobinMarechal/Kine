@@ -2,7 +2,6 @@ import Doctor from "../models/Doctor";
 import Flash from "../libs/flash/Flash";
 import Helper from "../helpers/Helper";
 import FA from "../helpers/FA";
-import JQueryHelper from "../helpers/JQueryHelper";
 import JQueryObject from "../libs/JQueryObject";
 
 function buildHtml(doctor) {
@@ -35,7 +34,7 @@ function buildHtml(doctor) {
 
     if (doctor.starts_at != null && doctor.ends_at != null) {
         let pHoraires = new JQueryObject('p');
-        pHoraires.icon = 'clock-o';
+        pHoraires.icon = 'clock';
         pHoraires.append('Horaires : ' + Helper.timeToFormat(doctor.starts_at, 'H:i') + ' - ' + Helper.timeToFormat(doctor.ends_at));
         principalCoo.append(pHoraires.getJqueryObj());
     }
@@ -115,32 +114,29 @@ function buildHtml(doctor) {
     return html;
 }
 
-function showDoctorDialog(el) {
+async function showDoctorDialog(el) {
     const doctorId = el.data('id');
 
-    Doctor.get(doctorId, "with=contacts,user")
-        .then(doctor => {
+    try {
+        const doctor = await Doctor.get(doctorId, "with=contacts,user");
+        const html = buildHtml(doctor);
 
-            const html = buildHtml(doctor);
-
-            bootbox.dialog({
-                title: doctor.name,
-                message: html,
-                size: 'small',
-                backdrop: true,
-                onEscape: true,
-            });
-        })
-        .catch((e) => {
-            console.log(e);
-            Flash.error("Une erreur est survenue, impossible d'afficher les informations concernant l'utilisateur. Veuillez recharger la page et réessayer.");
+        bootbox.dialog({
+            title: doctor.name,
+            message: html,
+            size: 'small',
+            backdrop: true,
+            onEscape: true,
         });
+    }
+    catch (e) {
+        console.log(["footerDoctors#showDoctorDialog", e]);
+        Flash.error("Une erreur est survenue, impossible d'afficher les informations concernant l'utilisateur. Veuillez recharger la page et réessayer.");
+    }
 }
 
 export default function footerDoctors() {
-    const el = ".footer-doctor-name";
-
-    $(el).click(function () {
+    $(".footer-doctor-name").click(function () {
         showDoctorDialog($(this));
     });
 }

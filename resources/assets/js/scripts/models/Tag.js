@@ -4,6 +4,8 @@
 
 import Model from "../libs/Model";
 import Api from "../libs/Api";
+import Article from "./Article";
+import DAO from "./DAO";
 
 export default class Tag extends Model {
 
@@ -11,39 +13,32 @@ export default class Tag extends Model {
         super(obj, ['id', 'name']);
     }
 
-    get id() {
-        return this._id;
+    static async all(){
+        const response = await Api.get('tags');
+        return await response.json();
     }
 
-    get name() {
-        return this._name;
+    static newInstance(...args){
+        return new Tag(...args);
     }
 
-    set name(value) {
-        this._name = value;
+    static get(id, params = "") {
+        return DAO.get(this, id, params);
     }
 
-    set id(value) {
-        this._id = value;
+    static create(data, params = "") {
+        return DAO.create(this, data, params)
     }
 
-    static all(params = "") {
-        return new Promise((resolve, reject) => {
-            Api.get("tags?" + params)
-                .done((response) => {
-                    if (response === null || response.id === null)
-                        reject(null);
-                    else {
-                        let tags = [];
-                        for (let i = 0; i < response.length; i++) {
-                            tags.push(new Tag(response[i]));
-                        }
-                        resolve(tags);
-                    }
-                })
-                .fail((error) => {
-                    reject(error);
-                });
-        });
+    update(params = "") {
+        return DAO.update(this, params);
+    }
+
+    delete(params = ""){
+        return DAO.delete(this, params);
+    }
+
+    static remove(id, params = "") {
+        return DAO.deleteFromId(this, id, params);
     }
 }

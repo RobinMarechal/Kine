@@ -1,6 +1,7 @@
 import Flash from "../libs/flash/Flash";
 import {inputFocusout} from "./editUserInfos";
 import KeyInputBuffer from "../helpers/KeyInputBuffer";
+import Key from "../libs/Key";
 
 export function toggleInput() {
     $('[data-toggle="input"]').click(function () {
@@ -8,8 +9,7 @@ export function toggleInput() {
     });
 }
 
-export function toggleInputClicked(el)
-{
+export function toggleInputClicked(el) {
     if (el.find('input').length == 0) {
         const td = el;
         const padding = td.css('padding');
@@ -28,44 +28,38 @@ export function toggleInputClicked(el)
         td.css('padding', '0');
         input.focus();
         input.keydown(function (ev) {
-            // ev.preventDefault();
-            if (ev.which == 9) {
-                onTabPressed(el, KeyInputBuffer.isPressed(16) ? -1 : 1);
+            console.log(ev.which);
+            // ev.preventDefault();lt
+            if (ev.which === Key.TAB) {
+                onTabPressed(input, KeyInputBuffer.isPressed(Key.CTRL) ? -1 : 1);
                 return false;
             }
-            else if (ev.which == 13) {
-                onEnterPressed(el);
+            else if (ev.which === Key.ENTER) {
+                onEnterPressed(input);
             }
-            else if (ev.which == 27) {
-                onEscapePressed(el, content);
+            else if (ev.which === Key.ESCAPE) {
+                onEscapePressed(input, content);
             }
 
         });
-        input.focusout(function () {
+        input.focusout(async function () {
             if (content != input.val()) {
-                const result = inputFocusout(input);
-                if (result === false) {
-                    Flash.error("Veuillez respecter le format.");
+                try {
+                    content = await inputFocusout(input);
+                }
+                catch (msg) {
+                    Flash.error(msg);
 
                     td.html(content);
                     input.remove();
                     td.attr('data-toggle', 'input');
                     td.css('padding', padding);
                 }
-                else {
-                    result
-                        .then(data => {
-                            content = data[td.data('field')];
-                        })
-                        .catch(() => {
-                            Flash.error('une erreur est survenue, la donnée n\'a pas été modifiée.');
-                        })
-                        .then(data => {
-                            td.html(content);
-                            input.remove();
-                            td.attr('data-toggle', 'input');
-                            td.css('padding', padding);
-                        });
+                finally {
+                    td.html(content);
+                    input.remove();
+                    td.attr('data-toggle', 'input');
+                    td.css('padding', padding);
                 }
             }
             else {

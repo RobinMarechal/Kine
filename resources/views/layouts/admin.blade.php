@@ -15,6 +15,11 @@ $contentBootstrapClassCol = "col-md-9";
 
 $events = new Collection();
 
+$authUser = Auth::user();
+JsVar::create('userId', Auth::guest() ? 0 : $authUser->id);
+JsVar::create('user', $authUser);
+
+
 ?>
 		<!DOCTYPE html>
 <html>
@@ -47,8 +52,9 @@ $events = new Collection();
 
 					@include('layouts.parts.nav', ['nav' => [
 						//['id' => 'nav-', 'href' => '/', 'html' => 'Accueil'],
-						['id' => 'nav-admin-utilisateurs', 'href' => '/admin/utilisateurs', 'html' => 'Liste des utilisateurs'],
+						['id' => 'nav-admin-utilisateurs', 'href' => '/admin/utilisateurs', 'html' => 'Utilisateurs'],
 						['id' => 'nav-admin-contacts', 'href' => '/admin/contacts', 'html' => 'Coordonnées'],
+						['id' => 'nav-admin-bugs', 'href' => '/admin/bugs', 'html' => 'Bugs signalés'],
 					]])
 
 					@if(Auth::check())

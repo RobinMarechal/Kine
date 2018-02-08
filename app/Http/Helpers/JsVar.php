@@ -22,7 +22,6 @@ class JsVar
 
 	function __construct ($name, $data)
 	{
-//		JsVar::create('test', ['abc' => 1, 'def' => 'ghi']);
 		$this->name = $name;
 		$this->data = $data;
 	}

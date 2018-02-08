@@ -4,40 +4,33 @@
 import FlashMessage from "./FlashMessage";
 
 export default class Flash {
-    static display(message, type = "error", delay = null) {
-        if(message instanceof FlashMessage)
-            message = message.message;
+    static async display(message, type = "error", delay = null) {
+        return new Promise(resolve => {
+            if(message instanceof FlashMessage)
+                message = message.message;
 
-        delay = delay == null ? 2000 : delay;
+            delay = delay == null ? 2000 : delay;
 
-        var html = '<div title="Cliquez pour masquer le message" id="alert" class="alert js-alert alert-' + type + '">' + message + '</div>';
-        $('#alert').remove();
-        $('body').append(html);
-        $('#alert.js-alert').animate({'opacity': '+0.9'}, 200);
-        $('#alert.js-alert').delay(delay).animate({'opacity': '-1.2'}, 1000, function () {
-            $(this).remove();
+            var html = '<div title="Cliquez pour masquer le message" id="alert" class="alert js-alert alert-' + type + '">' + message + '</div>';
+            $('#alert').remove();
+            $('body').append(html);
+            $('#alert.js-alert').animate({'opacity': '+0.9'}, 200);
+            $('#alert.js-alert').delay(delay).animate({'opacity': '-1.2'}, 1000, function () {
+                $(this).remove();
+                resolve();
+            });
         });
     }
 
-    // static ok() {
-    //     var html = '<div id="alert" class="js-alert-success alert-sucess"><span class="glyphicon glyphicon-ok flash"></span></div>';
-    //     $('.js-alert-success').remove();
-    //     $('body').append(html);
-    //     $('#alert.js-alert-success').animate({'opacity': '+0.8'}, 350);
-    //     $('#alert.js-alert-success').delay(500).animate({'opacity': '-1.2'}, 550, function () {
-    //         $(this).remove();
-    //     });
-    // }
-
-    static error(message, delay = null) {
+    static async error(message, delay = null) {
         if(message instanceof FlashMessage)
             message = message.message;
-        Flash.display(message, "danger", delay);
+        return Flash.display(message, "danger", delay);
     }
 
-    static success(message, delay = null) {
+    static async success(message, delay = null) {
         if(message instanceof FlashMessage)
             message = message.message;
-        Flash.display(message, "success", delay);
+        return Flash.display(message, "success", delay);
     }
 }

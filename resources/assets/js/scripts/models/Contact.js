@@ -2,8 +2,8 @@
  * Created by Utilisateur on 08/09/2017.
  */
 import Model from "../libs/Model";
-import Api from "../libs/Api";
 import RegexpPattern from "../helpers/RegexpPattern";
+import DAO from "./DAO";
 
 export default class Contact extends Model {
 
@@ -11,87 +11,11 @@ export default class Contact extends Model {
         super(obj, ['id', 'created_at', 'updated_at', 'type', 'value', 'description', 'doctor_id', 'name']);
     }
 
-
-    set type(value) {
-        this._type = value;
+    static newInstance(...args){
+        return new Contact(...args);
     }
 
-    set value(value) {
-        this._value = value;
-    }
-
-    set description(value) {
-        this._description = value;
-    }
-
-    set name(value) {
-        this._name = value;
-    }
-
-    get id() {
-        return this._id;
-    }
-
-    get created_at() {
-        return this._created_at;
-    }
-
-    get updated_at() {
-        return this._updated_at;
-    }
-
-    get type() {
-        return this._type;
-    }
-
-    get value() {
-        return this._value;
-    }
-
-    get description() {
-        return this._description;
-    }
-
-    get name() {
-        return this._name;
-    }
-
-    get doctor_id() {
-        return this._doctor_id;
-    }
-
-    set doctor_id(value) {
-        this._doctor_id = value;
-    }
-
-    static create(data) {
-        if (data.type == null) {
-            data.type = Contact.getTypeOfValue(data.value);
-        }
-        return new Promise((resolve, reject) => {
-            Api.sendData('contacts', 'POST', data)
-                .done((response) => {
-                    resolve(new Contact(response));
-                })
-                .fail((error) => {
-                    reject(error);
-                });
-        });
-    }
-
-    static remove(id) {
-        return new Promise((resolve, reject) => {
-            Api.sendData('contacts/' + id, 'DELETE')
-                .done((response) => {
-                    resolve(response);
-                })
-                .fail((error) => {
-                    reject(error);
-                });
-        });
-    }
-
-    static getTypeOfValue(value) {
+    static async getTypeOfValue(value) {
         const array = ['phone', 'email', 'link'];
 
         for (let i = 0; i < array.length; i++) {
@@ -101,5 +25,25 @@ export default class Contact extends Model {
         }
 
         return 'ADDRESS';
+    }
+
+    static get(id, params = "") {
+        return DAO.get(this, id, params);
+    }
+
+    static create(data, params = "") {
+        return DAO.create(this, data, params)
+    }
+
+    update(params = "") {
+        return DAO.update(this, params);
+    }
+
+    delete(params = ""){
+        return DAO.delete(this, params);
+    }
+
+    static remove(id, params = "") {
+        return DAO.deleteFromId(this, id, params);
     }
 }

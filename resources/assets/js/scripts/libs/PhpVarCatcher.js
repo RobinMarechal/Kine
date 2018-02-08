@@ -2,9 +2,10 @@
  * Created by Utilisateur on 06/09/2017.
  */
 
-let vars = {};
+// const vars = {};
+const map = new Map();
 
-export default class PhpVarCatcher {
+export default class PhpVarMap {
 
     static boot() {
         const div = $('#js-vars-relayer');
@@ -12,17 +13,17 @@ export default class PhpVarCatcher {
 
         for (let i = 0; i < spans.length; i++) {
             const span = $(spans[i]);
-            vars[span.data('var-name')] = JSON.parse(span.html());
+            map.set(span.data('var-name'), JSON.parse(span.html()));
         }
 
         div.remove();
     }
 
-    static getAll() {
-        return vars;
+    static has(name){
+        return map.has(name);
     }
 
     static get(name) {
-        return vars[name];
+        return map.get(name);
     }
 }

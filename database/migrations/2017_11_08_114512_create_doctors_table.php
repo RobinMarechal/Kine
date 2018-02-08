@@ -21,7 +21,6 @@ class CreateDoctorsTable extends Migration
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->string('name')->nullable();
-//			$table->integer('user_id')->nullable()->unsigned();
 			$table->string('phone', 12)->nullable();
 			$table->time('starts_at')->nullable();
 			$table->time('ends_at')->nullable();

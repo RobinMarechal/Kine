@@ -13,8 +13,8 @@ class CreateMediasTable extends Migration {
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->softDeletes();
 			$table->enum('type', array('PICTURE', 'VIDEO', 'DOCUMENT'));
-			$table->string('path', 255)->unique();
-			$table->string('mediaable_type', 255)->nullable();
+			$table->string('path', 100)->unique();
+			$table->string('mediaable_type', 50)->nullable();
 			$table->integer('mediaable_id')->nullable();
 			$table->text('description')->nullable();
 			$table->string('title', 255);

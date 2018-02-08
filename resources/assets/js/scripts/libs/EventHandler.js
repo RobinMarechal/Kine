@@ -19,10 +19,10 @@ export default class EventHandler {
         const eventName = eventType + '_' + namespace;
         const callback = EVENT_CALLBACKS[eventName];
 
-        console.log('calling ', eventName);
-
         if (callback) {
             return callback(data);
         }
+
+        return data;
     }
 }

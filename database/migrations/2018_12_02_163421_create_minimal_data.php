@@ -15,15 +15,21 @@ class CreateMinimalData extends Migration
     public function up()
     {
         About::create([
-        	'title' => 'Erreurs 404',
-			'slug' => 'erreurs-404'
-		]);
+            'title' => 'Erreurs 404',
+            'slug' => 'erreurs-404',
+        ]);
 
         About::create([
-        	'title' => 'La système de tags',
-			'slug' => 'tags'
-		]);
+            'title' => 'La système de tags',
+            'slug' => 'tags',
+        ]);
+
+        About::create([
+            'title' => 'Signaler un bug',
+            'slug' => 'signaler-un-bug',
+        ]);
     }
+
 
     /**
      * Reverse the migrations.

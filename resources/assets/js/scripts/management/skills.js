@@ -4,8 +4,8 @@
 
 import Editor from "../helpers/Editor";
 import Skill from "../models/Skill";
-import Flash from "../libs/flash/Flash";
 import Content from "../models/Content";
+import Flash from "../libs/flash/Flash";
 
 const titleDataTag = $('data#title-template');
 const contentDataTag = $('data#content-template');
@@ -130,8 +130,6 @@ function titleClicked(event, el) {
 
     el = $(el);
 
-    console.log('title clicked');
-
     if (event !== null) {
         event.preventDefault();
     }
@@ -160,7 +158,7 @@ export function skills() {
 
         let html = Content.buildHtmlForm(inputId, 'title', editorId, 'content');
         let indexField = '<div class="form-group">'
-            + '<label class="control-label">Position :</label>'
+            + '<label class="control-label">Poids :</label>'
             + '<input class="form-control" value="0" type="number" name="index" id="' + indexInputId + '"/>'
             + '</div>';
 
@@ -254,28 +252,35 @@ export function skills() {
                                 return false;
                             }
 
-                            skill.update().then((skill) => {
-                                if (skill == null) {
+                            skill.update()
+                                .then((skill) => {
+                                    if (skill == null) {
+                                        Flash.error("Une erreur est survenue, la rubrique n'a pas été modifiée.");
+                                        return false;
+                                    }
+
+                                    let title = $('.skill-titles[data-skill-id=' + skill.id + ']');
+                                    title.html(skill.title);
+                                    title.attr('data-skill-index', skill.index);
+
+                                    const list = getNewList();
+
+                                    reloadHtml(list);
+
+                                    let content = $('.skill-section[data-skill-id=' + skill.id + ']');
+                                    content.children('h1').html(skill.title);
+                                    content.children('p').remove();
+
+                                    let p = $('<p></p>');
+                                    p.html(skill.content);
+                                    content.append(p);
+
+                                    Flash.success("La rubrique a bien été modifiée.");
+                                })
+                                .catch(e => {
                                     Flash.error("Une erreur est survenue, la rubrique n'a pas été modifiée.");
-                                    return false;
-                                }
-
-                                let title = $('.skill-titles[data-skill-id=' + skill.id + ']');
-                                title.html(skill.title);
-                                title.attr('data-skill-index', skill.index);
-
-                                const list = getNewList();
-
-                                reloadHtml(list);
-
-                                let content = $('.skill-section[data-skill-id=' + skill.id + ']');
-                                content.children('h1').html(skill.title);
-                                content.children('p').remove();
-
-                                let p = $('<p></p>');
-                                p.html(skill.content);
-                                content.append(p);
-                            });
+                                    console.log(["skills#validate", e]);
+                                });
                         }
                     }
                 }
@@ -300,15 +305,22 @@ export function skills() {
 
                     const skillId = skillTitle.data('skill-id');
 
-                    Skill.remove(skillId).then((response) => {
-                        skillTitle.remove();
-                        skillContent.remove();
+                    Skill.remove(skillId)
+                        .then((response) => {
+                            skillTitle.remove();
+                            skillContent.remove();
 
-                        let list = $('.skill-titles');
-                        if (list.length > 0) {
-                            titleClicked(null, $(list[0]));
-                        }
-                    });
+                            let list = $('.skill-titles');
+                            if (list.length > 0) {
+                                titleClicked(null, $(list[0]));
+                            }
+
+                            Flash.success("La rubrique a bien été modifiée.");
+                        })
+                        .catch((e) => {
+                            Flash.error("Une erreur est survenue, la rubrique n'a pas été supprimée.");
+                            console.log(["skills#HF", e]);
+                        });
                 }
             }
         });

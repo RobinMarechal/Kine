@@ -3,8 +3,7 @@
         <div class="incoming-events">
             <h1>Événements à venir
                 @if(isAdmin())
-                    <a data-toggle="tooltip" data-placement="left" data-namespace="events" title="Ajouter un événement" href="{{ url('evenements/creer') }}"
-                       class="create-data absolute-right create-new create-event glyphicon glyphicon-plus btn-hover"></a>
+                    {!! addButton(\App\Event::class, ['title' => 'Créer un événement', 'data-placement' => 'left']) !!}
                 @endif
             </h1>
             @if($template_events->count() > 0)
@@ -15,11 +14,6 @@
                        href="/evenements/{{$e->id}}">{{$e->name}}
                     </a>
                     <p class="date {{ $today ? 'today' : '' }} ">
-                        {{--                                 @if($e->start->dayOfYear == $e->end->dayOfYear)
-                                                            Le {{$e->start->format('d/m/Y\, \d\e H:i').' à '.$e->end->format('H:i')}}
-                                                        @else
-                                                            Du {{$e->start->format('d/m').' au '.$e->end->format('d/m Y').', de '.$e->start->format('H:i').' à '.$e->end->format('H:i')}}
-                                                        @endif --}}
                         Début : {{ $e->starts_at->format('d/m/Y \à H:i') }} <br/>Fin : {{ $e->ends_at->format('d/m/Y \à H:i') }}
                     </p>
                 @endforeach

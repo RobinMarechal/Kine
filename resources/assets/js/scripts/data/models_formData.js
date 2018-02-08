@@ -8,7 +8,27 @@ export const INPUT_TYPES = {
 
 export const MODELS_FORM_DATA = {};
 
+MODELS_FORM_DATA.contents = {
+    dialogTitle: "{{action}} une rubrique",
+    fields: ['title', 'content'],
+    title: {
+        input: {
+            tag: INPUT_TYPES.INPUT,
+        },
+        label: 'Titre :',
+        required: true
+    },
+    content: {
+        input: {
+            tag: INPUT_TYPES.TEXTAREA,
+        },
+        label: 'Texte :',
+        required: true
+    }
+};
+
 MODELS_FORM_DATA.abouts = {
+    dialogTitle: "{{action}} une rubrique",
     fields: ['title', 'content'],
     title: {
         input: {
@@ -27,6 +47,8 @@ MODELS_FORM_DATA.abouts = {
 };
 
 MODELS_FORM_DATA.news = {
+    formSubmit: true,
+    dialogTitle: "{{action}} une news",
     fields: ['title', 'content', 'published_at'],
     title: {
         input: {
@@ -52,6 +74,8 @@ MODELS_FORM_DATA.news = {
 
 
 MODELS_FORM_DATA.events = {
+    formSubmit: true,
+    dialogTitle: "{{action}} un événement",
     fields: ['name', 'description', 'article', 'start_date', 'start_time', 'end_date', 'end_time'],
     name: {
         input: {
@@ -64,7 +88,7 @@ MODELS_FORM_DATA.events = {
         input: {
             tag: INPUT_TYPES.TEXTAREA,
             attributes: {
-                rows:5,
+                rows: 5,
             },
             editor: false,
         },
@@ -102,5 +126,31 @@ MODELS_FORM_DATA.events = {
             tag: INPUT_TYPES.TIME
         },
         label: "Heure de fin de l'événement : ",
+    }
+};
+
+
+MODELS_FORM_DATA.bugs = {
+    dialogTitle: "Signaler un bug",
+    fields: ['summary', 'description'],
+    description: {
+        input: {
+            tag: INPUT_TYPES.TEXTAREA,
+        },
+        label: `Détails (optionnel):`,
+    },
+    summary: {
+        input: {
+            tag: INPUT_TYPES.INPUT,
+        },
+        label: `Description courte : 
+                <a href="/a-propos#signaler-un-bug" 
+                    class="help close-modal" 
+                    title="Pourquoi et comment remplir le formulaire" 
+                    data-toggle="tooltip" 
+                    data-placement="top">
+                    <i class="fa fa-question-circle"></i>
+                </a>`,
+        required: true
     }
 };

@@ -8,6 +8,7 @@ use ErrorException;
 use Exception;
 use Facebook\Authentication\AccessToken;
 use Facebook\Facebook;
+use Helpers\JsVar;
 use Helpers\Template;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Foundation\Bus\DispatchesJobs;
@@ -46,26 +47,27 @@ class Controller extends BaseController
 	 */
 	function __construct (Request $request)
 	{
-		$this->request = $request;
+        $this->request = $request;
 
-		$template_news = new Collection();
-		$template_events = new Collection();
-		$nbOfNotifications = new Collection();
+        if(!$request->ajax()){
 
-		if (/*Route::currentRouteName() != "home" && */
-			Route::currentRouteName() != "development"
-		) {
+            $template_news = new Collection();
+            $template_events = new Collection();
+            $nbOfNotifications = new Collection();
 
-			$template_news = Template::getNews();
-			$template_events = Template::getEvents();
-		}
+            if (/*Route::currentRouteName() != "home" && */
+                Route::currentRouteName() != "development"
+            ) {
 
-		$footer_doctors = Template::getDoctors();
-		$footer_other_contacts = Template::getOtherContacts();
+                $template_news = Template::getNews();
+                $template_events = Template::getEvents();
+            }
 
-//		$this->test();
+            $footer_doctors = Template::getDoctors();
+            $footer_other_contacts = Template::getOtherContacts();
 
-		View::share(compact('template_news', 'template_events', 'nbOfNotifications', 'footer_doctors', 'footer_other_contacts'));
+            View::share(compact('template_news', 'template_events', 'nbOfNotifications', 'footer_doctors', 'footer_other_contacts'));
+        }
 	}
 
 
@@ -168,8 +170,7 @@ class Controller extends BaseController
 			return new ResponseData(null, Response::HTTP_BAD_REQUEST);
 		}
 
-		$cat->delete();
-		$res = $cat;
+		$res = $cat->delete();
 
 		if ($this->request->userWantsAll()) {
 			$res = $this->all();
@@ -184,8 +185,6 @@ class Controller extends BaseController
 		$cat = $class::create($this->request->all());
 
 		$res = $cat;
-
-//		dd($res);
 
 		if ($this->request->userWantsAll()) {
 			$res = $this->all();

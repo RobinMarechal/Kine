@@ -7,21 +7,15 @@ export default class Model {
 
     constructor(obj, fields) {
 
-        this._fields = fields;
+        this.fields = fields;
 
         if (obj != null) {
             for (let prop in obj) {
                 if (obj.hasOwnProperty(prop)) {
-                    let thisProp = fields.indexOf(prop) == -1 ? prop : '_' + prop;
-                    this[thisProp] = obj[prop];
+                    this[prop] = obj[prop];
                 }
             }
         }
-    }
-
-
-    get fields() {
-        return this._fields;
     }
 
     static get baseApiUrl() {

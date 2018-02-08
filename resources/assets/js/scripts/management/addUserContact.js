@@ -7,10 +7,6 @@ import Flash from "../libs/flash/Flash";
 import {toggleInputClicked} from "./toggleInputControls";
 
 function addContact(contact) {
-    console.log(contact);
-    console.log(contact.name);
-    console.log(contact.value);
-    console.log(contact.display);
     const tbody = $('#table-contacts tbody');
     const tr = $(`<tr data-id="${contact.id}" data-namespace="contacts">`);
 
@@ -22,20 +18,19 @@ function addContact(contact) {
     tr.append(tdValue);
     tr.append(tdDisplay);
 
-    tdName.click(function() {
+    tdName.click(function () {
         toggleInputClicked($(this));
     });
-    tdValue.click(function() {
+    tdValue.click(function () {
         toggleInputClicked($(this));
     });
-    tdDisplay.click(function() {
+    tdDisplay.click(function () {
         toggleInputClicked($(this));
     });
 
     const td = $('<td class="controls" align="center"></td>');
-    const fa = $('<i title="Supprimer cette ligne" class="fa fa-times-circle delete-contact" aria-hidden="true"></i>');
-    fa.click(function()
-    {
+    const fa = $('<a class="delete-contact" title="Supprimer cette ligne" data-toggle="tooltip"><i class="fas fa-times-circle fa-sm" aria-hidden="true"></i></a>');
+    fa.click(function () {
         removeLine($(this).parents('tr'));
     });
     td.append(fa);
@@ -44,7 +39,7 @@ function addContact(contact) {
     tbody.append(tr);
 }
 
-function createContact() {
+async function createContact() {
     const inputName = $('#new-contact-name');
     const inputValue = $('#new-contact-value');
     const inputDescription = $('#new-contact-description');
@@ -81,15 +76,16 @@ function createContact() {
         doctor_id: userId,
     };
 
-    return Contact.create(data)
-        .then(contact => {
-            addContact(contact);
-            inputName.val('');
-            inputValue.val('');
-            inputDescription.val('');
-        }).catch(() => {
-            Flash.error("Une erreur est survenue, la données n'a peut être pas été créée.");
-        });
+    try {
+        const contact = await Contact.create(data);
+        addContact(contact);
+        inputName.val('');
+        inputValue.val('');
+        inputDescription.val('');
+    }
+    catch (e) {
+        Flash.error("Une erreur est survenue, la données n'a peut être pas été créée.");
+    }
 }
 
 export function addUserContact() {
@@ -105,20 +101,19 @@ export function addUserContact() {
 }
 
 
-function removeLine(line) {
+async function removeLine(line) {
     const id = line.data('id');
-    return Contact.remove(id)
-        .then(() => {
-            Flash.success("Cet enregistrement a bien été supprimé de la base de données.");
-            line.remove();
-        })
-        .catch(() => {
-            Flash.error("Une erreur est survenue, l'enregistrement n'a pas pu être supprimé.");
-        });
+    const remove = await Contact.remove(id);
+    if (!remove)
+        throw false;
+
+    Flash.success("Cet enregistrement a bien été supprimé de la base de données.");
+    line.remove();
 }
 
 export function removeUserContact() {
     $('.delete-contact').click(function () {
+        console.log('oui');
         removeLine($(this).parents('tr'));
     });
 }

@@ -1,14 +1,17 @@
 /**
  * Created by Utilisateur on 16/07/2017.
  */
+import Content from "./models/Content";
+
 $('#create-skills-content').click(function () {
+    console.log("oui");
     bootbox.dialog({
-        message: '<div class="form-group">' +
-        '<label class="label-control">Titre :</label>' +
-        '<input class="form-control" type="text" name="title" id="title" placeholder="Titre de la rubrique"/>' +
-        '</div>' +
-        '<label class="label-control">Texte :</label>' +
-        '<textarea class="form-control" id="content" name="content" placeholder="Texte de la rubrique"></textarea>',
+        message: `<div class="form-group">
+                    <label class="label-control">Titre :</label>
+                    <input class="form-control" type="text" name="title" id="title" placeholder="Titre de la rubrique"/>
+                  </div>
+                    <label class="label-control">Texte :</label>
+                    <textarea class="form-control" id="content" name="content" placeholder="Texte de la rubrique"></textarea>`,
         title: "Ajouter une rubrique",
         backdrop: true,
         buttons: {

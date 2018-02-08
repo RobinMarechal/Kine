@@ -1,28 +1,48 @@
 import * as $ from "jquery";
+
 export default class Api {
 
     static getBaseUrl() {
         return 'http://' + window.location.host + "/api";
     }
 
-    static sendData(url, httpMethod = 'POST', data = null) {
-        $.ajaxSetup({
-            headers: {
-                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-            }
-        });
+    static async sendData(url, httpMethod = 'POST', data = null) {
+        if (!url)
+            return null;
 
-        return $.ajax({
+        if (!url.includes("api"))
+            url = "/api/" + url;
+
+        const fetchObj = {
             method: httpMethod,
-            url: '/api/' + url,
-            data: data
-        });
+            headers: {
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'Content-Type': 'application/json',
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        };
+
+        if (data) {
+            fetchObj.body = JSON.stringify(data);
+        }
+
+        return fetch(url, fetchObj);
     }
 
-    static get(url, api = true) {
-        if (api)
-            url = '/api/' + url;
+    static async get(url, api = true) {
+        if (!url)
+            return null;
 
-        return $.get(url);
+        if (api && !url.includes("api"))
+            url = "/api/" + url;
+
+        return fetch(url, {
+            headers: {
+                'Accept': 'application/json',
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content'),
+                'X-Requested-With': 'XMLHttpRequest'
+            }
+        });
     }
 }

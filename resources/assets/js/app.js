@@ -6,7 +6,7 @@
 import {navActive} from './scripts/nav-active';
 import {editContents} from "./scripts/management/contents";
 import {skills} from "./scripts/management/skills";
-import {createNews, news} from "./scripts/management/news";
+import {news} from "./scripts/management/news";
 import {articles, createArticle} from "./scripts/management/articles";
 import Editor from "./scripts/helpers/Editor";
 import Router from "./scripts/libs/Router";
@@ -15,15 +15,15 @@ import Vars from "./scripts/libs/PhpVarCatcher";
 import {addUserContact, removeUserContact} from "./scripts/management/addUserContact";
 import {toggleInput} from "./scripts/management/toggleInputControls";
 import KeyInputBuffer from "./scripts/helpers/KeyInputBuffer";
-import RegexpPattern from "./scripts/helpers/RegexpPattern";
 import footerDoctors from "./scripts/management/footerDoctors";
 import Api from "./scripts/libs/Api";
 import Flash from "./scripts/libs/flash/Flash";
-import FormGenerator from "./scripts/helpers/FormGenerator";
-import News from "./scripts/models/News";
 import manageAbouts from "./scripts/management/manageAbouts";
 import manageDataCreation from "./scripts/management/manageDataCreation";
 import updateImage from "./scripts/management/updateImage";
+import User from "./scripts/models/User";
+import manageBugs from "./scripts/management/manageBugs";
+import Helper from "./scripts/helpers/Helper";
 
 // var url = window.location.pathname;
 
@@ -31,7 +31,12 @@ $('.alert').delay(2500).fadeOut(700, function () {
     $(this).remove();
 });
 
+$.prototype.toHtmlString = function () {
+    return this.prop('outerHTML');
+};
+
 $(document).ready(function () {
+    $('.close-modal').click(() => bootbox.hideAll());
     $('[data-toggle="tooltip"]').tooltip();
     Editor.prepare($('[data-toggle="editor"]'));
     Editor.prepare($('[data-toggle="focus-sensitive-editor"]'), {
@@ -110,7 +115,7 @@ KeyInputBuffer.boot();
 
 navActive();
 editContents();
-createNews();
+// createNews();
 footerDoctors();
 manageDataCreation();
 updateImage();
@@ -125,7 +130,7 @@ Router.addRoute('articles\\/\\d+\\/?', [
 ]);
 
 Router.addRoute('news\\/\\d+\\/?', [
-    () => news(),
+    // () => news(),
 ]);
 
 Router.addRoute('nos-competences\\/?', [
@@ -148,6 +153,10 @@ Router.addRoute('admin\\/contacts\\/?', [
 
 Router.addRoute('a-propos\\/?', [
     () => manageAbouts()
+]);
+
+Router.addRoute('admin\\/bugs(\\/\\d+\\/?)?', [
+    () => manageBugs()
 ]);
 
 Router.execute();

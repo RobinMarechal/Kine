@@ -11,13 +11,15 @@
 |
 */
 
+Route::get('test', 'MainController@test');
+
 Route::get('/', 'MainController@index')->name('home');
 
 Route::post('update_image', 'MainController@updateImage')->name('updateImage')->middleware('doctor');
 Route::post('update_image/undo/{type}', 'MainController@undoImage')->name('undoImage')->middleware('doctor');
 
-Route::get('user', 'ApiController@user')->name('api.user')->middleware('doctor');
-Route::get('doctor', 'ApiController@doctor')->name('api.doctor')->middleware('doctor');
+Route::get('user', 'ApiController@user')->name('api.user');//->middleware(['doctor', 'ajax']);
+Route::get('doctor', 'ApiController@doctor')->name('api.doctor')->middleware('auth');//->middleware(['doctor', 'ajax']);
 
 /*
  * Administration routes
@@ -27,6 +29,13 @@ Route::group(['prefix' => 'admin', 'middleware' => 'admin'], function () {
     Route::get('utilisateurs', 'Admin\AdminsController@users')->name('admin.users');
     Route::get('contacts', 'Admin\AdminsController@contacts')->name('admin.contacts');
     Route::get('utilisateurs/{id}', 'Admin\AdminsController@showUser')->name('admin.showUser');
+
+    Route::prefix('bugs')->group(function(){
+        Route::get('/', 'BugsController@showPending')->name('admin.bugs.showPending');
+        Route::get('/resolus', 'BugsController@showSolved')->name('admin.bugs.showSolved');
+        Route::get('/tous', 'BugsController@showAll')->name('admin.bugs.showAll');
+        Route::get('{id}', 'BugsController@show')->name('admin.bugs.show');
+    });
 });
 
 Route::get('admin/development', 'MainController@dev')->name('development');
@@ -59,6 +68,7 @@ Route::prefix("news")->group(function () {
     Route::get('/', 'NewsController@index')->name('news.index');
     Route::get('a-venir', 'NewsController@future')->middleware('admin')->name('news.future');
     Route::get('{id}', 'NewsController@show')->name('news.show');
+    Route::post('/', 'NewsController@post')->name('news.post')->middleware(['auth', 'doctor']);
 });
 
 Route::prefix('articles')->group(function () {
@@ -78,6 +88,5 @@ Route::prefix('cours')->group(function () {
 });
 
 Route::get('a-propos', 'MainController@about')->name('about');
-Route::get('signaler-un-bug', 'MainController@bug')->name('bug');
-Route::get('conditions-generales-d\'utilisation', 'MainController@cgu')->name('cgu');
+Route::get('conditions-generales-d-utilisation', 'MainController@cgu')->name('cgu');
 Route::get('{any?}', 'MainController@e404')->where('any', '.*')->name('404');

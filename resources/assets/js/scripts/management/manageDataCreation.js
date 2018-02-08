@@ -5,7 +5,7 @@ import EventHandler, {EVENT_TYPES} from "../libs/EventHandler";
 import RemovingConfirmDialog from "../helpers/RemovingConfirmDialog";
 import FlashMessage from "../libs/flash/FlashMessage";
 
-function onSubmit(formGenerator) {
+async function onSubmit(formGenerator) {
     const namespace = formGenerator.namespace;
     let sendDataTo;
     let method = 'POST';
@@ -20,11 +20,7 @@ function onSubmit(formGenerator) {
         }
     }
 
-    console.log("before event call", obj);
-
     obj = EventHandler.event(EVENT_TYPES.BEFORE, namespace, obj);
-
-    console.log("after event call", obj);
 
     sendDataTo = namespace;
     if (obj.id) {
@@ -32,26 +28,28 @@ function onSubmit(formGenerator) {
         method = 'PUT';
     }
 
-    Api.sendData(sendDataTo, method, obj)
-        .then(function (response) {
+    try {
+        let response = await Api.sendData(sendDataTo, method, obj);
+        response = await response.json();
 
-            if (response.length == 0) {
-                throw null;
-            }
+        if (response.length == 0) {
+            throw null;
+        }
 
-            if (obj.id && obj.id == response.id) {
-                EventHandler.event(EVENT_TYPES.UPDATED, namespace, response);
-            } else {
-                EventHandler.event(EVENT_TYPES.CREATED, namespace, response);
-            }
-        })
-        .catch(function () {
-            if (obj && obj.id) {
-                Flash.error("Une erreur est survenue, la donnée n'a pas été modifiée.");
-            } else {
-                Flash.error("Une erreur est survenue, la donnée n'a pas été créée.");
-            }
-        });
+        if (obj.id && obj.id == response.id) {
+            EventHandler.event(EVENT_TYPES.UPDATED, namespace, response);
+        } else {
+            EventHandler.event(EVENT_TYPES.CREATED, namespace, response);
+        }
+    }
+    catch (e) {
+        if (obj && obj.id) {
+            Flash.error("Une erreur est survenue, la donnée n'a pas été modifiée.");
+        } else {
+            Flash.error("Une erreur est survenue, la donnée n'a pas été créée.");
+        }
+        console.log(e);
+    }
 }
 
 export function dataCreationButtonClicked(button) {
@@ -63,19 +61,21 @@ export function dataCreationButtonClicked(button) {
 }
 
 
-export function dataUpdatingButtonClicked(button) {
+export async function dataUpdatingButtonClicked(button) {
     const namespace = button.data('namespace');
     const dataId = button.data('id');
 
-    Api.get(namespace + '/' + dataId)
-        .then((response) => {
-            const generator = FormGenerator.create(namespace, response);
-            generator.onValidate = onSubmit;
-            generator.displayInDialog();
-        })
-        .catch(() => {
-            Flash.error("Une erreur est survenue lors de la récupération des données.");
-        });
+    try{
+        let response = await Api.get(namespace + '/' + dataId);
+        response = await response.json();
+        const generator = FormGenerator.create(namespace, response);
+        generator.onValidate = onSubmit;
+        generator.displayInDialog();
+    }
+    catch(e){
+        Flash.error("Une erreur est survenue lors de la récupération des données.");
+        console.log(["manageDataCreation#dataUpdatingButtonClickec", e]);
+    }
 }
 
 export function dataRemovingButtonClicked(button) {
@@ -105,7 +105,7 @@ export function dataRemovingButtonClicked(button) {
 }
 
 export default function manageDataCreation() {
-    $('.create-data').click(function (ev) {
+    $('.create-data, [data-creator]').click(function (ev) {
         ev.preventDefault();
         dataCreationButtonClicked($(this));
     });
@@ -114,12 +114,12 @@ export default function manageDataCreation() {
 }
 
 export function manageDataRemovingAndUpdate() {
-    $('.update-data').click(function (ev) {
+    $('.update-data, [data-updater]').click(function (ev) {
         ev.preventDefault();
         dataUpdatingButtonClicked($(this));
     });
 
-    $('.remove-data').click(function (ev) {
+    $('.remove-data, [data-remover]').click(function (ev) {
         ev.preventDefault();
         dataRemovingButtonClicked($(this));
     });

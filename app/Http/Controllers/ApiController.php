@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Doctor;
 use function camel_case;
 use function class_exists;
 use ErrorException;
@@ -31,12 +32,12 @@ class ApiController extends Controller
 	public function dispatch ($resource, $id = null, $relation = null, $relatedId = null)
 	{
 		if ($this->request->path() == 'api/auth/user') {
-			return $this->user();
+			return response()->json($this->user(), 200);
 		}
 
 		try {
-
 			$controllerClassName = "App\\Http\\Controllers\\" . strtoupper($resource[0]) . camel_case(substr($resource, 1)) . "Controller";
+
 
 			if (!class_exists($controllerClassName)) {
 				throw new ClassNotFoundException("Controller '$controllerClassName' doesn't exist.", new ErrorException());

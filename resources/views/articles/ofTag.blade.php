@@ -20,8 +20,8 @@
 
 	<hr>
 	<div class="section-footer">
-		<a href="{{ url('articles') }}"><span class="glyphicon glyphicon glyphicon-arrow-right"></span> Voir tous les articles disponnibles.</a>
-		<a href="{{ url('a-propos#tags') }}"><span class="glyphicon glyphicon glyphicon-arrow-right"></span> En savoir plur sur le système de tags.</a>
+		<a href="{{ url('articles') }}"><span class="fas fa-list-alt"></span> Voir tous les articles disponnibles.</a>
+		<a href="{{ url('a-propos#tags') }}"><span class="fas fa-tags"></span> En savoir plur sur le système de tags.</a>
 	</div>
 
 

@@ -25,7 +25,7 @@
 					}}</td>
 					<td class="user-edition-field-container" data-field="display" data-toggle="input" data-max-length="255">{{ $c->display }}</td>
 					<td class="controls" align="center">
-						<i title="Supprimer cette ligne" class="fa fa-times-circle delete-contact" aria-hidden="true"></i>
+						<a class="delete-contact pointer" title="Supprimer cette ligne" data-toggle="tooltip"><i class="fas fa-times-circle fa-sm" aria-hidden="true"></i></a>
 					</td>
 				</tr>
 			@empty

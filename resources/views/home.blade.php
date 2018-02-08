@@ -2,11 +2,16 @@
 
 @section('content')
 
-    <h1>Content</h1>
-    <hr>
+    <div @editable($content)>
+        @if(isAdmin())
+            {!! editButton($content, ['title' => 'Modifier le contenu', 'data-placement' => 'left']) !!}
+        @endif
 
-    <br>
-
-    <br>
+        <h1 class="content-title">{{ $content->title }}</h1>
+            <hr>
+        <div class="content-content">
+            {!! $content->content !!}
+        </div>
+    </div>
 
 @stop

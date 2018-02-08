@@ -3,6 +3,8 @@
 namespace App\Http\Middleware;
 
 use Closure;
+use Illuminate\Support\Facades\Redirect;
+use Laracasts\Flash\Flash;
 
 class RedirectIfNotDoctor
 {
@@ -17,6 +19,10 @@ class RedirectIfNotDoctor
 	{
 		if(!isAdmin())
 		{
+		    if($request->ajax()){
+                return response('Unauthorized.', 401);
+            }
+
 			Flash::error('Cette section est réservée aux administrateurs.');
 			return Redirect::back();
 		}

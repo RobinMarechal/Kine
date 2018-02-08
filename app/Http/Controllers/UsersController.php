@@ -13,152 +13,71 @@ use function response;
 
 class UsersController extends Controller
 {
-
-	/**
-	 * Display a listing of the resource.
-	 * @return Response
-	 */
-	public function index ()
-	{
-	}
-
-
-	/**
-	 * Show the form for creating a new resource.
-	 * @return Response
-	 */
-	public function create ()
-	{
-	}
+    /**
+     * Display all the user's notifications
+     * @return Response1
+     */
+    public function showAllNotifications()
+    {
+        return $this->showNotifications(true);
+    }
 
 
-	/**
-	 * Store a newly created resource in storage.
-	 * @return Response
-	 */
-	public function store ()
-	{
-	}
+    /**
+     * Display the user's unseed notifications
+     *
+     * @param bool $all
+     *
+     * @return \App\Http\Controllers\Response
+     */
+    public function showNotifications($all = false)
+    {
+        $user = Auth::user();
+
+        $notifications = Notification::ofUser($user)
+                                     ->unseen($all)
+                                     ->fromNewerToOlder()
+                                     ->paginate(10);
+
+        foreach ($notifications as $n) {
+            $n->seen_at = Carbon::now();
+            $n->save();
+        }
+
+        return view('users.notifications', compact('notifications', 'all'));
+    }
 
 
-	/**
-	 * Display the specified resource.
-	 *
-	 * @param  int $id
-	 *
-	 * @return Response
-	 */
-	public function show ($id)
-	{
-	}
+    public function updateTags($userId)
+    {
+        User::findOrFail($userId);
 
+        TagUser::whereUserId($userId)
+               ->delete();
 
-	/**
-	 * Display the user's unseed notifications
-	 *
-	 * @param bool $all
-	 *
-	 * @return \App\Http\Controllers\Response
-	 */
-	public function showNotifications ($all = false)
-	{
-		$user = Auth::user();
+        $array = [];
+        foreach ($this->request->tags as $tag) {
+            $array[] = ['user_id' => $userId, 'tag_id' => $tag];
+        }
 
-		$notifications = Notification::ofUser($user)
-									 ->unseen($all)
-									 ->fromNewerToOlder()
-									 ->paginate(10);
+        TagUser::insert($array);
 
-		foreach ($notifications as $n) {
-			$n->seen_at = Carbon::now();
-			$n->save();
-		}
+        $pivots = TagUser::with('tag')
+                         ->whereUserId($userId)
+                         ->get();
 
-		return view('users.notifications', compact('notifications', 'all'));
-	}
+        $tagNames = [];
 
+        foreach ($pivots as $p) {
+            $tagNames[] = $p->tag->name;
+        }
 
-	/**
-	 * Display all the user's notifications
-	 * @return Response1
-	 */
-	public function showAllNotifications ()
-	{
-		return $this->showNotifications(true);
-	}
+        $result = ['user_id' => $userId, 'tags' => $tagNames];
 
+        $notification = "Vous possédez désormais les tags suivants : " . implode(', ', $tagNames) . ".";
 
-	/**
-	 * Show the form for editing the specified resource.
-	 *
-	 * @param  int $id
-	 *
-	 * @return Response
-	 */
-	public function edit ($id)
-	{
-	}
+        Notification::sendToUser($userId, $notification);
 
-
-	/**
-	 * Update the specified resource in storage.
-	 *
-	 * @param  int $id
-	 *
-	 * @return Response
-	 */
-	public function update ($id)
-	{
-	}
-
-
-	public function updateTags ($userId)
-	{
-		User::findOrFail($userId);
-
-		TagUser::whereUserId($userId)
-			   ->delete();
-
-		$array = [];
-		foreach ($this->request->tags as $tag) {
-			$array[] = ['user_id' => $userId, 'tag_id' => $tag];
-		}
-
-		TagUser::insert($array);
-
-		$pivots = TagUser::with('tag')
-						 ->whereUserId($userId)
-						 ->get();
-
-		$tagNames = [];
-
-		foreach ($pivots as $p) {
-			$tagNames[] = $p->tag->name;
-		}
-
-		$result = ['user_id' => $userId, 'tags' => $tagNames];
-
-		$notification = "Vous possédez désormais les tags suivants : " . implode(', ', $tagNames) . ".";
-
-		Notification::sendToUser($userId, $notification);
-
-		return response()->json($result);
-	}
-
-
-	/**
-	 * Remove the specified resource from storage.
-	 *
-	 * @param  int $id
-	 *
-	 * @return Response
-	 */
-	public function destroy ($id)
-	{
-	}
-
+        return response()->json($result);
+    }
 }
-
-
-
-?>

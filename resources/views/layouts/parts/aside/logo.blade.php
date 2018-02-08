@@ -16,6 +16,6 @@
                                      'fa')
             !!}
         @endif
-        <img src="{{ url('storage/logo.png') }}" alt="">
+        <img src="{{ url('uploads/logo.png') }}" alt="">
     </div>
 </section>

@@ -2,9 +2,8 @@
  * Created by Utilisateur on 07/08/2017.
  */
 
-import Api from "../libs/Api";
-import Flash from "../libs/flash/Flash";
 import Model from "../libs/Model";
+import DAO from "./DAO";
 
 export default class Doctor extends Model {
 
@@ -20,116 +19,28 @@ export default class Doctor extends Model {
         return 'doctors';
     }
 
-    get id() {
-        return this._id;
-    }
 
-    set id(value) {
-        this._id = value;
+    static newInstance(...args){
+        return new Doctor(...args);
     }
-
-    get phone() {
-        return this._phone;
-    }
-
-    set phone(value) {
-        this._phone = value;
-    }
-
-    get starts_at() {
-        return this._starts_at;
-    }
-
-    set starts_at(value) {
-        return this._starts_at;
-    }
-
-    get ends_at() {
-        return this._ends_at;
-    }
-
-    set ends_at(value) {
-        return this._ends_at;
-    }
-
-    get resume() {
-        return this._resume;
-    }
-
-    set resume(value) {
-        return this._resume;
-    }
-
-    get description() {
-        return this._description;
-    }
-
-    set description(value) {
-        return this._description;
-    }
-
-    // get user(){
-    //     return this._user;
-    // }
 
     static get(id, params = "") {
-        return new Promise((resolve, reject) => {
-            Api.get('doctors/' + id + "?" + params)
-                .done((response) => {
-                    // console.log(response);
-                    if (response === null || response.id === null) {
-                        resolve(null);
-                    } else {
-                        resolve(new Doctor(response));
-                    }
-                })
-                .fail((error) => {
-                    reject(error);
-                });
-        });
+        return DAO.get(this, id, params);
     }
 
     static create(data, params = "") {
-        return new Promise((resolve, reject) => {
-            Api.sendData('doctors?' + params, 'POST', data)
-                .done((response) => {
-                    // console.log(response);
-                    resolve(new Doctor(response));
-                })
-                .fail((error) => {
-                    reject(error);
-                });
-        });
+        return DAO.create(this, data, params)
     }
 
     update(params = "") {
-        // console.log(this);
-        return new Promise((resolve, reject) => {
-            Api.sendData('doctors/' + this.id + "?" + params, 'PUT', this.toJson())
-                .done((response) => {
-                    console.log(response);
-                    const news = new Doctor(response);
-                    Flash.success("Le kiné a bien été modifié !");
-                    resolve(news);
-                })
-                .fail((error) => {
-                    Flash.error('Impossible de modifier le kiné. Si le problème persiste, contactez l\'administrateur.');
-                    reject(error);
-                });
-        });
+        return DAO.update(this, params);
     }
 
-    static remove(id) {
-        return new Promise((resolve, reject) => {
-            Api.sendData('doctors/' + id, 'DELETE')
-                .done((response) => {
-                    Flash.success('Le kiné a bien été supprimé.');
-                    resolve(response);
-                })
-                .fail((error) => {
-                    Flash.error('Une erreur est survenue, l\'utilisateur n\'a pas été supprimé.');
-                    reject(error);
-                });
-        });
+    delete(params = ""){
+        return DAO.delete(this, params);
+    }
+
+    static remove(id, params = "") {
+        return DAO.deleteFromId(this, id, params);
     }
 }

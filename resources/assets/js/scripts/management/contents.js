@@ -7,19 +7,17 @@ import Editor from "../helpers/Editor";
 import Flash from "../libs/flash/Flash";
 
 function reloadHtml(content) {
-    let h1 = $('#content-'+content.id+'-title');
-    let text = $('#content-'+content.id+'-content');
+    let h1 = $('#content-' + content.id + '-title');
+    let text = $('#content-' + content.id + '-content');
 
     h1.html(content.title);
     text.html(content.content);
 }
 
-export function editContents() {
-    $('.content-editable #edit-content').click(function () {
+export async function editContents() {
+    $('.content-editable #edit-content').click(async function () {
         var id = $(this).data('id'),
             name = $(this).data('name');
-
-
 
 
         const inputId = "bb_content-" + id + "-title";
@@ -27,45 +25,42 @@ export function editContents() {
 
         const editorSelector = '#' + textareaId;
 
-        Content.get(id).then(function (content) {
-            bootbox.dialog({
-                message: Content.buildHtmlForm(inputId, 'title', textareaId, null, content.title, content.content),
-                title: "Modifier un contenu",
-                backdrop: true,
-                buttons: {
-                    cancel: {
-                        label: "Annuler",
-                        className: "btn-default",
-                    },
-                    validate: {
-                        label: "Valider",
-                        className: "btn-primary",
-                        callback: () => {
+        const content = await Content.get(id);
 
-                            content.title = $('#bb_content-' + id + '-title').val();
-                            content.content = Editor.getActiveEditorContent();
+        bootbox.dialog({
+            message: Content.buildHtmlForm(inputId, 'title', textareaId, null, content.title, content.content),
+            title: "Modifier un contenu",
+            backdrop: true,
+            buttons: {
+                cancel: {
+                    label: "Annuler",
+                    className: "btn-default",
+                },
+                validate: {
+                    label: "Valider",
+                    className: "btn-primary",
+                    callback: async () => {
 
-                            if(content.title == "" || content.content == "")
-                            {
-                                Flash.error("Tous les champs champs sont requis.");
-                                return false;
-                            }
+                        content.title = $('#bb_content-' + id + '-title').val();
+                        content.content = Editor.getActiveEditorContent();
 
-                            content.update().then((content) => {
-                                if (content == null) {
-                                    Flash.error("Une erreur est survenue, les données n'ont pas été modifiées.");
-                                    return false;
-                                }
-
-                                reloadHtml(content);
-                            });
+                        if (content.title == "" || content.content == "") {
+                            Flash.error("Tous les champs champs sont requis.");
+                            return false;
                         }
+
+                        const resultContent = await content.update();
+                        if (resultContent == null) {
+                            Flash.error("Une erreur est survenue, les données n'ont pas été modifiées.");
+                            return false;
+                        }
+
+                        reloadHtml(resultContent);
                     }
                 }
-            });
-
-            Editor.createUnique(editorSelector);
+            }
         });
 
+        Editor.createUnique(editorSelector);
     });
 }

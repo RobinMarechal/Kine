@@ -13,18 +13,18 @@ class CreateSkillsTable extends Migration
      */
     public function up()
     {
-        Schema::create('skills', function(Blueprint $table)
-		{
-			$table->increments('id');
-			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-			$table->timestamp('deleted_at')->nullable();
-			$table->string('title')->nullable(false);
-			$table->text('content')->nullable(false);
-			$table->integer('doctor_id')->nullable()->unsigned();
-			$table->integer('index')->default(0);
-		});
+        Schema::create('skills', function (Blueprint $table) {
+            $table->increments('id');
+            $table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+            $table->timestamp('deleted_at')->nullable();
+            $table->string('title')->nullable(false);
+            $table->text('content')->nullable(false);
+            $table->integer('doctor_id')->nullable()->unsigned();
+            $table->integer('index')->default(0);
+        });
     }
+
 
     /**
      * Reverse the migrations.
@@ -33,6 +33,6 @@ class CreateSkillsTable extends Migration
      */
     public function down()
     {
-		Schema::drop('skills');
+        Schema::drop('skills');
     }
 }

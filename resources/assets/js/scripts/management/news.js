@@ -54,6 +54,7 @@ function buildForm(news = null) {
 }
 
 function openNewsDialog(news = null) {
+    console.log("NEEEEWS");
     const form = buildForm(news);
     let datepicker = null;
 
@@ -69,13 +70,21 @@ function openNewsDialog(news = null) {
             validate: {
                 label: "Valider",
                 className: "btn-primary",
-                callback: () => {
+                callback: async () => {
 
                     const data = {
                         title: $('#bb_title').val(),
                         content: Editor.getActiveEditorContent(),
                         published_at: datepicker.toString(),
                     }
+
+                    // try {
+                    //     const response = await Api.get('/doctor', false)
+                    //
+                    // }
+                    // catch (e) {
+                    //
+                    // }
 
                     Api.get('/doctor', false)
                         .done((doctor) => {

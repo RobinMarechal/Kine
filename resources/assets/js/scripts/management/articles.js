@@ -2,207 +2,35 @@
  * Created by Utilisateur on 06/08/2017.
  */
 
-import Editor from "../helpers/Editor";
 import Flash from "../libs/flash/Flash";
-import Form from "../helpers/Form";
-import News from "../models/News";
 import Helper from "../helpers/Helper";
-import Api from "../libs/Api";
 import RemovingConfirmDialog from "../helpers/RemovingConfirmDialog";
 import Article from "../models/Article";
-
-function buildForm(news = null) {
-
-    let divTitle = Form.formGroup();
-    let divContent = Form.formGroup();
-
-    let labelTitle = Form.label('Titre :');
-    let inputTitle = Form.input('title', 'bb_title');
-
-    let labelContent = Form.label('Texte :');
-    let textarea = Form.textarea('content', 'bb_content');
-
-    inputTitle.val(news.title);
-    textarea.html(news.content);
-
-    divTitle.append(labelTitle);
-    divTitle.append(inputTitle);
-
-    divContent.append(labelContent);
-    divContent.append(textarea);
-
-    let container = $('<div></div>');
-    container.append(divTitle);
-    container.append(divContent);
-
-    return container;
-}
-
-function openArticleDialog(article) {
-    const form = buildForm(article);
-    let datepicker = null;
-
-    bootbox.dialog({
-        message: form,
-        title: 'Modifier un article',
-        backdrop: true,
-        buttons: {
-            cancel: {
-                label: "Annuler",
-                className: "btn-default",
-            },
-            validate: {
-                label: "Valider",
-                className: "btn-primary",
-                callback: () => {
-
-                    const data = {
-                        title: $('#bb_title').val(),
-                        content: Editor.getActiveEditorContent(),
-                    }
-
-                    Api.get('/user?with=doctor', false)
-                        .done((user) => {
-                            data.doctor_id = user.id;
-
-                            if (data.title === "" || data.content === "") {
-                                Flash.error("Tous les champs sont requis.");
-                                return false;
-                            }
-
-                            if (article === null) {
-                                Article.create(data).then((article) => {
-                                    Helper.redirectTo('articles/' + article.id);
-                                })
-                            }
-                            else {
-                                article.title = data.title;
-                                article.content = data.content;
-
-                                article.update().then((article) => {
-
-                                    $('#article-title').html(article.title);
-                                    $('#article-content').html(article.content);
-
-                                    Flash.success('L\'article a été modifié avec succès.');
-                                });
-                            }
-                        })
-                        .fail(() => {
-                            Flash.error("Une erreur est survenue, l\'article n'a pas été publié.");
-                            return false;
-                        });
-                }
-            }
-        }
-    });
-
-    Editor.createUnique('#bb_content');
-}
 
 export function articles() {
     $('#btn-remove-article').click(function () {
         const articleId = $(this).data('id');
 
-        if(articleId <= 0)
+        if (articleId <= 0)
             return;
 
         let dialog = new RemovingConfirmDialog();
         dialog.message = "Voulez-vous vraiment supprimer cet article ?";
         dialog.title = "Supprimer l'article";
-        dialog.callback = function () {
-            Article.remove(articleId)
-                .then(() => {
-                    Flash.success("L'article a été supprimé avec succès.");
-                    Helper.redirectTo("/articles");
-                })
-                .catch(() => {
-                    Flash.error("Une erreur est survenue, l'article n'a pas été supprimé.");
-                })
+        dialog.callback = async () => {
+            try {
+                await Article.remove(articleId);
+                Flash.success("L'article a été supprimé avec succès.");
+                Helper.redirectTo("/articles");
+            } catch (e) {
+                Flash.error("Une erreur est survenue, l'article n'a pas été supprimé.");
+            }
         }
 
         dialog.build();
     })
 }
 
-
-//
-// function refreshTagList(list)
-// {
-//     $('.tag-item').remove();
-//
-//     let end = Math.min(5, list.length);
-//
-//     for (let i = 0; i < end; i++) {
-//         let li = $('<li></li>');
-//         li.addClass('list-group-item');
-//         li.addClass('tag-item');
-//         li.html(list[i]);
-//
-//         li.click(function()
-//         {
-//             tagItemClick(list);
-//         });
-//
-//         $('#tag-list-group .items').append(li);
-//     }
-// }
-//
-// function tagItemClick(tags)
-// {
-//     const tagName = $(this).html();
-//
-//     tags.remove(tagName);
-//     tags.remove(tagName);
-//
-//     $('#add-tag-input').val(tagName);
-//     $('#add-tag-button').click();
-//
-//     refreshTagList(tags);
-// }
-//
-// export function createArticle() {
-//
-//     let tags = ['abc', 'jkl', 'mno', 'def', 'ghi', 'pqr', 'stu'];
-//
-//     tags.sort();
-//
-//     refreshTagList(tags);
-//
-//     $('.remove-tag').click(function () {
-//         removeTag($(this));
-//     });
-//
-//     $('#add-tag-button').click(function () {
-//         let input = $('#add-tag-input');
-//         let tagList = $('#tag-list');
-//         const tagName = input.val();
-//
-//         if (tagName.length == 0)
-//             return;
-//
-//         input.val("");
-//
-//         let tag = $('<span></span>');
-//         tag.attr('data-name', tagName);
-//         tag.addClass("tag");
-//         tag.html(tagName);
-//
-//         let cross = $('<i></i>');
-//         cross.addClass('fa');
-//         cross.addClass('fa-times');
-//         cross.addClass('remove-tag');
-//         cross.attr('title', 'Retirer ce tag');
-//
-//         cross.click(function () {
-//             removeTag($(this));
-//         })
-//
-//         tag.append(cross);
-//
-//         tagList.append(tag);
-//     });
-// }
 
 function formatTagName(tagName) {
     let formattedEnteredName = "";
@@ -251,12 +79,6 @@ function submitNewTag() {
 
     if (indexInList > -1) {
         const jqueryObj = $(htmlTagList[indexInList]);
-        // if (jqueryObj.hasClass('selected-tag')) {
-        //     input.val('');
-        //     highlightSelectedTag(jqueryObj);
-        //     return;
-        // }
-
         jqueryObj.addClass('selected-tag');
     }
 
@@ -300,10 +122,10 @@ function createTag(name, index) {
 
     // Create the cross used to remove a tag
     let cross = $('<i></i>');
-    cross.addClass('fa');
-    cross.addClass('fa-times');
+    cross.addClass('times');
     cross.addClass('remove-tag');
     cross.attr('title', 'Retirer ce tag');
+    cross.html('x');
 
     cross.click(function () {
         removeTag($(this).parent('span'));

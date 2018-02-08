@@ -19,10 +19,14 @@ class RedirectIfNotAdmin
      */
     public function handle($request, Closure $next)
     {
-		if(!isAdmin())
+        if(!isAdmin())
         {
+            if($request->ajax()){
+                return response('Unauthorized.', 401);
+            }
+
             Flash::error('Cette section est réservée aux administrateurs.');
-            return Redirect::back();
+            return response(Redirect::back());
         }
 
         return $next($request);

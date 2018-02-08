@@ -8,7 +8,7 @@
 @section('content')
 	<h1>Dernières actualités
 		@if(isAdmin())
-			<a data-toggle="tooltip" data-placement="left" title="Publier une news" href="#" class="create-new create-news glyphicon glyphicon-plus title-btn-hover"></a>
+			{!! addButton(\App\News::class, ['title' => 'Créer une news', 'data-placement' => 'left']) !!}
 		@endif
 	</h1>
 	<hr>
@@ -36,9 +36,9 @@
 	@if(isAdmin())
 		<hr>
 		@if(isset($incoming) && $incoming === true)
-			<a href="/news"> <i class="fa fa-long-arrow-left"></i> Voir les news récemment publiées</a>
+			<a href="/news"> <i class="far fa-newspaper"></i> Voir les news récemment publiées</a>
 		@else
-			<a href="/news/a-venir"> <i class="fa fa-long-arrow-right"></i> Voir les news planifiées</a>
+			<a href="/news/a-venir"> <i class="far fa-calendar-alt"></i> Voir les news planifiées</a>
 		@endif
 	@endif
 

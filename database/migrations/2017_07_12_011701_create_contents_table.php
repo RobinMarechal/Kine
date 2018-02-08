@@ -11,7 +11,7 @@ class CreateContentsTable extends Migration {
 			$table->increments('id');
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
-			$table->string('name', 255)->unique();
+			$table->string('name', 60)->unique();
 			$table->string('title', 255)->nullable();
 			$table->text('content')->nullable();
 			$table->integer('doctor_id')->unsigned()->nullable();

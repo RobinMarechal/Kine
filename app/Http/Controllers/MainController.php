@@ -21,14 +21,15 @@ class MainController extends Controller
 			Connection::create(['ip_address' => $userIp]);
 		}
 
-		return view('home');
+		$content = Content::getOrCreate('home');
+
+		return view('home', compact('content'));
 	}
 
 
 	public function test ()
 	{
-		echo $this->request->all();
-		dd();
+
 	}
 
 

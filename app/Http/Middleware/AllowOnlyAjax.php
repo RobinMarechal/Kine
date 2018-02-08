@@ -16,8 +16,11 @@ class AllowOnlyAjax
      */
     public function handle($request, Closure $next)
     {
+        if(env("APP_DEBUG") == true)
+            return $next($request);
+
     	if(!$request->ajax()){
-            return view('errors.404');
+            return response(view('errors.404'));
         }
 
         return $next($request);

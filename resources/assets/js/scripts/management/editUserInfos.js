@@ -1,7 +1,7 @@
 import Api from "../libs/Api";
 import RegexpPattern from "../helpers/RegexpPattern";
 
-export function inputFocusout(input) {
+export async function inputFocusout(input) {
     const td = $(input).parents('td');
     const tr = td.parents('tr');
 
@@ -9,23 +9,26 @@ export function inputFocusout(input) {
     const patternStr = td.data('pattern');
     const regexp = RegexpPattern.getRegexpFromPattern(patternStr);
 
-    let data = {};
-    data[field] = input.val();
+    let submitted = {};
+    submitted[field] = input.val().trim();
 
     const id = tr.data('id');
     const namespace = tr.data('namespace');
 
-    if (regexp.test(data[field]) == false && data[field] != "") {
-        return false;
+    if (regexp.test(submitted[field]) == false && submitted[field] != "") {
+        throw "Format invalide.";
     }
 
-    return new Promise((resolve, reject) => {
-        Api.sendData(namespace + '/' + id, 'PUT', data)
-            .done((data) => {
-                resolve(data);
-            })
-            .fail((error) => {
-                reject(error);
-            });
-    });
+    const result = await Api.sendData(namespace + '/' + id, 'PUT', submitted);
+    const response = await result.json();
+
+    if(!response[field]){
+        throw "Une erreur est survenue, impossible de mettre la donnée à jour...";
+    }
+
+    if(response[field] != submitted[field]){
+        throw "Format invalide.";
+    }
+
+    return response[field];
 }

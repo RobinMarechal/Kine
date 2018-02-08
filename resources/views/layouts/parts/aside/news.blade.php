@@ -3,8 +3,11 @@
         <div class="lastest-news">
             <h1>Dernières news
                 @if(isAdmin())
-                    <a data-toggle="tooltip" data-placement="left" title="Ajouter une news" href="#" {{--href="{{ url('news/creer') }}"--}}
-                    class="absolute-right create-new create-news glyphicon glyphicon-plus btn-hover"></a>
+                    {!! addButton(\App\News::class, ['title' => 'Ajouter une news', 'data-placement' => 'left']) !!}
+                    {{--<a data-toggle="tooltip" data-placement="left" data-namespace="news" title="Ajouter une news" href="#" --}}{{--href="{{ url('news/creer') }}"--}}
+                    {{--class="create-data  absolute-right create-new create-news glyphicon glyphicon-plus btn-hover"></a>--}}
+                    {{--<a data-toggle="tooltip" data-placement="left" data-namespace="events" title="Ajouter un événement" href="{{ url('evenements/creer') }}"--}}
+                       {{--class="create-data absolute-right create-new create-event glyphicon glyphicon-plus btn-hover"></a>--}}
                 @endif
             </h1>
             @if($template_news->count() > 0)

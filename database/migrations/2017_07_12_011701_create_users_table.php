@@ -12,18 +12,12 @@ class CreateUsersTable extends Migration {
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->softDeletes();
-			$table->string('email', 255)->unique();
-			$table->string('name', 255);
+			$table->string('email', 60)->unique();
+			$table->string('name', 60);
 			$table->string('facebook_id', 255)->nullable();
-			$table->string('password', 255)->nullable();
-//			$table->integer('level')->default('0');
-//			$table->string('phone')->nullable();
-//			$table->time('starts_at')->nullable();
-//			$table->time('ends_at')->nullable();
-//			$table->boolean('is_doctor')->default(0);
+			$table->string('password', 60)->nullable();
 			$table->string('remember_token', 255)->nullable();
 			$table->integer('connections')->default(1)->unsigned();
-//			$table->integer('doctor_id')->unsigned()->nullable();
 			$table->boolean('is_doctor')->unsigned()->nullable(false)->default(false);
 		});
 	}

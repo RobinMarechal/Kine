@@ -14,9 +14,5 @@
                                  'fa')
         !!}
     @endif
-    {{--<button title="" data-namespace="contents" data-toggle="tooltip" data-placement="top" data-name="img--banner"
-            class="btn btn-top-right btn-primary update-banner" data-original-title="Modifier la photo de couverture">
-        <span class="fa fa-upload"></span>
-    </button>--}}
-    <img src="{{url('storage/banner.png')}}" alt="" class="img-banner">
+    <img src="{{url('uploads/banner.png')}}" alt="" class="img-banner">
 </div>
