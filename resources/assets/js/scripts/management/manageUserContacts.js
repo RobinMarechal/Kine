@@ -2,14 +2,15 @@ import Contact from "../models/Contact";
 import Flash from "../libs/flash/Flash";
 import {toggleInputClicked} from "./toggleInputControls";
 import Key from '../libs/Key';
+import RegexpPattern from '../helpers/RegexpPattern';
 
 function addContact(contact) {
     const tbody = $('#table-contacts').find('tbody');
-    const tr = $(`<tr data-id="${contact.id}" data-namespace="contacts">`);
+    const tr = $(`<tr data-id="${contact.id}" data-namespace="contacts" class="hover-container">`);
 
-    let tdName = $(`<td class="user-edition-field-container" data-field="name" data-toggle="input" data-max-length="255">${contact.name}</td>`);
-    let tdValue = $(`<td data-pattern="link|address|phone|email" class="user-edition-field-container" data-field="value" data-toggle="input" data-max-length="255">${contact.value}</td>`);
-    let tdDisplay = $(`<td class="user-edition-field-container" data-field="display" data-toggle="input" data-max-length="255">${contact.display}</td>`);
+    let tdName = $(`<td class="user-edition-field-container" data-field="name" data-toggle="input" data-max-length="255">${contact.name || ''}</td>`);
+    let tdValue = $(`<td data-pattern="phone|email|link|address" class="user-edition-field-container" data-field="value" data-toggle="input" data-max-length="255">${contact.value}</td>`);
+    let tdDisplay = $(`<td class="user-edition-field-container" data-field="display" data-toggle="input" data-max-length="255">${contact.display || ''}</td>`);
 
     tr.append(tdName);
     tr.append(tdValue);
@@ -25,8 +26,10 @@ function addContact(contact) {
         toggleInputClicked($(this));
     });
 
-    const td = $('<td class="controls" align="center"></td>');
-    const fa = $('<a class="delete-contact" title="Supprimer cette ligne" data-toggle="tooltip"><i class="fas fa-times-circle fa-sm" aria-hidden="true"></i></a>');
+    const td = $(`<td class="controls" align="center"></td>`);
+    const fa = $(`<span class="delete-contact pointer show-on-hover show-on-hover-container" title="Supprimer cette ligne" data-toggle="tooltip">
+                     <i class="fas fa-times-circle fa-sm" aria-hidden="true"></i>
+                  </span>`);
     fa.click(function () {
         removeLine($(this).parents('tr'));
     });
@@ -48,8 +51,8 @@ async function createContact() {
 
     const name = inputName.val();
     const value = inputValue.val();
-    const description = inputDescription.val();
-    const userId = table.length === 0 ? null : table.data('user-id');
+    const display = inputDescription.val();
+    const doctor_id = table.length === 0 ? null : table.data('user-id');
 
     let ok = true;
 
@@ -66,11 +69,14 @@ async function createContact() {
         return false;
     }
 
+    const type = RegexpPattern.getTypeOfString(value, 'phone', 'email', 'link') || 'link';
+
     const data = {
-        name: name,
-        value: value,
-        display: description,
-        doctor_id: userId,
+        name,
+        value,
+        display,
+        doctor_id,
+        type: type.toUpperCase(),
     };
 
     try {
@@ -85,7 +91,12 @@ async function createContact() {
     }
 }
 
-export function addUserContact() {
+export default function manageUserContacts() {
+    addUserContact();
+    removeUserContact();
+}
+
+function addUserContact() {
     $('#add-contact').click(function () {
         createContact();
     });
@@ -108,7 +119,7 @@ async function removeLine(line) {
     line.remove();
 }
 
-export function removeUserContact() {
+function removeUserContact() {
     $('.delete-contact').click(function () {
         console.log('oui');
         removeLine($(this).parents('tr'));

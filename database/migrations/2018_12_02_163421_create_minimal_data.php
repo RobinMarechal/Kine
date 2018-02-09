@@ -28,6 +28,18 @@ class CreateMinimalData extends Migration
             'title' => 'Signaler un bug',
             'slug' => 'signaler-un-bug',
         ]);
+
+        $adm = User::create([
+            'email' => 'lsem@dmin',
+            'name' => 'Admin',
+            'is_doctor' => 1,
+        ]);
+
+        Doctor::create([
+            'id' => $adm->id,
+            'name' => $adm->name,
+            'phone' => 'HIDE'
+        ]);
     }
 
 

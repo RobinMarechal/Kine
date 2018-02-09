@@ -103,7 +103,7 @@ export default class JQueryObject {
         return this._icon;
     }
 
-    prepareTooltip(title, placement = 'left') {
+    prepareTooltip(title, placement = 'top') {
         this._hasChanged = true;
         this._hasTooltip = true;
         this._title = title;

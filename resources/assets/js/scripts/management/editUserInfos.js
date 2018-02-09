@@ -4,9 +4,10 @@ import RegexpPattern from "../helpers/RegexpPattern";
 export async function inputFocusout(input) {
     const td = $(input).parents('td');
     const tr = td.parents('tr');
+    const pattern = td.data('pattern');
 
     const field = td.data('field');
-    const patternStr = td.data('pattern');
+    const patternStr = pattern || '.*';
     const regexp = RegexpPattern.getRegexpFromPattern(patternStr);
 
     let submitted = {};
@@ -19,16 +20,23 @@ export async function inputFocusout(input) {
         throw "Format invalide.";
     }
 
+    if(pattern){
+        const patterns = pattern.split('|');
+        const type = RegexpPattern.getTypeOfString(submitted[field], ...patterns) || 'link';
+        type.toUpperCase();
+        submitted.type = type;
+    }
+
     const result = await Api.sendData(namespace + '/' + id, 'PUT', submitted);
     const response = await result.json();
 
-    if(!response[field]){
+    if(!response[field] && submitted[field]){
         throw "Une erreur est survenue, impossible de mettre la donnée à jour...";
     }
 
-    if(response[field] !== submitted[field]){
+    if(submitted[field] && response[field] !== submitted[field]){
         throw "Format invalide.";
     }
 
-    return response[field];
+    return submitted[field];
 }

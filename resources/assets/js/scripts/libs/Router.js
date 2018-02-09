@@ -39,13 +39,12 @@ export default class Router {
 
         let router = Router.getInstance();
 
-        for (const prop of router.routes) {
-            const regexp = new RegExp(prop);
+        for (let [path, obj] of router.routes.entries()) {
+            const regexp = new RegExp(path);
             if (regexp.test(url)) {
-                return router._toutes.get(prop).callbacks;
+                return obj.callbacks;
             }
         }
-
         return [];
     }
 
@@ -53,6 +52,6 @@ export default class Router {
         const url = window.location.pathname;
         const actions = Router.getRouteActions(url);
 
-        actions.forEach((action) => action());
+        actions.forEach(action => action());
     }
 }

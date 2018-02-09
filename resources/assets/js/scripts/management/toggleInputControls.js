@@ -28,8 +28,6 @@ export function toggleInputClicked(el) {
         td.css('padding', '0');
         input.focus();
         input.keydown(function (ev) {
-            console.log(ev.which);
-            // ev.preventDefault();lt
             if (ev.which === Key.TAB) {
                 onTabPressed(input, KeyInputBuffer.isPressed(Key.CTRL) ? -1 : 1);
                 return false;

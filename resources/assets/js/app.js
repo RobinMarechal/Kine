@@ -5,7 +5,6 @@ import Editor from "./scripts/helpers/Editor";
 import Router from "./scripts/libs/Router";
 import {usersManagement} from "./scripts/management/users";
 import Vars from "./scripts/libs/PhpVarCatcher";
-import {addUserContact, removeUserContact} from "./scripts/management/addUserContact";
 import {toggleInput} from "./scripts/management/toggleInputControls";
 import KeyInputBuffer from "./scripts/helpers/KeyInputBuffer";
 import footerDoctors from "./scripts/management/footerDoctors";
@@ -14,6 +13,7 @@ import Flash from "./scripts/libs/flash/Flash";
 import manageDataCreation from "./scripts/management/manageDataCreation";
 import updateImage from "./scripts/management/updateImage";
 import manageBugs from "./scripts/management/manageBugs";
+import manageUserContacts from './scripts/management/manageUserContacts';
 
 // var url = window.location.pathname;
 
@@ -72,7 +72,7 @@ $(document).ready(function () {
                         Flash.error("Une erreur est survenue, l'information n'a pas été modifiée... 2");
                     });
             });
-        }
+        },
     });
 
     toggleInput();
@@ -118,25 +118,23 @@ Router.addRoute('articles\\/\\d+\\/?', [
 ]);
 
 Router.addRoute('nos-competences\\/?', [
-    () => skills()
+    () => skills(),
 ]);
 
 Router.addRoute('admin\\/utilisateurs\\/\\d+\\/?', [
-    () => addUserContact(),
-    () => removeUserContact(),
+    () => manageUserContacts(),
 ]);
 
 Router.addRoute('admin\\/utilisateurs\\/?', [
-    () => usersManagement()
+    () => usersManagement(),
 ]);
 
 Router.addRoute('admin\\/contacts\\/?', [
-    () => addUserContact(),
-    () => removeUserContact(),
+    () => manageUserContacts(),
 ]);
 
 Router.addRoute('admin\\/bugs(\\/\\d+\\/?)?', [
-    () => manageBugs()
+    () => manageBugs(),
 ]);
 
 Router.trigger();
