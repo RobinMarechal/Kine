@@ -1,11 +1,10 @@
 <li class="dropdown">
     <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button"
        aria-expanded="false" aria-haspopup="true">
-		<span class="fa fa-user">
-			@if($nbOfNotifications > 0)
-                <span class="nb-of-notifs nb-of-notifs-user">{{ $nbOfNotifications }}</span>
-            @endif
-		</span>
+        @if($nbOfNotifications > 0)
+            <span class="nb-of-notifs nb-of-notifs-user">{{ $nbOfNotifications }}</span>
+        @endif
+        <i class="fas fa-user"> </i>
         <span class="caret"></span>
     </a>
     <ul class="dropdown-menu" role="menu">

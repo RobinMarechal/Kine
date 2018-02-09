@@ -179,8 +179,8 @@ section p.date {
 
 .nb-of-notifs {
     position: absolute;
-    top: 45px;
-    left: 26px;
+    top: 56px;
+    left: 31px;
     background: #c3544e;
     padding: 0 4px;
     border-radius: 10px;
@@ -193,9 +193,10 @@ section p.date {
 }
 
 .nb-of-notifs-user {
-    top: 16px;
-    left: 7px;
-    padding: 2px 4px;
+    top: 14px;
+    left: 13px;
+    padding: 0px 5px;
+    height: 20px;
 }
 
 .dropdown-menu > li:hover > a > .nb-of-notifs {
@@ -965,7 +966,7 @@ aside form .input-group-addon {
 }
 
 .about-title .btn-remove {
-    right: 50px;
+    right: 50px !important;
 }
 
 .has-error .mce-panel {

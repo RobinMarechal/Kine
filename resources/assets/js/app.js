@@ -1,5 +1,4 @@
 import {navActive} from './scripts/nav-active';
-import {editContents} from "./scripts/management/contents";
 import {skills} from "./scripts/management/skills";
 import {articles, createArticle} from "./scripts/management/articles";
 import Editor from "./scripts/helpers/Editor";
@@ -105,7 +104,6 @@ Vars.boot();
 KeyInputBuffer.boot();
 
 navActive();
-editContents();
 footerDoctors();
 manageDataCreation();
 updateImage();
