@@ -18,12 +18,13 @@ class InsertMyAccount extends Migration
     	$adm = User::create([
     		'email' => 'lsem@dmin',
 			'name' => 'Admin',
-			'is_doctor' => 1
+			'is_doctor' => 1,
 		]);
 
     	Doctor::create([
 			'id' => $adm->id,
-			'name' => $adm->name
+			'name' => $adm->name,
+            'phone' => 'HIDE'
 		]);
 
         $u = User::create([
@@ -37,6 +38,7 @@ class InsertMyAccount extends Migration
 			'id' => $u->id,
 			'phone' => '0662119806',
 			'name' => 'Robin Marechal',
+            'phone' => 'HIDE'
 		]);
     }
 

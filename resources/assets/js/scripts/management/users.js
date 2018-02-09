@@ -401,24 +401,22 @@ async function downgradeDoctor(target) {
                             <i title="Voir la fiche de cet utilisateur" class="fas fa-sm fa-edit edit-user"></i>
                         </span>`);
 
-        // upgrade.click(function (el) {
-        //     upgradeUser($(this));
-        // });
-        //
-        // edit.click(function (el) {
-        //     editUser($(this));
-        // });
+        upgrade.click(function (el) {
+            upgradeUser($(this));
+        });
+
+        edit.click(function (el) {
+            editUser($(this));
+        });
 
 
-        const controls = $(`<td align="center" class="controls">
-                                ${upgrade.toHtmlString()}
-                                ${edit.toHtmlString()}
-                            </td>`);
+        const controls = $(`<td align="center" class="controls"></td>`);
+        controls.append(upgrade);
+        controls.append(edit);
 
         newTr.append(`${name.toHtmlString()}
                       ${courses.toHtmlString()}
                       ${tags.toHtmlString()}`);
-
         newTr.append(controls);
 
         tbody.append(newTr);
@@ -449,54 +447,53 @@ function upgradeUser(target) {
             Doctor.create(doc, 'with=courses,news,articles')
                 .then((doctor) => {
 
-                        const usersTable = $('#doctors-list');
-                        const tbody = usersTable.children('tbody');
+                    const usersTable = $('#doctors-list');
+                    const tbody = usersTable.children('tbody');
 
-                        const newTr = $('<tr></tr>');
-                        newTr.addClass('user');
-                        newTr.addClass('doctor');
-                        newTr.addClass('hover-container');
-                        newTr.attr('data-id', doctor.id);
+                    const newTr = $('<tr></tr>');
+                    newTr.addClass('user');
+                    newTr.addClass('doctor');
+                    newTr.addClass('hover-container');
+                    newTr.attr('data-id', doctor.id);
 
-                        const name = $(
-                            `<td><a title="Voir la fiche détaillée de cet utilisateur" href="/admin/utilisateurs/${doctor.id}">${doctor.name}</a></td>`,
-                        );
+                    const name = $(
+                        `<td><a title="Voir la fiche détaillée de cet utilisateur" href="/admin/utilisateurs/${doctor.id}">${doctor.name}</a></td>`,
+                    );
 
-                        const courses = '<td align="center" class="supervised-courses user-info"> ' + doctor.courses.length + ' </td>';
-                        const news = '<td align="center" class="published-news user-info"> ' + doctor.news.length + ' </td>';
-                        const articles = '<td align="center" class="published-articles user-info"> ' + doctor.articles.length + ' </td>';
+                    const courses = '<td align="center" class="supervised-courses user-info"> ' + doctor.courses.length + ' </td>';
+                    const news = '<td align="center" class="published-news user-info"> ' + doctor.news.length + ' </td>';
+                    const articles = '<td align="center" class="published-articles user-info"> ' + doctor.articles.length + ' </td>';
 
-                        const downgrade = $(`<span class="downgrade-doctor pointer btn-table-control show-on-hover-container show-on-hover " title="Supprimer cet utilisateur de la liste des docteurs" data-toggle="tooltip">
+                    const downgrade = $(`<span class="downgrade-doctor pointer btn-table-control show-on-hover-container show-on-hover " title="Supprimer cet utilisateur de la liste des docteurs" data-toggle="tooltip">
                                                 <i class="fas fa-angle-double-down fa-sm" aria-hidden="true"></i>
                                             </span>`);
-                        const edit = $(`<span class="edit-user pointer btn-table-control show-on-hover-container show-on-hover " title="Supprimer cet utilisateur de la liste des docteurs" data-toggle="tooltip">
+                    const edit = $(`<span class="edit-user pointer btn-table-control show-on-hover-container show-on-hover " title="Supprimer cet utilisateur de la liste des docteurs" data-toggle="tooltip">
                                         <i class="fas fa-edit fa-sm"></i>
                                     </span>`);
 
-                        downgrade.click(function () {
-                            downgradeDoctor(downgrade);
-                        });
+                    downgrade.click(function () {
+                        downgradeDoctor(downgrade);
+                    });
 
-                        edit.click(function () {
-                            editUser(edit);
-                        });
+                    edit.click(function () {
+                        editUser(edit);
+                    });
 
-                        const controls = $('<td></td>');
-                        controls.attr('align', 'center');
-                        controls.addClass('controls');
-                        controls.append(downgrade);
-                        controls.append(edit);
+                    const controls = $('<td></td>');
+                    controls.attr('align', 'center');
+                    controls.addClass('controls');
+                    controls.append(downgrade);
+                    controls.append(edit);
 
-                        newTr.append(name);
-                        newTr.append(courses);
-                        newTr.append(news);
-                        newTr.append(articles);
-                        newTr.append(controls);
+                    newTr.append(name);
+                    newTr.append(courses);
+                    newTr.append(news);
+                    newTr.append(articles);
+                    newTr.append(controls);
 
-                        tbody.append(newTr);
-                        tr.remove();
-                    },
-                )
+                    tbody.append(newTr);
+                    tr.remove();
+                })
                 .catch((error) => {
                     user.is_doctor = 0;
                     user.update();
@@ -511,28 +508,25 @@ export function usersManagement() {
     bindEvents();
 }
 
-function resetEvents(){
+function resetEvents() {
     unbindEvents();
     bindEvents();
 }
 
-function unbindEvents(){
+function unbindEvents() {
     $('.downgrade-user, .upgrade-user, .edit-user').unbind("click");
 }
 
-function bindEvents(){
+function bindEvents() {
     $('.downgrade-user').click(function () {
         downgradeDoctor($(this));
-        resetEvents();
     });
 
     $('.upgrade-user').click(function () {
         upgradeUser($(this));
-        resetEvents();
     });
 
     $('.edit-user').click(function () {
         editUser($(this));
-        resetEvents();
     });
 }

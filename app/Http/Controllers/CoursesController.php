@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Course;
+use Illuminate\Support\Facades\Auth;
 
 class CoursesController extends Controller
 {

@@ -18,6 +18,7 @@ class AdminsController extends Controller
                      ->get();
 
         $doctors = Doctor::with('courses', 'articles', 'news', 'user')
+                         ->withoutMe()
                          ->where('id', '>', 1)
                          ->orderByName()
                          ->get();
@@ -29,9 +30,10 @@ class AdminsController extends Controller
     public function contacts()
     {
         $doctors = Doctor::orderByName()
-                         ->where('id', '>', 1)
+                         ->withoutMe()
                          ->with('contacts')
                          ->get();
+
         $contacts = Contact::orderBy('type')
                            ->whereNull('doctor_id')
                            ->get();
@@ -42,11 +44,8 @@ class AdminsController extends Controller
 
     public function showUser($id)
     {
-        $doctor = Doctor::with('contacts',
-            'courses.tags',
-            'courses.users',
-            'articles.tags',
-            'news')
+        $doctor = Doctor::with('contacts', 'courses.tags', 'courses.users', 'articles.tags', 'news')
+                        ->withoutMe()
                         ->findOrFail($id);
 
         return view('admin.user', compact('doctor'));

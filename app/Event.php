@@ -19,13 +19,13 @@ class Event extends Model
 
 	public function creator ()
 	{
-		return $this->belongsTo('App\Doctor');
+		return $this->doctor();
 	}
 
 
 	public function doctor ()
 	{
-		return $this->belongsTo('App\Doctor');
+		return $this->belongsTo('App\Doctor')->withTrashed();
 	}
 
 

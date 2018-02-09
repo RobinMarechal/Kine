@@ -24,8 +24,15 @@ class Contact extends Model
 
 	public function doctor ()
 	{
-		return $this->belongsTo('App\Doctor');
+		return $this->belongsTo('App\Doctor')->withTrashed();
 	}
+
+	public function scopeOfExistingDoctor($query)
+    {
+        return $query->whereNotIn('doctor_id', function ($query) {
+            $query->select('id')->whereNotNull('deleted_at')->from('doctors');
+        });
+    }
 
 
 	// Helpers

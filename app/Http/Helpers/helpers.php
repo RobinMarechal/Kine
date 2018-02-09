@@ -69,6 +69,7 @@ function generateButton($type, $dataNamespace, $dataId, array $attrs = [], $addC
     $attrStr = '';
 
     foreach ($attrs as $k => $v) {
+        $v = str_replace("'", "&#8217;", $v);
         $attrStr .= " $k='$v'";
     }
 
@@ -113,6 +114,7 @@ function addButton($class, array $attrs = [], $addClasses = '', $icon = 'plus', 
     $attrStr = '';
 
     foreach ($attrs as $k => $v) {
+        $v = str_replace("'", "&#8217;", $v);
         $attrStr .= " $k='$v'";
     }
 

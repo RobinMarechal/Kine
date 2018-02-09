@@ -19,13 +19,7 @@
 				<span class="glyphicon glyphicon-pencil"></span>
 			</a>
 			@if(isAdmin())
-				<button id="btn-remove-article"
-						data-toggle="tooltip"
-						data-placement="left"
-						title="Supprimer l'article"
-						data-id="{{ $article->id }}"
-						class="btn-remove btn btn-primary btn-edit trash create-new glyphicon glyphicon-trash">
-				</button>
+				{!! removeButton($article, ['title' => "Supprimer l'article", 'data-placement' => 'left']) !!}
 			@endif
 
 		@endif

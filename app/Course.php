@@ -36,7 +36,7 @@ class Course extends Model
 
 	public function creator ()
 	{
-		return $this->belongsTo('App\Doctor');
+		return $this->belongsTo('App\Doctor')->withTrashed();
 	}
 
 

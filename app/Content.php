@@ -15,13 +15,13 @@ class Content extends Model
 
 	public function author ()
 	{
-		return $this->belongsTo('App\Doctor');
+	    return $this->doctor();
 	}
 
 
 	public function doctor ()
 	{
-		return $this->belongsTo('App\Doctor');
+        return $this->belongsTo('App\Doctor')->withTrashed();
 	}
 
 

@@ -1,14 +1,8 @@
 import Flash from "../libs/flash/Flash";
-import {
-    dataRemovingButtonClicked,
-    dataUpdatingButtonClicked,
-    manageDataRemovingAndUpdate
-} from "../management/manageDataCreation";
+import {dataRemovingButtonClicked, dataUpdatingButtonClicked,} from "../management/manageDataCreation";
 import User from "../models/User";
-import FlashMessage from "../libs/flash/FlashMessage";
 import Exception from "../libs/Exception";
 import Helper from "../helpers/Helper";
-import DAO from "../models/DAO";
 import PhpVarCatcher from "../libs/PhpVarCatcher";
 
 export const EVENT_CALLBACKS = {
@@ -22,6 +16,7 @@ export const EVENT_CALLBACKS = {
     update_contents,
     before_bugs,
     creation_bugs,
+    deletion_articles,
 };
 
 export function creation_abouts(about) {
@@ -99,7 +94,7 @@ export function creation_abouts(about) {
 }
 
 export function update_abouts(about) {
-    3
+    3;
     const aboutSelector = '[data-id=' + about.id + ']';
 
     const aboutTitle = $(aboutSelector + ' .about-title');
@@ -198,7 +193,7 @@ function update_contents(content) {
 }
 
 function deletion_news() {
-    Flash.success("La news a bien été supprimée", 300)
+    Flash.success("La news a bien été supprimée", 200)
         .then(() => Helper.redirectTo('/news'));
 }
 
@@ -206,7 +201,7 @@ function before_bugs(bug) {
     if (bug.id)
         bug.solved_at = Helper.currentDateTime();
 
-    if(PhpVarCatcher.has('userId')){
+    if (PhpVarCatcher.has('userId')) {
         bug.user_id = PhpVarCatcher.get('userId');
     }
 
@@ -215,4 +210,9 @@ function before_bugs(bug) {
 
 function creation_bugs(bug) {
     Flash.success("Merci d'avoir signalé un bug. Il sera traité dès que possible");
+}
+
+function deletion_articles(article){
+    Flash.success("L'article a bien été supprimé", 200)
+        .then(() => Helper.redirectTo('/articles'));
 }

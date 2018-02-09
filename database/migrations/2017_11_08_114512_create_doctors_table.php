@@ -16,16 +16,17 @@ class CreateDoctorsTable extends Migration
     {
         Schema::create('doctors', function(Blueprint $table)
 		{
-//			$table->increments('id');
 			$table->integer('id')->unsigned()->unique()->nullable(false);
 			$table->timestamp('created_at')->default(DB::raw('CURRENT_TIMESTAMP'));
 			$table->timestamp('updated_at')->default(DB::raw('CURRENT_TIMESTAMP'));
+			$table->softDeletes();
 			$table->string('name')->nullable();
 			$table->string('phone', 12)->nullable();
 			$table->time('starts_at')->nullable();
 			$table->time('ends_at')->nullable();
 			$table->string('resume')->nullable();
 			$table->text('description')->nullable();
+
 		});
     }
 
