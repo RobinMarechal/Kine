@@ -51,15 +51,15 @@ function buildHtml(doctor) {
 
     // phone
     if (doctor.phone != null) {
-        principalCoo.append('<p><a href="tel:' + doctor.phone + ' align="center"> ' + FA.of('phone') + doctor.phone + '</a></p>');
+        principalCoo.append(`<p><a href="tel:${doctor.phone} align="center"> ${FA.of('phone')}${doctor.phone}</a></p>`);
     }
 
     // other contacts
 
     for (let i = 0; i < doctor.contacts.length; i++) {
         const contact = doctor.contacts[i];
-        const hrefPrefix = (contact.type == "PHONE" ? 'tel:' : (contact.type == 'EMAIL' ? 'mailto:' : (contact.type == 'ADDRESS' ? 'https://www.google.fr/maps?q=' : '')));
-        const iconClass = (contact.type == "PHONE" ? 'phone' : (contact.type == 'EMAIL' ? 'envelope' : (contact.type == 'ADDRESS' ? 'map-marker' : 'link')));
+        const hrefPrefix = (contact.type === "PHONE" ? 'tel:' : (contact.type === 'EMAIL' ? 'mailto:' : (contact.type === 'ADDRESS' ? 'https://www.google.fr/maps?q=' : '')));
+        const iconClass = (contact.type === "PHONE" ? 'phone' : (contact.type === 'EMAIL' ? 'envelope' : (contact.type === 'ADDRESS' ? 'map-marker' : 'link')));
 
         let p = new JQueryObject('p');
         let a = new JQueryObject('a');

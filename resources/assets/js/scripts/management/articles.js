@@ -1,11 +1,8 @@
-/**
- * Created by Utilisateur on 06/08/2017.
- */
-
 import Flash from "../libs/flash/Flash";
 import Helper from "../helpers/Helper";
 import RemovingConfirmDialog from "../helpers/RemovingConfirmDialog";
 import Article from "../models/Article";
+import Key from '../libs/Key';
 
 export function articles() {
     $('#btn-remove-article').click(function () {
@@ -25,10 +22,10 @@ export function articles() {
             } catch (e) {
                 Flash.error("Une erreur est survenue, l'article n'a pas été supprimé.");
             }
-        }
+        };
 
         dialog.build();
-    })
+    });
 }
 
 
@@ -55,10 +52,10 @@ function submitNewTag() {
     const enteredName = input.val().toLowerCase().trim();
 
     // The name is empty: we leave the function
-    if (enteredName == "")
+    if (enteredName === "")
         return;
 
-    if (enteredName.indexOf(';') != -1) {
+    if (';' in enteredName) {
         Flash.error("Le caractère ';' est réservé, merci de ne pas l'utiliser dans le nom des tags.", 3000);
         return;
     }
@@ -66,7 +63,7 @@ function submitNewTag() {
     const formattedName = formatTagName(enteredName);
 
     // The tag already exists: we leave the function
-    if (getSelectedTagList().indexOf(formattedName) != -1) {
+    if (getSelectedTagList().indexOf(formattedName) !== -1) {
         input.val('');
         const jqueryObj = $(`.tag[data-name=${formattedName}]`);
         highlightSelectedTag(jqueryObj);
@@ -91,7 +88,7 @@ function removeTag(tag) {
     const index = tag.data('index');
     // Remove the created tag
     tag.remove();
-    if (index != -1) {
+    if (index !== -1) {
         // Reset the item in the list (if it's in)
         $(getHtmlTagList()[index]).removeClass('selected-tag');
     }
@@ -107,7 +104,7 @@ function getTagList() {
         let tagItem = $(this);
         tagItem.attr('data-index', i);
         list.push(tagItem.html().toLowerCase());
-    })
+    });
 
     return list;
 }
@@ -129,7 +126,7 @@ function createTag(name, index) {
 
     cross.click(function () {
         removeTag($(this).parent('span'));
-    })
+    });
 
     tag.append(cross);
     $('#tag-list').append(tag);
@@ -174,7 +171,7 @@ function prepareTagsField() {
     let value = "";
     selectedTagList.forEach(function (el) {
         value += el + ';';
-    })
+    });
 
     if (value.length > 0) {
         value = value.substring(0, value.length - 1);
@@ -182,9 +179,8 @@ function prepareTagsField() {
     }
 }
 
-function submitForm(event) {
+function submitForm() {
     prepareTagsField();
-    console.log("run");
     $('#article-creation-form').submit();
 }
 
@@ -198,7 +194,7 @@ function loadTags(loadedTagList) {
             const htmlTag = $(htmlTagList[i]);
 
             // If this tag is the html list should be selected
-            if (loadedTagName == htmlTag.html()) {
+            if (loadedTagName === htmlTag.html()) {
                 htmlTag.click();
                 htmlTagList.splice(i, 1);
                 break;
@@ -230,10 +226,6 @@ function preview() {
 }
 
 export function createArticle() {
-    // Get the list of tags generated with PHP
-    const htmlTagList = getHtmlTagList();
-    const primaryList = getTagList();
-
     // Select a tag of the list
     $('.tag-item').click(function () {
         tagItemClicked($(this));
@@ -258,7 +250,7 @@ export function createArticle() {
     });
 
     const loadedTags = getLoadedTagList();
-    if (loadedTags.length != 0) {
+    if (loadedTags.length !== 0) {
         loadTags(loadedTags);
     }
 
@@ -270,7 +262,7 @@ export function createArticle() {
 
 $('#add-tag-input').keypress(function (event) {
     // 13 = Enter button
-    if (event.which == 13) {
+    if (event.which === Key.ENTER) {
         event.preventDefault();
         $('#add-tag-button').click();
     }

@@ -1,13 +1,10 @@
-/**
- * Created by Utilisateur on 08/09/2017.
- */
-
 import Contact from "../models/Contact";
 import Flash from "../libs/flash/Flash";
 import {toggleInputClicked} from "./toggleInputControls";
+import Key from '../libs/Key';
 
 function addContact(contact) {
-    const tbody = $('#table-contacts tbody');
+    const tbody = $('#table-contacts').find('tbody');
     const tr = $(`<tr data-id="${contact.id}" data-namespace="contacts">`);
 
     let tdName = $(`<td class="user-edition-field-container" data-field="name" data-toggle="input" data-max-length="255">${contact.name}</td>`);
@@ -52,15 +49,15 @@ async function createContact() {
     const name = inputName.val();
     const value = inputValue.val();
     const description = inputDescription.val();
-    const userId = table.length == 0 ? null : $('#table-contacts').data('user-id');
+    const userId = table.length === 0 ? null : table.data('user-id');
 
     let ok = true;
 
-    if (name.length == 0) {
+    if (name.length === 0) {
         ok = false;
         inputName.addClass('has-error');
     }
-    if (value.length == 0) {
+    if (value.length === 0) {
         ok = false;
         inputValue.addClass('has-error');
     }
@@ -93,8 +90,8 @@ export function addUserContact() {
         createContact();
     });
 
-    $('#table-contacts input').keydown(function (ev) {
-        if (ev.which == 13) {
+    $('#table-contacts').find('input').keydown(function (ev) {
+        if (ev.which === Key.ENTER) {
             $('#add-contact').click();
         }
     });

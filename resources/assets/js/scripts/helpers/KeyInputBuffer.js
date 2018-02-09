@@ -4,15 +4,17 @@ export default class KeyInputBuffer{
 
     static boot()
     {
-        $('body').keydown(function(ev)
+        const body = $('body');
+
+        body.keydown(function(ev)
         {
-            if(keyDown.indexOf(ev.which) == -1){
+            if(keyDown.indexOf(ev.which) === -1){
                 keyDown.push(ev.which);
 
             }
         });
 
-        $('body').keyup(function(ev)
+        body.keyup(function(ev)
         {
             keyDown.remove(ev.which);
         });
@@ -20,7 +22,7 @@ export default class KeyInputBuffer{
 
     static isPressed(code)
     {
-        return keyDown.indexOf(code) != -1;
+        return keyDown.indexOf(code) !== -1;
     }
 
     static arePressed(...code)

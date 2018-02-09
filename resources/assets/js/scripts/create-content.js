@@ -1,6 +1,3 @@
-/**
- * Created by Utilisateur on 16/07/2017.
- */
 import Content from "./models/Content";
 
 $('#create-skills-content').click(function () {
@@ -23,17 +20,17 @@ $('#create-skills-content').click(function () {
                 label: "Valider",
                 className: "btn-primary",
                 callback: function () {
-                    var data = {
+                    const data = {
                         title: $('title').val(),
                         content: CKEDITOR.instances['content'].getData(),
-                    }
+                    };
 
-                    Content.create(data, function (data) {
+                    Content.create(data, function () {
                         window.location.replace(window.location.host + "/nos-competences");
                     });
-                }
-            }
-        }
+                },
+            },
+        },
     });
     CKEDITOR.replace('content');
 });

@@ -9,33 +9,33 @@ import User from "./User";
 import Bug from "./Bug";
 
 export default class ModelFactory{
-    static newInstance(classname, ...args){
-        if(typeof classname === 'object')
-            classname = classname.constructor.name;
-        else if(typeof classname === 'function')
-            classname = classname.name;
+    static newInstance(className, ...args){
+        if(typeof className === 'object')
+            className = className.constructor.name;
+        else if(typeof className === 'function')
+            className = className.name;
 
-        if(classname === "Article")
+        if(className === "Article")
             return new Article(...args);
-        else if(classname === "Contact")
+        else if(className === "Contact")
             return new Contact(...args);
-        else if(classname === "Content")
+        else if(className === "Content")
             return new Content(...args);
-        else if(classname === "Doctor")
+        else if(className === "Doctor")
             return new Doctor(...args);
-        else if(classname === "News")
+        else if(className === "News")
             return new News(...args);
-        else if(classname === "Skill")
+        else if(className === "Skill")
             return new Skill(...args);
-        else if(classname === "Tag")
+        else if(className === "Tag")
             return new Tag(...args);
-        else if(classname === "User")
+        else if(className === "User")
             return new User(...args);
-        else if(classname === "Bug")
+        else if(className === "Bug")
             return new Bug(...args);
     }
 
-    static buildOrNull(classname, json) {
-        return json && json.id ? ModelFactory.newInstance(classname, json) : null;
+    static buildOrNull(className, json) {
+        return json && json.id ? ModelFactory.newInstance(className, json) : null;
     }
 }

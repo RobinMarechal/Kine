@@ -1,7 +1,3 @@
-/**
- * Created by Utilisateur on 06/08/2017.
- */
-
 export default class Form{
     static label(text = null)
     {

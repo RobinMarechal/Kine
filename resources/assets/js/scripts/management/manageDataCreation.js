@@ -32,11 +32,11 @@ async function onSubmit(formGenerator) {
         let response = await Api.sendData(sendDataTo, method, obj);
         response = await response.json();
 
-        if (response.length == 0) {
+        if (response.length === 0) {
             throw null;
         }
 
-        if (obj.id && obj.id == response.id) {
+        if (obj.id && obj.id === response.id) {
             EventHandler.event(EVENT_TYPES.UPDATED, namespace, response);
         } else {
             EventHandler.event(EVENT_TYPES.CREATED, namespace, response);

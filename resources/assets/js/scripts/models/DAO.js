@@ -1,7 +1,6 @@
 import Api from "../libs/Api";
 import Helper from "../helpers/Helper";
 import ModelFactory from "./ModelFactory";
-import User from "./User";
 
 export default class DAO {
     static async get(wanted, id, params = "") {

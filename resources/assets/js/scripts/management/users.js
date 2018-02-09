@@ -2,7 +2,6 @@ import User from "../models/User";
 import Tag from "../models/Tag";
 import Api from "../libs/Api";
 import Flash from "../libs/flash/Flash";
-import Helper from "../helpers/Helper";
 import Doctor from "../models/Doctor";
 
 function updateUserTagListInTable(response) {
@@ -22,7 +21,7 @@ function updateUserTagListInTable(response) {
 }
 
 async function submit() {
-    const userTags = $('#tag-list .tag');
+    const userTags = $('#tag-list').find('.tag');
     const userId = $('#edit-user-tags').data('user-id');
     let ids = [];
 
@@ -131,7 +130,7 @@ function buildStandardUserHtml(user) {
                 const name = tags[i].name;
 
                 let classes = 'list-group-item tag-item';
-                if (usersTagIds.indexOf(id) != -1) {
+                if(id in usersTagIds){
                     classes += ' selected-tag';
                 }
 
@@ -158,126 +157,7 @@ function buildStandardUserHtml(user) {
     });
 }
 
-function buildCoursesTable(user) {
-    const table = $('<table id="doctors-list" class="table table-hover table-striped "></table>');
-    const thead = $('<thead></thead>');
-    const tbody = $('<tbody></tbody>');
-    thead.append('<td>Cours</td>');
-    thead.append('<td>Tags</td>');
-    thead.append('<td align="center">Utilisateurs inscrits</td>');
-
-    if (user.courses.length == 0) {
-        tbody.append('<td>-</td>');
-        tbody.append('<td>-</td>');
-        tbody.append('<td align="center">-</td>');
-    }
-    else {
-        for (let i = 0; i < user.courses.length; i++) {
-            const course = user.courses[i];
-            const tr = $('<tr></tr>');
-
-            const tdTitle = `<td><a href="/cours/${course.id}">${course.name}</a>`;
-
-            const tdTags = $('<td><div class="table-tag-list"></div></td>');
-            for (let i = 0; i < course.tags.length; i++) {
-                const tag = course.tags[i];
-                tdTags.append('<span class="tag">' + tag.name + '</span>');
-            }
-
-            const tdUsers = '<td align="center">' + course.users.length + '</td>';
-
-            tr.append(tdTitle);
-            tr.append(tdTags);
-            tr.append(tdUsers);
-
-            tbody.append(tr);
-        }
-    }
-
-
-    table.append(thead);
-    table.append(tbody);
-
-    return table;
-}
-
-function buildNewsTable(user) {
-    const table = $('<table id="doctors-list" class="table table-hover table-striped "></table>');
-
-    const thead = $('<thead></thead>');
-    const tbody = $('<tbody></tbody>');
-
-    thead.append('<td>News</td>');
-    thead.append('<td align="center">Date de publication</td>');
-    thead.append('<td align="center">Vues</td>');
-
-    if (user.news.length == 0) {
-        tbody.append('<td>-</td>');
-        tbody.append('<td align="center">-</td>');
-        tbody.append('<td align="center">-</td>');
-    }
-    else {
-        for (let i = 0; i < user.news.length; i++) {
-            const news = user.news[i];
-            const tr = $('<tr></tr>');
-
-            tr.append(`<td><a href="/news/${ news.id }">${ news.title }</a></td>`);
-            tr.append(`<td align="center">${ Helper.dateToFormat(new Date(news.published_at), 'd/m/Y') }</td>`);
-            tr.append(`<td align="center">${ news.views }</td>`);
-
-            tbody.append(tr);
-        }
-    }
-
-    table.append(thead);
-    table.append(tbody);
-
-    return table;
-}
-
-function buildArticlesTable(user) {
-    const table = $('<table id="doctors-list" class="table table-hover table-striped "></table>');
-
-    const thead = $('<thead></thead>');
-    const tbody = $('<tbody></tbody>');
-
-    thead.append('<td>Article</td>');
-    thead.append('<td align="center">Date de publication</td>');
-    thead.append('<td>Tags</td>');
-    thead.append('<td align="center">Vues</td>');
-
-
-    if (user.articles.length == 0) {
-        tbody.append('<td>-</td>');
-        tbody.append('<td align="center">-</td>');
-        tbody.append('<td>-</td>');
-        tbody.append('<td align="center">-</td>');
-    }
-    else {
-        for (let i = 0; i < user.articles.length; i++) {
-            const article = user.articles[i];
-            const tr = $('<tr></tr>');
-
-            tr.append(`<td><a href="/articles/${ article.id }">${ article.title }</a></td>`);
-            tr.append(`<td align="center">${ Helper.dateToFormat(new Date(article.created_at), 'd/m/Y') }</td>`);
-            const tagsDiv = $('<td><div class="table-tag-list"></div></td>');
-            for (let i = 0; i < article.tags.length; i++) {
-                const tag = article.tags[i];
-                tagsDiv.append(`<span class="tag">${tag.name}</span>`);
-            }
-            tr.append(tagsDiv);
-            tr.append(`<td align="center">${ article.views }</td>`);
-
-            tbody.append(tr);
-        }
-    }
-    table.append(thead);
-    table.append(tbody);
-
-    return table;
-}
-
-function buildDoctorUserHtml(user) {
+function buildDoctorUserHtml() {
     return new Promise((resolve) => {
 
         const div = $('<table id="doctor-info-dialog" class="table table-hover table-striped"></table>');
@@ -290,7 +170,7 @@ function buildDoctorUserHtml(user) {
 }
 
 function buildHtml(user) {
-    return user instanceof Doctor || user.is_doctor == 1 || user.user_id != null ? buildDoctorUserHtml(user) : buildStandardUserHtml(user);
+    return user instanceof Doctor || user.is_doctor === 1 || user.user_id != null ? buildDoctorUserHtml() : buildStandardUserHtml(user);
 }
 
 function editUser(target) {
@@ -389,7 +269,7 @@ async function downgradeDoctor(target) {
             tags.append(html);
         }
 
-        if (i == 0) {
+        if (i === 0) {
             tags.append('-');
         }
 
@@ -401,11 +281,11 @@ async function downgradeDoctor(target) {
                             <i title="Voir la fiche de cet utilisateur" class="fas fa-sm fa-edit edit-user"></i>
                         </span>`);
 
-        upgrade.click(function (el) {
+        upgrade.click(function () {
             upgradeUser($(this));
         });
 
-        edit.click(function (el) {
+        edit.click(function () {
             editUser($(this));
         });
 
@@ -460,9 +340,9 @@ function upgradeUser(target) {
                         `<td><a title="Voir la fiche détaillée de cet utilisateur" href="/admin/utilisateurs/${doctor.id}">${doctor.name}</a></td>`,
                     );
 
-                    const courses = '<td align="center" class="supervised-courses user-info"> ' + doctor.courses.length + ' </td>';
-                    const news = '<td align="center" class="published-news user-info"> ' + doctor.news.length + ' </td>';
-                    const articles = '<td align="center" class="published-articles user-info"> ' + doctor.articles.length + ' </td>';
+                    const courses = `<td align="center" class="supervised-courses user-info"> ${doctor.courses.length} </td>`;
+                    const news = `<td align="center" class="published-news user-info"> ${doctor.news.length} </td>`;
+                    const articles = `<td align="center" class="published-articles user-info"> ${doctor.articles.length} </td>`;
 
                     const downgrade = $(`<span class="downgrade-doctor pointer btn-table-control show-on-hover-container show-on-hover " title="Supprimer cet utilisateur de la liste des docteurs" data-toggle="tooltip">
                                                 <i class="fas fa-angle-double-down fa-sm" aria-hidden="true"></i>
@@ -506,15 +386,6 @@ function upgradeUser(target) {
 
 export function usersManagement() {
     bindEvents();
-}
-
-function resetEvents() {
-    unbindEvents();
-    bindEvents();
-}
-
-function unbindEvents() {
-    $('.downgrade-user, .upgrade-user, .edit-user').unbind("click");
 }
 
 function bindEvents() {

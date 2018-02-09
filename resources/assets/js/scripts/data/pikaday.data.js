@@ -1,5 +1,5 @@
 export const config_pikaday = {
-    toString(date, format) {
+    toString(date) {
         let day = date.getDate();
         let month = date.getMonth() + 1;
         const year = date.getFullYear();

@@ -1,6 +1,3 @@
-/**
- * Created by Utilisateur on 08/09/2017.
- */
 import Model from "../libs/Model";
 import RegexpPattern from "../helpers/RegexpPattern";
 import DAO from "./DAO";

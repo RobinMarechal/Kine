@@ -1,7 +1,3 @@
-/**
- * Created by Utilisateur on 30/07/2017.
- */
-
 import Exception from "../libs/Exception";
 
 export default class Editor {
@@ -17,7 +13,7 @@ export default class Editor {
             plugins: 'link hr paste fullscreen image media table emoticons preview',
             height: 300,
             block_formats: 'Paragraphe=p;Titre 1=h1;Titre 2=h2;Titre 3=h3;Titre 4=h4;'
-        }
+        };
 
         for (let prop in params) {
             if (params.hasOwnProperty(prop)) {
@@ -52,7 +48,7 @@ export default class Editor {
 
     static prepare(el, params = null)
     {
-        if(el == null || el.length == 0)
+        if(el == null || el.length === 0)
             return;
 
         if(Array.isArray(el))

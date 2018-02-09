@@ -28,7 +28,7 @@ export function creation_abouts(about) {
     console.log(about);
 
     const newBlock = $('<section></section>');
-    newBlock.attr('id', about.slug);
+    newBlock.attr('id', about['slug']);
     newBlock.addClass('about-block');
     newBlock.addClass('editable');
     newBlock.addClass('content-editable');
@@ -58,7 +58,7 @@ export function creation_abouts(about) {
 
     // Sorting the blocks
 
-    const blocks = $('#abouts .about-block');
+    const blocks = container.find('.about-block');
 
     blocks.sort(function (block1, block2) {
         const slug1 = $(block1).attr('id').trim().toLowerCase();
@@ -94,7 +94,6 @@ export function creation_abouts(about) {
 }
 
 export function update_abouts(about) {
-    3;
     const aboutSelector = '[data-id=' + about.id + ']';
 
     const aboutTitle = $(aboutSelector + ' .about-title');
@@ -208,11 +207,11 @@ function before_bugs(bug) {
     return bug;
 }
 
-function creation_bugs(bug) {
+function creation_bugs() {
     Flash.success("Merci d'avoir signalé un bug. Il sera traité dès que possible");
 }
 
-function deletion_articles(article){
+function deletion_articles(){
     Flash.success("L'article a bien été supprimé", 200)
         .then(() => Helper.redirectTo('/articles'));
 }

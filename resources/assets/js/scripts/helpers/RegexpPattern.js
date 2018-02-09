@@ -20,7 +20,7 @@ export default class RegexpPattern {
 
         console.log(pattern);
 
-        if (pattern.indexOf('|') != -1) {
+        if (pattern.indexOf('|') !== -1) {
             const arr = pattern.split('|');
             let array = [];
             for (let i = 0; i < arr.length; i++) {

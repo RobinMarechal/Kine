@@ -2,7 +2,6 @@ import JQueryObject from "../libs/JQueryObject";
 import Editor from "./Editor";
 import {config_pikaday} from "../data/pikaday.data";
 import {INPUT_TYPES, MODELS_FORM_DATA} from "../data/models_formData";
-import Flash from "../libs/flash/Flash";
 import FlashMessage from "../libs/flash/FlashMessage";
 
 
@@ -38,7 +37,7 @@ export default class FormGenerator {
         return new FormGenerator(namespace, data);
     }
 
-    _generateRandomClassName() {
+    static _generateRandomClassName() {
         const rand1 = Math.round(Math.random() * 999999);
         const rand2 = Math.round(Math.random() * 999999);
         const rand3 = Math.round(Math.random() * 999999);
@@ -52,7 +51,7 @@ export default class FormGenerator {
      * @param label the group's label, or empty/null
      * @returns {jQuery} jQuery element
      */
-    createFormGroup(input, label = null) {
+    static createFormGroup(input, label = null) {
         const formGroup = new JQueryObject('div');
         formGroup.addClass('form-group');
 
@@ -70,7 +69,7 @@ export default class FormGenerator {
      * @param text the text of the label
      * @returns {jQuery} the label element
      */
-    createLabel(text) {
+    static createLabel(text) {
         const label = $('<label></label>');
         label.append(text);
         label.addClass('label-control');
@@ -89,17 +88,17 @@ export default class FormGenerator {
         const tag = data.tag;
         let input;
 
-        if (tag == INPUT_TYPES.INPUT) {
+        if (tag === INPUT_TYPES.INPUT) {
             input = $('<input />');
             input.attr('maxlength', '255');
         }
-        else if (tag == INPUT_TYPES.TEXTAREA) {
+        else if (tag === INPUT_TYPES.TEXTAREA) {
             input = $('<textarea></textarea>');
-            const className = this._generateRandomClassName();
+            const className = FormGenerator._generateRandomClassName();
             this.texteareaSelector = '.' + className;
             input.addClass(className);
         }
-        else if (tag == INPUT_TYPES.DATE) {
+        else if (tag === INPUT_TYPES.DATE) {
             input = $('<input/>');
             input.attr('type', 'date');
             input.attr('placeholder', 'yyyy-mm-dd');
@@ -107,12 +106,12 @@ export default class FormGenerator {
             // this.datepickerSelector = '.' + className;
             // input.addClass(className);
         }
-        else if (tag == INPUT_TYPES.TIME) {
+        else if (tag === INPUT_TYPES.TIME) {
             input = $('<input/>');
             input.attr('placeholder', 'HH:mm');
             input.attr('type', 'time');
         }
-        else if (tag == INPUT_TYPES.DATETIME) {
+        else if (tag === INPUT_TYPES.DATETIME) {
             input = $('<input/>');
             input.attr('placeholder', 'yyyy-mm-dd HH:mm');
             input.attr('type', 'text');
@@ -123,7 +122,7 @@ export default class FormGenerator {
         input.addClass('fg-input');
 
         if (this.data) {
-            if (tag == INPUT_TYPES.TEXTAREA) {
+            if (tag === INPUT_TYPES.TEXTAREA) {
                 input.html(this.data[name]);
             } else {
                 input.val(this.data[name]);
@@ -161,9 +160,9 @@ export default class FormGenerator {
         for (let i = 0; i < fieldNames.length; i++) {
             const fieldName = fieldNames[i]; // model attribute name
             const fieldData = fields[fieldName];
-            const label = this.createLabel(fieldData.label);
+            const label = FormGenerator.createLabel(fieldData.label);
             const input = this.createInput(fieldName, fieldData.input);
-            const formGroup = this.createFormGroup(input, label);
+            const formGroup = FormGenerator.createFormGroup(input, label);
 
             formTag.append(formGroup);
         }
@@ -249,14 +248,14 @@ export default class FormGenerator {
             if(parentFormGroup)
                 parentFormGroup.removeClass('has-error');
 
-            if (inputTag == INPUT_TYPES.TEXTAREA) {
+            if (inputTag === INPUT_TYPES.TEXTAREA) {
                 value = Editor.getActiveEditorContent();
             }
             else {
                 value = input.val();
             }
 
-            if (required && (!value || value.length == 0)) {
+            if (required && (!value || value.length === 0)) {
                 fieldsAreMissing = true;
                 if(parentFormGroup)
                     parentFormGroup.addClass('has-error');

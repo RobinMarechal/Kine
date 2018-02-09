@@ -15,7 +15,7 @@ export async function inputFocusout(input) {
     const id = tr.data('id');
     const namespace = tr.data('namespace');
 
-    if (regexp.test(submitted[field]) == false && submitted[field] != "") {
+    if (regexp.test(submitted[field]) === false && submitted[field] !== "") {
         throw "Format invalide.";
     }
 
@@ -26,7 +26,7 @@ export async function inputFocusout(input) {
         throw "Une erreur est survenue, impossible de mettre la donnée à jour...";
     }
 
-    if(response[field] != submitted[field]){
+    if(response[field] !== submitted[field]){
         throw "Format invalide.";
     }
 

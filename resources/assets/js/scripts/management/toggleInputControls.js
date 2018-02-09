@@ -10,14 +10,14 @@ export function toggleInput() {
 }
 
 export function toggleInputClicked(el) {
-    if (el.find('input').length == 0) {
+    if (el.find('input').length === 0) {
         const td = el;
         const padding = td.css('padding');
         let content = td.html().trim();
         let input = $('<input class="form-control input-sm" />');
         input.val(content);
 
-        if (td.data('input-type') == 'time' && content.length == 0) {
+        if (td.data('input-type') === 'time' && content.length === 0) {
             input.attr('placeholder', 'Format : hh:mm. Ex : 8:00, 8:30, 08:30.');
         }
 
@@ -43,7 +43,7 @@ export function toggleInputClicked(el) {
 
         });
         input.focusout(async function () {
-            if (content != input.val()) {
+            if (content !== input.val()) {
                 try {
                     content = await inputFocusout(input);
                 }

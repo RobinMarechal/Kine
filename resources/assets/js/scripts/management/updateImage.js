@@ -2,14 +2,13 @@ import Helper from "../helpers/Helper";
 
 function buildModal(imgTag) {
     const isBanner = imgTag.hasClass('img-banner');
-    const form = $(`
- <form id="modal-form-update-image" method="POST" action="/update_image" enctype="multipart/form-data">
-    ${Helper.csrfToken()}
-    <input type="hidden" name="isBanner" value="${isBanner ? 1 : 0}"/>
-    <div class="form-group text-center">
-        <input type="file" name="image" accept="images/*" class="center"> 
-    </div>
-</form> `);
+    const form = $(`<form id="modal-form-update-image" method="POST" action="/update_image" enctype="multipart/form-data">
+                        ${Helper.csrfToken()}
+                        <input type="hidden" name="isBanner" value="${isBanner ? 1 : 0}"/>
+                        <div class="form-group text-center">
+                            <input type="file" name="image" accept="images/*" class="center"> 
+                        </div>
+                    </form> `);
 
     return {
         title: isBanner ? "Modifier l'image de couverture." : "Modifier le logo",
@@ -33,18 +32,15 @@ function buildModal(imgTag) {
                                         <i class="fas fa-cog fa-spin fa-2x"></i>
                                   </div>`);
                     return false;
-                }
-            }
-        }
+                },
+            },
+        },
     };
 }
 
 function handleImageUpdate(imgTag) {
     const modalObj = buildModal(imgTag);
     const modal = bootbox.dialog(modalObj).show();
-    // modal.on('hide.bs.modal', () => {
-    //
-    // });
 }
 
 function handleUndoUpdate(imgTag) {

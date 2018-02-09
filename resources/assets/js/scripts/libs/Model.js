@@ -1,6 +1,3 @@
-/**
- * Created by Utilisateur on 11/07/2017.
- */
 import Api from "./Api";
 
 export default class Model {
@@ -30,7 +27,7 @@ export default class Model {
         let json = {};
         for (let prop in this) {
             if (this.hasOwnProperty(prop) && this[prop] != null) {
-                if (prop.indexOf('_') == 0) {
+                if (prop.indexOf('_') === 0) {
                     json[prop.substr(1)] = this[prop];
                 } else {
                     json[prop] = this[prop];

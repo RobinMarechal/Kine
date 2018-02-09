@@ -1,35 +1,17 @@
-/**
- * Created by Utilisateur on 11/07/2017.
- */
-
 import Model from "../libs/Model";
 import DAO from "./DAO";
 
-export default class Content extends Model{
+export default class Content extends Model {
 
     constructor(obj = null) {
         super(obj, ['id', 'content', 'created_at', 'updated_at', 'title', 'name', 'doctor_id']);
     }
 
-    static newInstance(...args){
+    static newInstance(...args) {
         return new Content(...args);
     }
 
-    // toJson() {
-    //     return {
-    //         id: this.id,
-    //         content: this.content,
-    //         created_at: this.createdAt,
-    //         updated_at: this.updatedAt,
-    //         title: this.title,
-    //         name: this.name
-    //     };
-    // }
-
-
     static buildHtmlForm(inputId, inputName, textareaId, textareaName, inputValue = "", textareaValue = "") {
-
-
         if (inputName == null)
             inputName = inputId;
 
@@ -89,14 +71,14 @@ export default class Content extends Model{
     }
 
     static async create(data, params = "") {
-        return DAO.create(this, data, params)
+        return DAO.create(this, data, params);
     }
 
     async update(params = "") {
         return DAO.update(this, params);
     }
 
-    async delete(params = ""){
+    async delete(params = "") {
         return DAO.delete(this, params);
     }
 

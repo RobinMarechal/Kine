@@ -1,6 +1,3 @@
-/**
- * Created by Utilisateur on 06/08/2017.
- */
 import Model from "../libs/Model";
 import DAO from "./DAO";
 

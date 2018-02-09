@@ -74,9 +74,9 @@ export default function manageBugs() {
 
     $('[data-update=bugs-pending]').click(function () {
         updateBug($(this), false);
-    })
+    });
 
     $('#set-bug-solved').click(function(){
         solveBug($(this));
-    })
+    });
 }

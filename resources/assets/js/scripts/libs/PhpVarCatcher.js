@@ -1,8 +1,3 @@
-/**
- * Created by Utilisateur on 06/09/2017.
- */
-
-// const vars = {};
 const map = new Map();
 
 export default class PhpVarMap {

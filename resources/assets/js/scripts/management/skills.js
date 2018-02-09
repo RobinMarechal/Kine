@@ -1,45 +1,10 @@
-/**
- * Created by Utilisateur on 30/07/2017.
- */
-
 import Editor from "../helpers/Editor";
 import Skill from "../models/Skill";
 import Content from "../models/Content";
 import Flash from "../libs/flash/Flash";
 
-const titleDataTag = $('data#title-template');
-const contentDataTag = $('data#content-template');
-
-// const skillTemplate = {
-//     titles: {
-//         containerId: titleDataTag.data('container-id'),
-//         tag: titleDataTag.data('tag'),
-//         classes: titleDataTag.data('classes'),
-//     },
-//     contents: {
-//         containerId: contentDataTag.data('container-id'),
-//         tag: contentDataTag.data('tag'),
-//         classes: contentDataTag.data('classes'),
-//     }
-// }
-
 function listOfSkillTitles() {
-    let list = $('#section-titles .skill-titles');
-    return list;
-}
-
-function showSkill(id) {
-    let titles = $('#section-titles .skill-titles.selected');
-    titles.removeClass("selected");
-
-    let contents = $('#section-contents .skill-titles');
-    contents.removeClass("selected");
-
-    let titleSelected = $('#section-titles .skill-titles[data-skill-id=' + id + ']');
-    titleSelected.addClass('selected');
-
-    let contentToShow = $('#section-contents .skill-section[data-skill-id=' + id + ']');
-    contentToShow.addClass("selected");
+    return $('#section-titles').find('.skill-titles');
 }
 
 function addSkillDiv(skill) {
@@ -140,10 +105,10 @@ function titleClicked(event, el) {
     const skillId = el.data('skill-id');
 
     // hide the one visible
-    $('#section-contents .skill-section.selected').removeClass('selected');
+    $('#section-contents').find('.skill-section.selected').removeClass('selected');
 
     // Show the good one
-    let divToShow = $('#section-contents div[data-skill-id=' + skillId + ']');
+    let divToShow = $('#section-contents').find(`div[data-skill-id=${skillId}]`);
     divToShow.addClass('selected');
 }
 
@@ -182,9 +147,9 @@ export function skills() {
                             title: $('#' + inputId).val(),
                             content: Editor.getActiveEditorContent(),
                             index: $('#' + indexInputId).val(),
-                        }
+                        };
 
-                        if (data.title == "" || data.content == "") {
+                        if (data.title === "" || data.content === "") {
                             Flash.error("Tous les champs champs sont requis.");
                             return false;
                         }
@@ -199,9 +164,9 @@ export function skills() {
                             const list = getNewList(skill);
                             reloadHtml(list);
                         });
-                    }
-                }
-            }
+                    },
+                },
+            },
         });
 
         Editor.createUnique('#' + editorId);
@@ -212,8 +177,7 @@ export function skills() {
         titleClicked(e, $(this));
     });
 
-    $('#edit-skill').click((event) => {
-        const el = $(this);
+    $('#edit-skill').click(() => {
         const skillId = $('.skill-titles.selected').data('skill-id');
 
         const editorId = "bb_content";
@@ -247,7 +211,7 @@ export function skills() {
                             skill.content = Editor.getActiveEditorContent();
                             skill.index = $('#' + indexInputId).val();
 
-                            if (skill.title == "" || skill.content == "") {
+                            if (skill.content == "" || skill.title === "") {
                                 Flash.error("Tous les champs champs sont requis.");
                                 return false;
                             }
@@ -281,9 +245,9 @@ export function skills() {
                                     Flash.error("Une erreur est survenue, la rubrique n'a pas été modifiée.");
                                     console.log(["skills#validate", e]);
                                 });
-                        }
-                    }
-                }
+                        },
+                    },
+                },
             });
 
             Editor.createUnique('#' + editorId);
@@ -296,8 +260,7 @@ export function skills() {
         bootbox.confirm({
             title: "Supprimer une rubrique",
             size: "small",
-            message: "<p align='center'>Voulez-vous vraiment supprimer cette rubrique ? </p> <p align='center' class='text-error'><b>Attention, cette action est irréversible !" +
-            " </b></p>",
+            message: `<p align="center">Voulez-vous vraiment supprimer cette rubrique ? </p> <p align="center" class="text-error"><b>Attention, cette action est irréversible !</b></p>`,
             callback: (result) => {
                 if (result) {
                     let skillTitle = $('.skill-titles.selected');
@@ -306,7 +269,7 @@ export function skills() {
                     const skillId = skillTitle.data('skill-id');
 
                     Skill.remove(skillId)
-                        .then((response) => {
+                        .then(() => {
                             skillTitle.remove();
                             skillContent.remove();
 
@@ -322,7 +285,7 @@ export function skills() {
                             console.log(["skills#HF", e]);
                         });
                 }
-            }
+            },
         });
     });
 }

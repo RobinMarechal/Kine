@@ -1,7 +1,3 @@
-/**
- * Created by Utilisateur on 29/07/2017.
- */
-
 import Content from "../models/Content";
 import Editor from "../helpers/Editor";
 import Flash from "../libs/flash/Flash";
@@ -16,9 +12,8 @@ function reloadHtml(content) {
 
 export async function editContents() {
     $('.content-editable #edit-content').click(async function () {
-        var id = $(this).data('id'),
-            name = $(this).data('name');
-
+        console.log("oui");
+        const id = $(this).data('id');
 
         const inputId = "bb_content-" + id + "-title";
         const textareaId = "bb_content-" + id + "-content";
@@ -44,7 +39,7 @@ export async function editContents() {
                         content.title = $('#bb_content-' + id + '-title').val();
                         content.content = Editor.getActiveEditorContent();
 
-                        if (content.title == "" || content.content == "") {
+                        if (content.title === "" || content.content === "") {
                             Flash.error("Tous les champs champs sont requis.");
                             return false;
                         }

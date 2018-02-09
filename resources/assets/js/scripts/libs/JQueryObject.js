@@ -1,5 +1,3 @@
-import JQueryHelper from "../helpers/JQueryHelper";
-
 export default class JQueryObject {
 
     static tag(tagname, selfclosing = false) {
@@ -151,7 +149,7 @@ export default class JQueryObject {
         return this;
     }
 
-    data(data, value) {
+    setData(data, value) {
         this._hasChanged = true;
         this.data[data] = value;
         return this;
@@ -171,7 +169,7 @@ export default class JQueryObject {
         let selfclosing = false;
         let obj;
 
-        if (['br', 'hr', 'img', 'input'].indexOf(this._tagname) == -1) {
+        if(this._tagname in ['br', 'hr', 'img', 'input']) {
             selfclosing = true;
         }
 

@@ -1,7 +1,3 @@
-/**
- * Created by Utilisateur on 06/08/2017.
- */
-
 import Editor from "../helpers/Editor";
 import Flash from "../libs/flash/Flash";
 import Form from "../helpers/Form";
@@ -76,7 +72,7 @@ function openNewsDialog(news = null) {
                         title: $('#bb_title').val(),
                         content: Editor.getActiveEditorContent(),
                         published_at: datepicker.toString(),
-                    }
+                    };
 
                     // try {
                     //     const response = await Api.get('/doctor', false)
@@ -115,7 +111,7 @@ function openNewsDialog(news = null) {
                                     $('#news-published_at').html(Helper.dateToFormat(published_at, 'd/m/Y'));
 
                                     if (published_at > new Date()) {
-                                        let tag = $('#news-visibility-info .top-left-symbol');
+                                        let tag = $('#news-visibility-info').find('.top-left-symbol');
 
                                         try {
                                             let titleTemplate = tag.data('title-template');
@@ -139,7 +135,7 @@ function openNewsDialog(news = null) {
                                 });
                             }
                         })
-                        .fail((error) => {
+                        .fail(() => {
                             Flash.error("Une erreur est survenue, la news n'a pas été publiée.");
                             return false;
                         });
@@ -180,14 +176,14 @@ export function news() {
         dialog.title = "Supprimer la news";
         dialog.callback = function () {
             News.remove(newsId)
-                .then((response) => {
+                .then(() => {
                     Flash.success("La news a été supprimée avec succès.");
                     Helper.redirectTo("/news");
                 })
-                .catch((error) => {
+                .catch(() => {
                     Flash.error("Une erreur est survenue, la news n'a pas été supprimée.");
                 })
-        }
+        };
 
         dialog.build();
     })

@@ -2,13 +2,12 @@ let instance = null;
 
 export default class Router {
 
-
     constructor() {
         if (!instance) {
             instance = this;
         }
 
-        this._routes = {};
+        this.routes = new Map();
 
         return instance;
     }
@@ -24,45 +23,36 @@ export default class Router {
         if (!Array.isArray(callbacks))
             callbacks = [callbacks];
 
-        let group = router._routes[route];
-
+        let group = router.routes.get(route);
 
         if (group != null && group.callbacks != null) {
             callbacks = callbacks.concat(group.callbacks);
         }
 
-        router._routes[route] = {
-            callbacks: callbacks,
-            name: name
-        };
+        router.routes.set(route, {
+            callbacks,
+            name,
+        });
     }
 
     static getRouteActions(url) {
 
         let router = Router.getInstance();
 
-        for (var prop in router._routes) {
-            if (router._routes.hasOwnProperty(prop)) {
-
-                const regexp = new RegExp(prop);
-                if (regexp.test(url)) {
-                    return router._routes[prop].callbacks;
-                }
+        for (const prop of router.routes) {
+            const regexp = new RegExp(prop);
+            if (regexp.test(url)) {
+                return router._toutes.get(prop).callbacks;
             }
         }
 
+        return [];
     }
 
-    static execute() {
-        let router = Router.getInstance();
-
+    static trigger() {
         const url = window.location.pathname;
         const actions = Router.getRouteActions(url);
 
-        if (actions != null) {
-            actions.forEach(function (action) {
-                action();
-            });
-        }
+        actions.forEach((action) => action());
     }
 }

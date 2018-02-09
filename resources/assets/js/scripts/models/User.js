@@ -1,7 +1,3 @@
-/**
- * Created by Utilisateur on 07/08/2017.
- */
-
 import Model from "../libs/Model";
 import DAO from "./DAO";
 import PhpVarCatcher from "../libs/PhpVarCatcher";
@@ -26,7 +22,7 @@ export default class User extends Model {
     }
 
     isDoctor() {
-        return this._doctor_id != null;
+        return this.doctor_id != null;
     }
 
     static get(id, params = "") {

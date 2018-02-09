@@ -1,12 +1,6 @@
-/**
- * Created by Utilisateur on 17/07/2017.
- */
-// import Flash from 'Flash';
-
 import {navActive} from './scripts/nav-active';
 import {editContents} from "./scripts/management/contents";
 import {skills} from "./scripts/management/skills";
-import {news} from "./scripts/management/news";
 import {articles, createArticle} from "./scripts/management/articles";
 import Editor from "./scripts/helpers/Editor";
 import Router from "./scripts/libs/Router";
@@ -18,12 +12,9 @@ import KeyInputBuffer from "./scripts/helpers/KeyInputBuffer";
 import footerDoctors from "./scripts/management/footerDoctors";
 import Api from "./scripts/libs/Api";
 import Flash from "./scripts/libs/flash/Flash";
-import manageAbouts from "./scripts/management/manageAbouts";
 import manageDataCreation from "./scripts/management/manageDataCreation";
 import updateImage from "./scripts/management/updateImage";
-import User from "./scripts/models/User";
 import manageBugs from "./scripts/management/manageBugs";
-import Helper from "./scripts/helpers/Helper";
 
 // var url = window.location.pathname;
 
@@ -45,7 +36,7 @@ $(document).ready(function () {
             editor.on('focus', function (e) {
             });
 
-            editor.on('blur', function (e) {
+            editor.on('blur', function () {
                 const editor = Editor.getActiveEditor();
                 const settings = editor.settings;
                 const selector = settings.selector;
@@ -57,7 +48,7 @@ $(document).ready(function () {
                 const newContent = editor.getContent() == null ? "" : editor.getContent();
                 const data = {};
 
-                if (!editor.isDirty() || newContent == startContent) // unmodified
+                if (!editor.isDirty() || newContent === startContent) // unmodified
                 {
                     return;
                 }
@@ -72,7 +63,7 @@ $(document).ready(function () {
                 data[name] = newContent == null ? "" : newContent;
 
                 Api.sendData(namespace + '/' + dataId, "PUT", data)
-                    .then((data) => {
+                    .then(() => {
                         editor.setContent(newContent);
                         editor.startContent = newContent;
                         Flash.success("L'information a bien été modifiée !");
@@ -115,7 +106,6 @@ KeyInputBuffer.boot();
 
 navActive();
 editContents();
-// createNews();
 footerDoctors();
 manageDataCreation();
 updateImage();
@@ -127,10 +117,6 @@ Router.addRoute('articles\\/(rediger)|(\\d+\\/modifier)\\/?', [
 
 Router.addRoute('articles\\/\\d+\\/?', [
     () => articles(),
-]);
-
-Router.addRoute('news\\/\\d+\\/?', [
-    // () => news(),
 ]);
 
 Router.addRoute('nos-competences\\/?', [
@@ -151,12 +137,8 @@ Router.addRoute('admin\\/contacts\\/?', [
     () => removeUserContact(),
 ]);
 
-Router.addRoute('a-propos\\/?', [
-    () => manageAbouts()
-]);
-
 Router.addRoute('admin\\/bugs(\\/\\d+\\/?)?', [
     () => manageBugs()
 ]);
 
-Router.execute();
+Router.trigger();
