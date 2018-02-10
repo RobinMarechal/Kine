@@ -55,7 +55,7 @@ function submitNewTag() {
     if (enteredName === "")
         return;
 
-    if (';' in enteredName) {
+    if (enteredName.includes(';')) {
         Flash.error("Le caractère ';' est réservé, merci de ne pas l'utiliser dans le nom des tags.", 3000);
         return;
     }
