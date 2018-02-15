@@ -5,8 +5,12 @@ import Helper from '../helpers/Helper';
 function buildRow(sn, logoList) {
     return `<tr data-id="${sn.id}" class="hover-container">
                 <td width="130">${buildSelect(logoList, sn.type)}</td>
-                <td><input class="input-sm form-control" data-name="link" type="text" value="${sn.link}" /></td>
-                <td class="no-padding-right"><input class="input-sm form-control" data-name="tooltip" type="text" value="${sn.tooltip}" /></td>
+                <td>
+                    <input class="input-sm form-control" data-name="link" type="text" value="${sn.link}" />
+                </td>
+                <td class="no-padding-right">
+                    <input class="input-sm form-control" data-name="tooltip" type="text" value="${sn.tooltip}" />
+                </td>
                 <td class="controls" height="51"> 
                     <i class="far fa-times-circle fa-sm pointer show-on-hover show-on-hover-container btn-table-control fit-height"
                         title="Supprimer cette ligne"
@@ -65,8 +69,8 @@ async function buildDialogHtml() {
     return buildTable(list);
 }
 
-function prepareEventHandlers(html) {
-
+function prepareEventHandlers(tableHtml) {
+    const select = tableHtml.find('')
 }
 
 function showDialog(html) {

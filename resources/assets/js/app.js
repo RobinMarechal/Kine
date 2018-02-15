@@ -23,6 +23,18 @@ $('.alert').delay(2500).fadeOut(700, function () {
     $(this).remove();
 });
 
+if(!$.prototype.findByAttr){
+    $.prototype.findByAttr = function(attr, value){
+        return $.prototype.find(`[${attr}='${value}']`);
+    }
+}
+
+if(!$.prototype.findByName){
+    $.prototype.findByName = function(nameValue){
+        return $.prototype.findByAttr('name', nameValue);
+    }
+}
+
 if (!String.prototype.snakeCase) {
     String.prototype.snakeCase = function () {
         return this.split(/(?=[A-Z])/).join('_').toLowerCase();
