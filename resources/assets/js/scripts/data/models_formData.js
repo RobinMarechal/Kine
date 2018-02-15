@@ -23,7 +23,6 @@ MODELS_FORM_DATA.contents = {
             tag: INPUT_TYPES.TEXTAREA,
         },
         label: 'Texte :',
-        required: true
     }
 };
 
@@ -42,7 +41,6 @@ MODELS_FORM_DATA.abouts = {
             tag: INPUT_TYPES.TEXTAREA,
         },
         label: 'Texte :',
-        required: true
     }
 };
 
@@ -133,6 +131,10 @@ MODELS_FORM_DATA.events = {
 MODELS_FORM_DATA.bugs = {
     dialogTitle: "Signaler un bug",
     fields: ['summary', 'description'],
+    callback(modal) {
+        const link = modal.find('.close-modal');
+        link.click(bootbox.hideAll);
+    },
     description: {
         input: {
             tag: INPUT_TYPES.TEXTAREA,

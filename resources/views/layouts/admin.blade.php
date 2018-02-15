@@ -4,7 +4,7 @@ use Helpers\JsVar;
 use Helpers\Template;
 use Illuminate\Database\Eloquent\Collection;
 
-$nbOfNotifications = Template::getNbOfNotifications();
+//$nbOfNotifications = Template::getNbOfNotifications();
 
 $isCurrentPageHomePage = false;
 if (Route::currentRouteName() === "home" || Route::currentRouteName() === "home") {
@@ -13,7 +13,7 @@ if (Route::currentRouteName() === "home" || Route::currentRouteName() === "home"
 $contentBootstrapClassCol = "col-md-9";
 //$contentBootstrapClassCol = $isCurrentPageHomePage ? "col-md-12" : "col-md-8";
 
-$events = new Collection();
+//$events = new Collection();
 
 $authUser = Auth::user();
 JsVar::create('userId', Auth::guest() ? 0 : $authUser->id);
@@ -96,7 +96,7 @@ JsVar::create('user', $authUser);
 </div>
 
 
-@include('layouts.app.footer', $footer_doctors)
+@include('layouts.app.footer', $footer_doctors, $footer_social_networks)
 @include('layouts.parts.js')
 
 @yield('js')

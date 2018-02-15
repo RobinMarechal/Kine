@@ -35,25 +35,25 @@ use Symfony\Component\HttpFoundation\Response;
 
 class Controller extends BaseController
 {
-	use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
+    use AuthorizesRequests, DispatchesJobs, ValidatesRequests;
 
-	protected $request;
+    protected $request;
 
 
-	/**
-	 * Controller constructor.
-	 *
-	 * @param Request $request
-	 */
-	function __construct (Request $request)
-	{
+    /**
+     * Controller constructor.
+     *
+     * @param Request $request
+     */
+    function __construct(Request $request)
+    {
         $this->request = $request;
 
-        if(!$request->ajax()){
+        if (!$request->ajax()) {
 
             $template_news = new Collection();
             $template_events = new Collection();
-            $nbOfNotifications = new Collection();
+            $nbOfNotifications = Template::getNbOfNotifications();
 
             if (/*Route::currentRouteName() != "home" && */
                 Route::currentRouteName() != "development"
@@ -65,318 +65,317 @@ class Controller extends BaseController
 
             $footer_doctors = Template::getDoctors();
             $footer_other_contacts = Template::getOtherContacts();
+            $footer_social_networks = Template::getSocialNetworks();
 
-            View::share(compact('template_news', 'template_events', 'nbOfNotifications', 'footer_doctors', 'footer_other_contacts'));
+            View::share(compact('template_news', 'template_events', 'nbOfNotifications', 'footer_doctors', 'footer_other_contacts', 'footer_social_networks'));
         }
-	}
+    }
 
 
-	protected function getPreparedQuery ($class)
-	{
-		return $this->request->getPreparedQuery($class);
-	}
+    public function getById($id)
+    {
+        $class = getRelatedModelClassName($this);
+        $resp = $this->defaultGetById($class, $id);
 
+        return \response()->json($resp->getData(), $resp->getCode());
+    }
 
-	private function test ()
-	{
-		$appId = env('FACEBOOK_CLIENT_ID');
-		$appSecret = env('FACEBOOK_CLIENT_SECRET');
-		$pageId = env('FACEBOOK_APP_PAGE_ID');
-		$pageAccessToken = env('FACEBOOK_APP_PAGE_ACCESS_TOKEN');
-		$userAccessToken = "EAACEdEose0cBAFpevxc6cm48SQbn1VVcNu5Fw0vMARyuoG7zoyFnPCDbeSvm0Nq9D4oZARkl6QkUq1FDcRNetZBxgOfG34ki0OefqW53ZAhZAEmisNQi4I7hZBQxqz8Pm50XNWNJl9pc0bPGGyRO3JrHq8Redy3MvnhDbDE0Hwpj29JUvmuclN45zd4YcmCXVPBUw0ix4HgZDZD";
 
-		$fb = new Facebook([
-			'app_id'                => $appId,
-			'app_secret'            => $appSecret,
-			'default_graph_version' => 'v2.5',
-		]);
+    public function defaultGetById($class, $id)
+    {
+        $res = $this->getPreparedQuery($class)
+                    ->find($id);
 
-		$longLivedToken = $fb->getOAuth2Client()
-							 ->getLongLivedAccessToken($userAccessToken);
+        return new ResponseData($res, Response::HTTP_OK);
+    }
 
-		$fb->setDefaultAccessToken($longLivedToken);
 
-		$response = $fb->sendRequest('GET', $pageId, ['fields' => 'access_token'])
-					   ->getDecodedBody();
+    /*
+     * ------------------------------------------------------------------
+     * ------------------------------------------------------------------
+     */
 
-		$foreverPageAccessToken = $response['access_token'];
-		dd($foreverPageAccessToken);
 
-		//		$fb = new Facebook([
-		//			'app_id'                => $appId,
-		//			'app_secret'            => $appSecret,
-		//			'default_graph_version' => "v2.9",
-		//		]);
-		//
-		//		$fb->setDefaultAccessToken($pageAccessToken);
-		//
-		//		$response = $fb->sendRequest("POST", "$pageId/feed", ['message' => 'Arnaud la saucisse', 'link' => 'http://kine.dev']);
+    public function getFromTo($from, $to)
+    {
+        $class = getRelatedModelClassName($this);
+        $resp = $this->defaultGetFromTo($class, $from, $to);
 
-		dd($response);
+        return \response()->json($resp->getData(), $resp->getCode());
+    }
 
-		$foreverPageAccessToken = $response['access_token'];
-	}
 
+    public function defaultGetFromTo($class, $from, $to, $field = "created_at")
+    {
+        $fromCarbon = Carbon::parse($from);
+        $toCarbon = Carbon::parse($to);
 
-	/*
-	 * ------------------------------------------------------------------
-	 * ------------------------------------------------------------------
-	 */
+        $array = $this->request->getPreparedQuery($class)
+                               ->whereBetween($field, [$fromCarbon, $toCarbon])
+                               ->get();
 
-	public function defaultAll ($class)
-	{
-		$all = $this->getPreparedQuery($class)
-					->get();
+        return new ResponseData($array, Response::HTTP_OK);
+    }
 
-		return new ResponseData($all, Response::HTTP_OK);
-	}
 
+    public function put($id)
+    {
+        $class = getRelatedModelClassName($this);
+        $resp = $this->defaultPut($class, $id);
 
-	public function defaultGetById ($class, $id)
-	{
-		$res = $this->getPreparedQuery($class)
-					->find($id);
+        return \response()->json($resp->getData(), $resp->getCode());
+    }
 
-		return new ResponseData($res, Response::HTTP_OK);
-	}
 
+    public function defaultPut($class, $id)
+    {
+        $cat = $this->defaultGetById($class, $id)
+                    ->getData();
 
-	public function defaultPut ($class, $id)
-	{
-		$cat = $this->defaultGetById($class, $id)
-					->getData();
+        if ($cat == null) {
+            return new ResponseData(null, Response::HTTP_BAD_REQUEST);
+        }
 
-		if ($cat == null) {
-			return new ResponseData(null, Response::HTTP_BAD_REQUEST);
-		}
+        $cat->update($this->request->all());
 
-		$cat->update($this->request->all());
+        $res = $cat;
 
-		$res = $cat;
+        if ($this->request->userWantsAll()) {
+            $res = $this->all();
+        }
 
-		if ($this->request->userWantsAll()) {
-			$res = $this->all();
-		}
+        return new ResponseData($res, Response::HTTP_OK);
+    }
 
-		return new ResponseData($res, Response::HTTP_OK);
-	}
 
+    public function all()
+    {
+        $class = getRelatedModelClassName($this);
+        $resp = $this->defaultAll($class);
 
-	public function defaultDelete ($class, $id)
-	{
-		$cat = $class::find($id);
+        return \response()->json($resp->getData(), $resp->getCode());
+    }
 
-		if ($cat == null) {
-			return new ResponseData(null, Response::HTTP_BAD_REQUEST);
-		}
 
-		$res = $cat->delete();
+    public function defaultAll($class)
+    {
+        $all = $this->getPreparedQuery($class)
+                    ->get();
 
-		if ($this->request->userWantsAll()) {
-			$res = $this->all();
-		}
+        return new ResponseData($all, Response::HTTP_OK);
+    }
 
-		return new ResponseData($res, Response::HTTP_OK);
-	}
 
+    protected function getPreparedQuery($class)
+    {
+        return $this->request->getPreparedQuery($class);
+    }
 
-	public function defaultPost ($class)
-	{
-		$cat = $class::create($this->request->all());
 
-		$res = $cat;
+    public function delete($id)
+    {
+        $class = getRelatedModelClassName($this);
+        $resp = $this->defaultDelete($class, $id);
 
-		if ($this->request->userWantsAll()) {
-			$res = $this->all();
-		}
-		else if($this->request->has("with"))
-		{
-			$with = $this->request->get('with');
-			$with = explode(',', $with);
+        return \response()->json($resp->getData(), $resp->getCode());
+    }
 
-			foreach ($with as $w) {
-				$res->load($w);
-			}
-		}
 
-		return new ResponseData($res, Response::HTTP_CREATED);
-	}
+    // ---
 
 
-	public function defaultGetFromTo ($class, $from, $to, $field = "created_at")
-	{
-		$fromCarbon = Carbon::parse($from);
-		$toCarbon = Carbon::parse($to);
+    public function defaultDelete($class, $id)
+    {
+        $cat = $class::find($id);
 
+        if ($cat == null) {
+            return new ResponseData(null, Response::HTTP_BAD_REQUEST);
+        }
 
-		$array = $this->request->getPreparedQuery($class)
-							   ->whereBetween($field, [$fromCarbon, $toCarbon])
-							   ->get();
+        $res = $cat->delete();
 
-		return new ResponseData($array, Response::HTTP_OK);
-	}
+        if ($this->request->userWantsAll()) {
+            $res = $this->all();
+        }
 
+        return new ResponseData($res, Response::HTTP_OK);
+    }
 
-	/**
-	 * @param $class        string the model (usually associated with the current controller) class name
-	 * @param $id           int the id of the resource
-	 * @param $relationName string the relation name. This can be chained relations, separated with '.' character.
-	 *
-	 * @warning if chained relations, all of these (but the last) have to be BelongsTo relations (singular relations),
-	 *          otherwise this will fail
-	 * @return ResponseData the couple (json, Http code)
-	 */
-	public function defaultGetRelationResult ($class, $id, $relationName)
-	{
-		$model = $class::with([$relationName => function ($query) use ($class) {
-			$this->request->applyUrlParams($query, $class);
-		}])
-					   ->find($id);
 
-		if (!isset($model)) {
-			return new ResponseData(null, Response::HTTP_NOT_FOUND);
-		}
+    public function post()
+    {
+        $class = getRelatedModelClassName($this);
+        $resp = $this->defaultPost($class);
 
-		$res = $model;
-		$rels = explode('.', $relationName);
-		foreach ($rels as $r) {
-			$res = $res->$r;
-		}
+        return \response()->json($resp->getData(), $resp->getCode());
+    }
 
-		return new ResponseData($res, Response::HTTP_OK);
-	}
 
+    public function defaultPost($class)
+    {
+        $cat = $class::create($this->request->all());
 
-	public function defaultGetRelationResultOfId ($class, $id, $relationClass, $relationName, $relationId = null)
-	{
-		if ($relationId == null) {
-			return $this->defaultGetRelationResult($class, $id, $relationName);
-		}
+        $res = $cat;
 
+        if ($this->request->userWantsAll()) {
+            $res = $this->all();
+        }
+        else if ($this->request->has("with")) {
+            $with = $this->request->get('with');
+            $with = explode(',', $with);
 
-		$tmp = $class::with([$relationName => function ($query) use ($relationId, $relationClass) {
-			$this->request->applyUrlParams($query, $relationClass);
-		}])
-					 ->where((new $class())->getTable() . '.id', $id)
-					 ->first();
+            foreach ($with as $w) {
+                $res->load($w);
+            }
+        }
 
+        return new ResponseData($res, Response::HTTP_CREATED);
+    }
 
-		if (!isset($tmp)) {
-			return new ResponseData(null, Response::HTTP_NOT_FOUND);
-		}
 
-		$res = $tmp;
-		$rels = explode('.', $relationName);
-		foreach ($rels as $r) {
-			$res = $res->$r;
-		}
+    public function __call($method, $parameters)
+    {
+        if (strpos($method, "get") == 0 && strlen($method) > 3 && is_array($parameters) && isset($parameters[0])) {
+            $relation = camel_case(substr($method, 3));
 
-		$res = $res->where('id', "=", $relationId)
-				   ->first();
+            $relatedModelClassName = str_singular($relation);
+            $relatedModelClassName = 'App\\' . strtoupper(substr($relatedModelClassName, 0, 1)) . substr($relatedModelClassName, 1);
 
-		return new ResponseData($res, Response::HTTP_OK);
-	}
+            $thisModelClassName = getRelatedModelClassName($this);
 
+            $id = $parameters[0];
+            $relatedId = null;
+            if (isset($parameters[1])) {
+                $relatedId = $parameters[1];
+            }
 
-	// ---
+            if (!is_numeric($id) || (isset($relatedId) && !is_numeric($relatedId))) {
+                GOTO FUNCTION_NOT_FOUND;
+            }
 
-	public function all ()
-	{
-		$class = getRelatedModelClassName($this);
-		$resp = $this->defaultAll($class);
+            // Ok
+            $resp = $this->defaultGetRelationResultOfId($thisModelClassName, $id, $relatedModelClassName, $relation, $relatedId);
 
-		return \response()->json($resp->getData(), $resp->getCode());
-	}
+            return response()->json($resp->getData(), $resp->getCode());
+        }
 
+        FUNCTION_NOT_FOUND:
+        throw new UndefinedFunctionException("Undefined function '$method'.", new ErrorException());
+    }
 
-	public function getById ($id)
-	{
-		$class = getRelatedModelClassName($this);
-		$resp = $this->defaultGetById($class, $id);
 
-		return \response()->json($resp->getData(), $resp->getCode());
-	}
+    public function defaultGetRelationResultOfId($class, $id, $relationClass, $relationName, $relationId = null)
+    {
+        if ($relationId == null) {
+            return $this->defaultGetRelationResult($class, $id, $relationName);
+        }
 
+        $tmp = $class::with([$relationName => function ($query) use ($relationId, $relationClass) {
+            $this->request->applyUrlParams($query, $relationClass);
+        }])
+                     ->where((new $class())->getTable() . '.id', $id)
+                     ->first();
 
-	public function getFromTo ($from, $to)
-	{
-		$class = getRelatedModelClassName($this);
-		$resp = $this->defaultGetFromTo($class, $from, $to);
+        if (!isset($tmp)) {
+            return new ResponseData(null, Response::HTTP_NOT_FOUND);
+        }
 
-		return \response()->json($resp->getData(), $resp->getCode());
-	}
+        $res = $tmp;
+        $rels = explode('.', $relationName);
+        foreach ($rels as $r) {
+            $res = $res->$r;
+        }
 
+        $res = $res->where('id', "=", $relationId)
+                   ->first();
 
-	public function put ($id)
-	{
-		$class = getRelatedModelClassName($this);
-		$resp = $this->defaultPut($class, $id);
+        return new ResponseData($res, Response::HTTP_OK);
+    }
 
-		return \response()->json($resp->getData(), $resp->getCode());
-	}
 
+    /**
+     * @param $class        string the model (usually associated with the current controller) class name
+     * @param $id           int the id of the resource
+     * @param $relationName string the relation name. This can be chained relations, separated with '.' character.
+     *
+     * @warning if chained relations, all of these (but the last) have to be BelongsTo relations (singular relations),
+     *          otherwise this will fail
+     * @return ResponseData the couple (json, Http code)
+     */
+    public function defaultGetRelationResult($class, $id, $relationName)
+    {
+        $model = $class::with([$relationName => function ($query) use ($class) {
+            $this->request->applyUrlParams($query, $class);
+        }])
+                       ->find($id);
 
-	public function delete ($id)
-	{
-		$class = getRelatedModelClassName($this);
-		$resp = $this->defaultDelete($class, $id);
+        if (!isset($model)) {
+            return new ResponseData(null, Response::HTTP_NOT_FOUND);
+        }
 
-		return \response()->json($resp->getData(), $resp->getCode());
-	}
+        $res = $model;
+        $rels = explode('.', $relationName);
+        foreach ($rels as $r) {
+            $res = $res->$r;
+        }
 
+        return new ResponseData($res, Response::HTTP_OK);
+    }
 
-	public function post ()
-	{
-		$class = getRelatedModelClassName($this);
-		$resp = $this->defaultPost($class);
 
-		return \response()->json($resp->getData(), $resp->getCode());
-	}
+    //    public function relations ($id, $params, $relatedId = null)
+    //    {
+    //        $relations = explode('/', $params);
+    //
+    //        $modelClassName = getRelatedModelClassName($this);
+    //        $relatedModel = str_singular(array_last($relations));
+    //        $relatedModel = 'App\\'.strtoupper(substr($relatedModel, 0, 1)) . substr($relatedModel, 1);
+    //        $relationStr = join('.', $relations);
+    //
+    //        $resp = $this->defaultGetRelationResultOfId($modelClassName, $id, $relatedModel, $relationStr, $relatedId);
+    //
+    //        return $resp->getData();
+    //    }
 
 
-	//    public function relations ($id, $params, $relatedId = null)
-	//    {
-	//        $relations = explode('/', $params);
-	//
-	//        $modelClassName = getRelatedModelClassName($this);
-	//        $relatedModel = str_singular(array_last($relations));
-	//        $relatedModel = 'App\\'.strtoupper(substr($relatedModel, 0, 1)) . substr($relatedModel, 1);
-	//        $relationStr = join('.', $relations);
-	//
-	//        $resp = $this->defaultGetRelationResultOfId($modelClassName, $id, $relatedModel, $relationStr, $relatedId);
-	//
-	//        return $resp->getData();
-	//    }
+    private function test()
+    {
+        $appId = env('FACEBOOK_CLIENT_ID');
+        $appSecret = env('FACEBOOK_CLIENT_SECRET');
+        $pageId = env('FACEBOOK_APP_PAGE_ID');
+        $pageAccessToken = env('FACEBOOK_APP_PAGE_ACCESS_TOKEN');
+        $userAccessToken = "EAACEdEose0cBAFpevxc6cm48SQbn1VVcNu5Fw0vMARyuoG7zoyFnPCDbeSvm0Nq9D4oZARkl6QkUq1FDcRNetZBxgOfG34ki0OefqW53ZAhZAEmisNQi4I7hZBQxqz8Pm50XNWNJl9pc0bPGGyRO3JrHq8Redy3MvnhDbDE0Hwpj29JUvmuclN45zd4YcmCXVPBUw0ix4HgZDZD";
 
+        $fb = new Facebook([
+            'app_id' => $appId,
+            'app_secret' => $appSecret,
+            'default_graph_version' => 'v2.5',
+        ]);
 
-	public function __call ($method, $parameters)
-	{
-		if (strpos($method, "get") == 0 && strlen($method) > 3 && is_array($parameters) && isset($parameters[0])) {
-			$relation = camel_case(substr($method, 3));
+        $longLivedToken = $fb->getOAuth2Client()
+                             ->getLongLivedAccessToken($userAccessToken);
 
-			$relatedModelClassName = str_singular($relation);
-			$relatedModelClassName = 'App\\' . strtoupper(substr($relatedModelClassName, 0, 1)) . substr($relatedModelClassName, 1);
+        $fb->setDefaultAccessToken($longLivedToken);
 
-			$thisModelClassName = getRelatedModelClassName($this);
+        $response = $fb->sendRequest('GET', $pageId, ['fields' => 'access_token'])
+                       ->getDecodedBody();
 
-			$id = $parameters[0];
-			$relatedId = null;
-			if (isset($parameters[1])) {
-				$relatedId = $parameters[1];
-			}
+        $foreverPageAccessToken = $response['access_token'];
+        dd($foreverPageAccessToken);
 
-			if (!is_numeric($id) || (isset($relatedId) && !is_numeric($relatedId))) {
-				GOTO FUNCTION_NOT_FOUND;
-			}
+        //		$fb = new Facebook([
+        //			'app_id'                => $appId,
+        //			'app_secret'            => $appSecret,
+        //			'default_graph_version' => "v2.9",
+        //		]);
+        //
+        //		$fb->setDefaultAccessToken($pageAccessToken);
+        //
+        //		$response = $fb->sendRequest("POST", "$pageId/feed", ['message' => 'Arnaud la saucisse', 'link' => 'http://kine.dev']);
 
-			// Ok
-			$resp = $this->defaultGetRelationResultOfId($thisModelClassName, $id, $relatedModelClassName, $relation, $relatedId);
+        dd($response);
 
-			return response()->json($resp->getData(), $resp->getCode());
-		}
-
-		FUNCTION_NOT_FOUND:
-		throw new UndefinedFunctionException("Undefined function '$method'.", new ErrorException());
-	}
+        $foreverPageAccessToken = $response['access_token'];
+    }
 }
 

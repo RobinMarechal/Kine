@@ -14,6 +14,8 @@ import manageDataCreation from "./scripts/management/manageDataCreation";
 import updateImage from "./scripts/management/updateImage";
 import manageBugs from "./scripts/management/manageBugs";
 import manageUserContacts from './scripts/management/manageUserContacts';
+import manageSocialNetworks from './scripts/management/manageSocialNetworks';
+import Tag from './scripts/models/Tag';
 
 // var url = window.location.pathname;
 
@@ -21,12 +23,40 @@ $('.alert').delay(2500).fadeOut(700, function () {
     $(this).remove();
 });
 
-$.prototype.toHtmlString = function () {
+if (!String.prototype.snakeCase) {
+    String.prototype.snakeCase = function () {
+        return this.split(/(?=[A-Z])/).join('_').toLowerCase();
+    };
+}
+
+if (!String.prototype.camelCase) {
+    String.prototype.camelCase = function () {
+        return this.split('_')
+            .map((part) => !part.length ? '' : part[0].toUpperCase() + part.substring(1).toLowerCase())
+            .join('');
+    };
+}
+
+if (!String.prototype.plural) {
+    String.prototype.plural = function () {
+        const last = this[this.length - 1];
+
+        if (last == 's')
+            return this;
+
+        if (last == 'y')
+            return `${this.substring(0, this.length - 1)}ies`;
+
+        return `${this}s`;
+    };
+}
+
+$.prototype.toString = $.prototype.toHtmlString = function () {
     return this.prop('outerHTML');
 };
 
 $(document).ready(function () {
-    $('.close-modal').click(() => bootbox.hideAll());
+    $('.close-modal').click(bootbox.hideAll);
     $('[data-toggle="tooltip"]').tooltip();
     Editor.prepare($('[data-toggle="editor"]'));
     Editor.prepare($('[data-toggle="focus-sensitive-editor"]'), {
@@ -107,6 +137,7 @@ navActive();
 footerDoctors();
 manageDataCreation();
 updateImage();
+manageSocialNetworks();
 
 
 Router.addRoute('articles\\/(rediger)|(\\d+\\/modifier)\\/?', [

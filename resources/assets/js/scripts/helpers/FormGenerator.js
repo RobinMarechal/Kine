@@ -181,13 +181,14 @@ export default class FormGenerator {
      * Don't forget to specify the onValidate and onCancel callbacks
      */
     displayInDialog() {
+        const formData = MODELS_FORM_DATA[this.namespace];
         const formBody = this.generateFormBody();
         this.formTag = formBody;
-        let title = MODELS_FORM_DATA[this.namespace].dialogTitle;
+        let title = formData.dialogTitle;
         if(title.includes('{{action}}'))
             title = title.replace("{{action}}", 'Créer/Modifier');
 
-        bootbox.dialog({
+        const dialog = bootbox.dialog({
             message: formBody,
             title: title,
             backdrop: true,
@@ -222,6 +223,10 @@ export default class FormGenerator {
             const config = config_pikaday;
             config.field = $(this.datepickerSelector)[0];
             this.datepicker = new Pikaday(config);
+        }
+
+        if(typeof(formData.callback) === 'function'){
+            formData.callback(dialog);
         }
     }
 

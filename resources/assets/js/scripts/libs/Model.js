@@ -1,4 +1,5 @@
 import Api from "./Api";
+import Exception from './Exception';
 
 export default class Model {
 
@@ -13,6 +14,14 @@ export default class Model {
                 }
             }
         }
+    }
+
+    static newInstance(){
+        throw new Exception("Method should be overridden");
+    }
+
+    static toList(objs = []) {
+        return objs.map(this.newInstance);
     }
 
     static get baseApiUrl() {

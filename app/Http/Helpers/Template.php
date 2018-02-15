@@ -12,6 +12,7 @@ use App\Contact;
 use App\Doctor;
 use App\Event;
 use App\News;
+use App\SocialNetwork;
 use App\User;
 use Illuminate\Support\Facades\Auth;
 use PhpParser\Comment\Doc;
@@ -77,5 +78,12 @@ Class Template
         return Contact::whereNull('doctor_id')
                       ->orderBy('type')
                       ->get();
+    }
+
+
+    public static function getSocialNetworks()
+    {
+        return SocialNetwork::orderBy('type')
+                            ->get();
     }
 }

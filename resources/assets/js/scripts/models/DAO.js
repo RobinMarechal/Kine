@@ -3,6 +3,14 @@ import Helper from "../helpers/Helper";
 import ModelFactory from "./ModelFactory";
 
 export default class DAO {
+
+    static async all(wanted, params = ""){
+        const namespace = Helper.getModelNamespace(wanted);
+        const response = await Api.get(`${namespace}?${params}`);
+        const json = await response.json();
+        return ModelFactory.buildList(wanted, json);
+    }
+
     static async get(wanted, id, params = "") {
         const namespace = Helper.getModelNamespace(wanted);
         const response = await Api.get(`${namespace}/${id}?${params}`);

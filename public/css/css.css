@@ -66,28 +66,28 @@ header {
     padding: 1px 40px;
 }
 
-.social-networks > .logos {
-    display: -ms-flexbox;
-    display: flex;
-    -ms-flex-pack: start;
-    justify-content: flex-start;
-}
+/*.social-networks > .logos {*/
+    /*display: -ms-flexbox;*/
+    /*display: flex;*/
+    /*-ms-flex-pack: start;*/
+    /*justify-content: flex-start;*/
+/*}*/
 
-.social-networks > .logos > a > img {
-    display: block;
-    width: 35px;
-    height: 35px;
-    border-radius: 5px;
-    margin: 0 10px;
-    -webkit-filter: grayscale(1);
-    filter: grayscale(1);
-}
+/*.social-networks > .logos > a > img {*/
+    /*display: block;*/
+    /*width: 35px;*/
+    /*height: 35px;*/
+    /*border-radius: 5px;*/
+    /*margin: 0 10px;*/
+    /*-webkit-filter: grayscale(1);*/
+    /*filter: grayscale(1);*/
+/*}*/
 
-.social-networks > .logos > a > img:hover, .social-networks > .logos > a > img:focus {
-    -webkit-filter: grayscale(0.2);
-    filter: grayscale(0.2);
-    box-shadow: -1px 1px 3px rgba(150, 150, 150, 0.39);
-}
+/*.social-networks > .logos > a > img:hover, .social-networks > .logos > a > img:focus {*/
+    /*-webkit-filter: grayscale(0.2);*/
+    /*filter: grayscale(0.2);*/
+    /*box-shadow: -1px 1px 3px rgba(150, 150, 150, 0.39);*/
+/*}*/
 
 .content > .inner > section > div {
     margin-bottom: 20px;
@@ -333,12 +333,19 @@ h1 {
     position: fixed;
     top: 76px;
     left: 28%;
-    width: 44%;
+    right: 28%;
+    width:auto;
     text-align: center;
     z-index: 10000;
     font-size: 18px;
-    /* text-shadow: 0px 0px 6px; */
     opacity: 0.8;
+}
+
+@media (max-width: 767px) {
+    .alert {
+        left: 10%;
+        right:10%;
+    }
 }
 
 .alert-success {
@@ -752,7 +759,7 @@ h1 > a:hover, h2 > a:hover, h3 > a:hover {
     text-align: center;
 }
 
-.controls i {
+.controls .fa, .controls .far, controls .fas {
     right: 10px;
     vertical-align: middle;
     color: rgb(90, 90, 90);
@@ -991,6 +998,10 @@ aside form .input-group-addon {
     max-width: 100%;
 }
 
+.fit-width{
+    width: 100%;
+}
+
 .course-block-img-container {
     display: flex;
     flex-direction: row;
@@ -1193,4 +1204,37 @@ aside form .input-group-addon {
 
 .pointer {
     cursor: pointer;
+}
+
+.btn-manage{
+    opacity: 0.5;
+}
+
+.social-network-logo{
+    display: block;
+    width: 35px;
+    height: 35px;
+    border-radius: 4px;
+    margin: 0 5px;
+    -webkit-filter: grayscale(1);
+    filter: grayscale(1);
+}
+
+.logo-list{
+    display: -ms-flexbox;
+    display: flex;
+    -ms-flex-pack: start;
+    justify-content: flex-start;
+}
+
+.bold{
+    font-weight: bold;
+}
+
+.no-padding-right{
+    padding-right: 0 !important;
+}
+
+.fit-height{
+    height:100%;
 }

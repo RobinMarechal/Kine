@@ -110,6 +110,10 @@ export default class Helper {
         return str.split(/(?=[A-Z])/).join('_').toLowerCase();
     }
 
+    static camelCase(str){
+
+    }
+
     static plural(str) {
         const last = str[str.length - 1];
 

@@ -6,6 +6,23 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
+/**
+ * @property \Carbon\Carbon $deleted_at
+ * @property int            $id
+ * @property \Carbon\Carbon $created_at
+ * @property \Carbon\Carbon $updated_at
+ * @property mixed          $tags
+ * @property mixed          $courses
+ * @property mixed          $notifications
+ * @property mixed          $logins
+ * @property mixed          $contacts
+ * @property mixed          $news
+ * @property mixed          $articles
+ * @property mixed          $contents
+ * @property mixed          $doctor
+ * @property mixed          $removed_contents
+ * @property mixed          $medias
+ */
 class User extends Authenticatable
 {
 	use Notifiable;
@@ -105,15 +122,4 @@ class User extends Authenticatable
 						   ->whereNull('seen_at')
 						   ->count();
 	}
-
-
-//	public function toJson ($options = 0)
-//	{
-//		$tmp = $this->getRelation('user');
-//		$this->setRelation('user', null);
-//		$json = parent::__toString();
-//		$this->setRelation('user', $tmp);
-//
-//		return $json;
-//	}
 }

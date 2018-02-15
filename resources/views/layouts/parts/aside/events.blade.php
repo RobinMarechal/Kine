@@ -1,3 +1,5 @@
+{{--
+
 <section class="content">
     <div class="inner">
         <div class="incoming-events">
@@ -26,3 +28,5 @@
         </div>
     </div>
 </section>
+
+--}}
