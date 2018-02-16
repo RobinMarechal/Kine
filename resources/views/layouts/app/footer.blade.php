@@ -29,7 +29,18 @@
 
             @if(isset($footer_social_networks[0]) || isAdmin())
                 <div class="networks">
-                    <h3>Nous suivre</h3>
+                    <h3>Nous suivre
+
+                        @if(isAdmin())
+                            <a title="Gérer les réseaux sociaux"
+                               data-placement="left"
+                               data-toggle="tooltip"
+                               data-manage="social-networks"
+                               class="title-btn-hover btn-manage show-on-hover pointer btn-manage-social-networks">
+                                <i aria-hidden="true" class="fas fa-cog fa-2x"></i>
+                            </a>
+                        @endif
+                    </h3>
                     <hr class="footer-sub-title">
                     <div class="logo-list">
                         @forelse ($footer_social_networks as $sn)
@@ -38,16 +49,6 @@
                         @endforelse
                     </div>
 
-
-                    @if(isAdmin())
-                        <a title="Gérer les réseaux sociaux"
-                           data-placement="right"
-                           data-toggle="tooltip"
-                           data-manage="social-networks"
-                           class="title-btn-hover btn-manage show-on-hover pointer">
-                            <i aria-hidden="true" class="fas fa-cog fa-2x"></i>
-                        </a>
-                    @endif
                     {{--<a href="#"><img class="network-logo" src="/img/fb-logo.png" alt=""></a>--}}
                     {{--<a href="#"><img class="network-logo" src="/img/gplus-logo.png" alt=""></a>--}}
                     {{--<a href="#"><img class="network-logo" src="/img/twitter-logo.png" alt=""></a>--}}

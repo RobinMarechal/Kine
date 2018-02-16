@@ -96,7 +96,7 @@ JsVar::create('user', $authUser);
 </div>
 
 
-@include('layouts.app.footer', $footer_doctors, $footer_social_networks)
+@include('layouts.app.footer', compact('footer_doctors', 'footer_social_networks'))
 @include('layouts.parts.js')
 
 @yield('js')

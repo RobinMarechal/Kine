@@ -8,10 +8,10 @@ export default class SocialNetwork extends Model {
     }
 
     logoPath() {
-        return this.pathOf(this.type);
+        return SocialNetwork.pathOf(this.type);
     }
 
-    static pathOf(type){
+    static pathOf(type) {
         type = type.toLowerCase();
         return `/img/logos/${type}.png`;
     }

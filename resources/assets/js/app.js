@@ -23,16 +23,22 @@ $('.alert').delay(2500).fadeOut(700, function () {
     $(this).remove();
 });
 
-if(!$.prototype.findByAttr){
-    $.prototype.findByAttr = function(attr, value){
-        return $.prototype.find(`[${attr}='${value}']`);
-    }
+if (!$.prototype.findByAttr) {
+    $.prototype.findByAttr = function (attr, value) {
+        return this.find(`[${attr}='${value}']`);
+    };
 }
 
-if(!$.prototype.findByName){
-    $.prototype.findByName = function(nameValue){
-        return $.prototype.findByAttr('name', nameValue);
-    }
+if (!$.prototype.findByData) {
+    $.prototype.findByData = function (data, value) {
+        return this.findByAttr(`data-${data}`, value);
+    };
+}
+
+if (!$.prototype.findByName) {
+    $.prototype.findByName = function (nameValue) {
+        return this.findByAttr('name', nameValue);
+    };
 }
 
 if (!String.prototype.snakeCase) {

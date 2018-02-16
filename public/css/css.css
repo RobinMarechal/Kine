@@ -67,26 +67,26 @@ header {
 }
 
 /*.social-networks > .logos {*/
-    /*display: -ms-flexbox;*/
-    /*display: flex;*/
-    /*-ms-flex-pack: start;*/
-    /*justify-content: flex-start;*/
+/*display: -ms-flexbox;*/
+/*display: flex;*/
+/*-ms-flex-pack: start;*/
+/*justify-content: flex-start;*/
 /*}*/
 
 /*.social-networks > .logos > a > img {*/
-    /*display: block;*/
-    /*width: 35px;*/
-    /*height: 35px;*/
-    /*border-radius: 5px;*/
-    /*margin: 0 10px;*/
-    /*-webkit-filter: grayscale(1);*/
-    /*filter: grayscale(1);*/
+/*display: block;*/
+/*width: 35px;*/
+/*height: 35px;*/
+/*border-radius: 5px;*/
+/*margin: 0 10px;*/
+/*-webkit-filter: grayscale(1);*/
+/*filter: grayscale(1);*/
 /*}*/
 
 /*.social-networks > .logos > a > img:hover, .social-networks > .logos > a > img:focus {*/
-    /*-webkit-filter: grayscale(0.2);*/
-    /*filter: grayscale(0.2);*/
-    /*box-shadow: -1px 1px 3px rgba(150, 150, 150, 0.39);*/
+/*-webkit-filter: grayscale(0.2);*/
+/*filter: grayscale(0.2);*/
+/*box-shadow: -1px 1px 3px rgba(150, 150, 150, 0.39);*/
 /*}*/
 
 .content > .inner > section > div {
@@ -334,7 +334,7 @@ h1 {
     top: 76px;
     left: 28%;
     right: 28%;
-    width:auto;
+    width: auto;
     text-align: center;
     z-index: 10000;
     font-size: 18px;
@@ -344,7 +344,7 @@ h1 {
 @media (max-width: 767px) {
     .alert {
         left: 10%;
-        right:10%;
+        right: 10%;
     }
 }
 
@@ -793,7 +793,8 @@ thead td {
 }
 
 button.add-contact {
-    font-size: 20px;
+    font-size: 18px;
+    height: 35px;
     padding: 0px 5px;
 }
 
@@ -998,7 +999,7 @@ aside form .input-group-addon {
     max-width: 100%;
 }
 
-.fit-width{
+.fit-width {
     width: 100%;
 }
 
@@ -1133,7 +1134,7 @@ aside form .input-group-addon {
     background: unset;
     border: unset;
     padding: 0;
-    width: 30px;
+    /* width: 30px; */
 }
 
 .help {
@@ -1206,11 +1207,11 @@ aside form .input-group-addon {
     cursor: pointer;
 }
 
-.btn-manage{
+.btn-manage {
     opacity: 0.5;
 }
 
-.social-network-logo{
+.social-network-logo {
     display: block;
     width: 35px;
     height: 35px;
@@ -1220,21 +1221,59 @@ aside form .input-group-addon {
     filter: grayscale(1);
 }
 
-.logo-list{
+.social-network-logo:hover {
+    -webkit-filter: grayscale(0.2);
+    filter: grayscale(0.2);
+}
+
+.logo-list {
     display: -ms-flexbox;
     display: flex;
     -ms-flex-pack: start;
     justify-content: flex-start;
 }
 
-.bold{
+.bold {
     font-weight: bold;
 }
 
-.no-padding-right{
+.no-padding-right {
     padding-right: 0 !important;
 }
 
-.fit-height{
-    height:100%;
+.fit-height {
+    height: 100%;
+}
+
+.btn-manage-social-networks {
+    position: absolute;
+    right: 62px;
+}
+
+.input-invisible{
+    border:none;
+    background: transparent;
+}
+
+select{
+    cursor:pointer;
+}
+
+.input-bottom-border {
+    border: none;
+    border-bottom: 2px solid transparent;
+    -webkit-border-radius: 0px;
+    -moz-border-radius: 0px;
+    border-radius: 0px;
+    background: transparent;
+    padding:0;
+}
+
+.input-bottom-border:focus-within {
+    border-color: #2c3e50;
+}
+
+.table-td-no-padding tbody td{
+    padding-top: 4px !important;
+    padding-bottom: 4px !important;
 }
