@@ -1,5 +1,7 @@
 import FlashMessage from "./FlashMessage";
 
+let nbAlertRunning = 0;
+
 export default class Flash {
     static async display(message, type = "error", delay = null) {
         return new Promise(resolve => {
@@ -8,15 +10,19 @@ export default class Flash {
 
             delay = delay == null ? 2000 : delay;
 
-            const html = `<div title="Cliquez pour masquer le message" id="alert" class="alert js-alert alert-${type}">${message}</div>`;
-            $('#alert').remove();
-            $('body').append(html);
+            const jsAlert = $(`<div title="Cliquez pour masquer le message" id="alert" class="alert js-alert alert-${type}">${message}</div>`);
+            if(nbAlertRunning > 0){
+                jsAlert.css('top', 76 + (37 + 10) * nbAlertRunning) ; // 76 = top, 37 = height, 5 for gap
+            }
+            // $('#alert').remove();
+            nbAlertRunning++;
 
-            const jsAlert = $('#alert.js-alert');
+            $('body').append(jsAlert);
 
             jsAlert.animate({'opacity': '+0.9'}, 200);
             jsAlert.delay(delay).animate({'opacity': '-1.2'}, 1000, function () {
                 $(this).remove();
+                nbAlertRunning--;
                 resolve();
             });
         });
