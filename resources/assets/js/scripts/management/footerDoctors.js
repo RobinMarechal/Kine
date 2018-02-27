@@ -33,25 +33,26 @@ function buildHtml(doctor) {
     }
 
     if (doctor.starts_at != null && doctor.ends_at != null) {
-        let pHoraires = new JQueryObject('p');
-        pHoraires.icon = 'clock';
-        pHoraires.append('Horaires : ' + Helper.timeToFormat(doctor.starts_at, 'H:i') + ' - ' + Helper.timeToFormat(doctor.ends_at));
-        principalCoo.append(pHoraires.getJqueryObj());
+        let pHoraires = `<p>
+    <i aria-hidden="true" class="far fa-clock list-icon"></i>
+    Horaires : ${Helper.timeToFormat(doctor.starts_at, 'H:i')} - ${Helper.timeToFormat(doctor.ends_at)} 
+</p>`;
+        principalCoo.append(pHoraires);
     }
 
     // email
-    let pMail = new JQueryObject('p');
-    let aMail = new JQueryObject('a');
-    aMail.icon = 'envelope';
-    aMail.append(doctor.user.email);
-    aMail.attr('href', 'mailto:' + doctor.user.email);
-    pMail.append(aMail);
-    principalCoo.append(pMail.getJqueryObj());
+    let pMail = `<p>
+    <a href="mailto:${doctor.user.email}">
+        <i aria-hidden="true" class="far fa-envelope list-icon"></i>
+        ${doctor.user.email}
+    </a>
+</p>`;
+    principalCoo.append(pMail);
 
 
     // phone
     if (doctor.phone != null) {
-        principalCoo.append(`<p><a href="tel:${doctor.phone} align="center"> ${FA.of('phone')}${doctor.phone}</a></p>`);
+        principalCoo.append(`<p><a href="tel:${doctor.phone} align="center"> ${FA.of('phone', true)}${doctor.phone}</a></p>`);
     }
 
     // other contacts
@@ -61,16 +62,13 @@ function buildHtml(doctor) {
         const hrefPrefix = (contact.type === "PHONE" ? 'tel:' : (contact.type === 'EMAIL' ? 'mailto:' : (contact.type === 'ADDRESS' ? 'https://www.google.fr/maps?q=' : '')));
         const iconClass = (contact.type === "PHONE" ? 'phone' : (contact.type === 'EMAIL' ? 'envelope' : (contact.type === 'ADDRESS' ? 'map-marker' : 'link')));
 
-        let p = new JQueryObject('p');
-        let a = new JQueryObject('a');
-        a.attr('href', hrefPrefix + contact.value);
-        a.attr('target', '_blank');
-        a.prepareTooltip(contact.name);
-        a.icon = iconClass;
-        a.append(contact.display != null ? contact.display : contact.value);
-
-        p.append(a);
-        otherCoo.append(p.build());
+        let p = `<p>
+    <a href="${hrefPrefix}${contact.value}" target="_blank" data-toggle="tooltip" title="${contact.name}">
+        <i aria-hidden="true" class="fas fa-${iconClass} list-icon"></i>
+        ${contact.display != null ? contact.display : contact.value}
+    </a>
+</p>`;
+        otherCoo.append(p);
     }
 
     html.append(principalCoo);
@@ -114,20 +112,27 @@ function buildHtml(doctor) {
     return html;
 }
 
-async function showDoctorDialog(el) {
+function showDoctorDialog(el) {
     const doctorId = el.data('id');
 
     try {
-        const doctor = await Doctor.get(doctorId, "with=contacts,user");
-        const html = buildHtml(doctor);
+        bootbox
+            .dialog({
+                title: Helper.loading({size: '1x', align: 'left'}),
+                message: Helper.loading(),
+                size: 'small',
+                backdrop: true,
+                onEscape: true,
+            })
+            .on('shown.bs.modal', async function () {
+                const that = $(this);
 
-        bootbox.dialog({
-            title: doctor.name,
-            message: html,
-            size: 'small',
-            backdrop: true,
-            onEscape: true,
-        });
+                const doctor = await Doctor.get(doctorId, "with=contacts,user");
+                const html = buildHtml(doctor);
+
+                that.find('.modal-title').html(doctor.name);
+                that.find('.modal-body').html(html);
+            });
     }
     catch (e) {
         console.log(["footerDoctors#showDoctorDialog", e]);

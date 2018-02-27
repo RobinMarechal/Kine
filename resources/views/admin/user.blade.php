@@ -11,36 +11,55 @@
 
     <h4>Informations principales :</h4>
 
-    <table data-table="users" class="table table-hover table-striped">
+    <table data-id="{{ $doctor->id }}" data-namespace="doctors" data-table="users"
+           class="table table-hover table-striped table-condensed">
         <tbody>
-        <tr data-id="{{ $doctor->id }}" data-namespace="doctors">
-            <td width="150">Téléphone</td>
-            <td data-pattern="phone" data-field="phone" class="user-edition-field-container" data-toggle="input"
-                data-max-length="12"> {{ $doctor->phone }} </td>
-        </tr>
-        <tr data-id="{{ $doctor->id }}" data-namespace="doctors">
-            <td width="150">Embauche à</td>
-            <td data-field="starts_at" data-pattern="time" class="user-edition-field-container" data-toggle="input"
-                data-input-type="time" data-max-length="12">
-                {{ !isset($doctor->starts_at) ? '' : DateTime::createFromFormat("H:i:s", $doctor->starts_at)->format("H:i") }}
+        <tr>
+            <td width="150" class="td-padding-top">Téléphone</td>
+            <td>
+                <input data-field="phone"
+                       data-pattern="phone"
+                       data-previous-value="{{ $doctor->phone }}"
+                       class="form-control input-sm input-bottom-border edit-data-field"
+                       maxlength="12"
+                       value="{{ $doctor->phone }}">
             </td>
         </tr>
-        <tr data-id="{{ $doctor->id }}" data-namespace="doctors">
-            <td width="150">Débauche à</td>
-            <td data-field="ends_at" data-pattern="time" class="user-edition-field-container" data-toggle="input"
-                data-input-type="time" data-max-length="12">
-                {{ !isset($doctor->ends_at) ? '' :  DateTime::createFromFormat("H:i:s", $doctor->ends_at)->format("H:i") }}
+        <tr>
+            <td width="150" class="td-padding-top">Embauche à</td>
+            <td>
+                <input data-pattern="time"
+                       data-field="starts_at"
+                       data-previous-value="{{ !isset($doctor->starts_at) ? '' : DateTime::createFromFormat("H:i:s", $doctor->starts_at)->format("H:i") }}"
+                       class="form-control input-sm input-bottom-border edit-data-field"
+                       maxlength="12"
+                       value="{{ !isset($doctor->starts_at) ? '' : DateTime::createFromFormat("H:i:s", $doctor->starts_at)->format("H:i") }}">
             </td>
         </tr>
-        <tr data-id="{{ $doctor->id }}" data-namespace="doctors">
-            <td width="150">Résumé</td>
-            <td data-field="resume" data-pattern="varchar" class="user-edition-field-container" data-toggle="input"
-                data-max-length="255">
-                {{ $doctor->resume }}
+        <tr>
+            <td width="150" class="td-padding-top">Débauche à</td>
+            <td>
+                <input data-pattern="time"
+                       data-field="ends_at"
+                       data-previous-value="{{ !isset($doctor->ends_at) ? '' :  DateTime::createFromFormat("H:i:s", $doctor->ends_at)->format("H:i") }}"
+                       class="form-control input-sm input-bottom-border edit-data-field"
+                       maxlength="12"
+                       value="{{ !isset($doctor->ends_at) ? '' :  DateTime::createFromFormat("H:i:s", $doctor->ends_at)->format("H:i") }}">
             </td>
         </tr>
-        <tr data-id="{{ $doctor->id }}" data-namespace="doctors">
-            <td width="150">Description</td>
+        <tr>
+            <td width="150" class="td-padding-top">Résumé</td>
+            <td>
+                <input data-field="resume"
+                       data-pattern="varchar"
+                       data-previous-value="{{ $doctor->resume }}"
+                       class="form-control input-sm input-bottom-border edit-data-field"
+                       maxlength="255"
+                       value="{{ $doctor->resume }}">
+            </td>
+        </tr>
+        <tr>
+            <td width="150" class="td-padding-top">Description</td>
             <td data-pattern="text">
 						<textarea data-toggle="focus-sensitive-editor"
                                   data-namespace="doctors"
@@ -58,7 +77,7 @@
     <hr>
     <h4>Contacts : </h4>
 
-    <table id="table-contacts" data-table="contacts" class="table table-hover table-striped"
+    <table id="table-contacts" data-table="contacts" class="table table-hover table-striped table-condensed"
            data-user-id="{{ $doctor->id }}">
         <thead>
         <td>Description :</td>
@@ -69,13 +88,30 @@
         <tbody>
         @forelse($doctor->contacts as $c)
             <tr data-id="{{ $c->id }}" data-namespace="contacts" class="hover-container">
-                <td class="user-edition-field-container" data-field="name" data-toggle="input"
-                    data-max-length="255">{{ $c->name }}</td>
-                <td data-pattern="phone|email|link|address" class="user-edition-field-container" data-field="value"
-                    data-toggle="input" data-max-length="255">{{ $c->value
-					}}</td>
-                <td class="user-edition-field-container" data-field="display" data-toggle="input"
-                    data-max-length="255">{{ $c->display }}</td>
+                <td>
+                    <input data-field="name"
+                           data-pattern="varchar"
+                           data-previous-value="{{ $c->name }}"
+                           class="form-control input-sm input-bottom-border edit-data-field"
+                           maxlength="255"
+                           value="{{ $c->name }}">
+                </td>
+                <td>
+                    <input data-field="value"
+                           data-pattern="phone|email|link|address"
+                           data-previous-value="{{ $c->value }}"
+                           class="form-control input-sm input-bottom-border edit-data-field"
+                           maxlength="255"
+                           value="{{ $c->value }}">
+                </td>
+                <td>
+                    <input data-field="display"
+                           data-pattern="varchar"
+                           data-previous-value="{{ $c->display }}"
+                           class="form-control input-sm input-bottom-border edit-data-field"
+                           maxlength="255"
+                           value="{{ $c->display }}">
+                </td>
                 <td class="controls" align="center">
                     <span class="delete-contact pointer show-on-hover-container show-on-hover"
                           title="Supprimer cette ligne" data-toggle="tooltip">

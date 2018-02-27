@@ -1,30 +1,42 @@
 import Contact from "../models/Contact";
 import Flash from "../libs/flash/Flash";
-import {toggleInputClicked} from "./toggleInputControls";
 import Key from '../libs/Key';
 import RegexpPattern from '../helpers/RegexpPattern';
+import Api from '../libs/Api';
 
 function addContact(contact) {
     const tbody = $('#table-contacts').find('tbody');
     const tr = $(`<tr data-id="${contact.id}" data-namespace="contacts" class="hover-container">`);
 
-    let tdName = $(`<td class="user-edition-field-container" data-field="name" data-toggle="input" data-max-length="255">${contact.name || ''}</td>`);
-    let tdValue = $(`<td data-pattern="phone|email|link|address" class="user-edition-field-container" data-field="value" data-toggle="input" data-max-length="255">${contact.value}</td>`);
-    let tdDisplay = $(`<td class="user-edition-field-container" data-field="display" data-toggle="input" data-max-length="255">${contact.display || ''}</td>`);
+    console.log(contact);
 
-    tr.append(tdName);
-    tr.append(tdValue);
-    tr.append(tdDisplay);
+    tr.append(`<td>
+                    <input data-field="name"
+                           data-pattern="varchar"
+                           data-previous-value="${contact.name || ''}"
+                           class="form-control input-sm input-bottom-border edit-data-field"
+                           maxlength="255"
+                           value="${contact.name || ''}"
+                </td>
+                <td>
+                    <input data-field="value"
+                           data-pattern="phone|email|link|address"
+                           data-previous-value="${contact.value}"
+                           class="form-control input-sm input-bottom-border edit-data-field"
+                           maxlength="255"
+                           value="${contact.value}">
+                </td>
+                <td>
+                    <input data-field="display"
+                           data-pattern="varchar"
+                           data-previous-value="${contact.display || ''}"
+                           class="form-control input-sm input-bottom-border edit-data-field"
+                           maxlength="255"
+                           value="${contact.display || ''}"
+                </td>`);
 
-    tdName.click(function () {
-        toggleInputClicked($(this));
-    });
-    tdValue.click(function () {
-        toggleInputClicked($(this));
-    });
-    tdDisplay.click(function () {
-        toggleInputClicked($(this));
-    });
+    const inputs = tr.find('.edit-data-field');
+    inputs.keydown(handleKeyDown);
 
     const td = $(`<td class="controls" align="center"></td>`);
     const fa = $(`<span class="delete-contact pointer show-on-hover show-on-hover-container" title="Supprimer cette ligne" data-toggle="tooltip">
@@ -91,9 +103,70 @@ async function createContact() {
     }
 }
 
+function handleKeyDown(ev) {
+    const that = $(this);
+    if (ev.which == Key.ENTER) {
+        that.blur();
+    }
+    else if (ev.which == Key.ESCAPE) {
+        const prevValue = that.data('previous-value');
+        that.val(prevValue);
+        that.blur();
+    }
+}
+
+async function handleFocusout(ev) {
+    const input = $(ev.currentTarget);
+    const namespace = input.parents('[data-namespace]').data('namespace');
+    const id = input.parents('[data-id]').data('id');
+    const patternName = input.data('pattern');
+    const field = input.data('field');
+    const prevValue = input.data('previous-value');
+    let newValue = input.val();
+
+    if (newValue.length > 0 && !RegexpPattern.getRegexpFromPattern(patternName).test(newValue)) {
+        Flash.error('Format invalide.');
+        input.val(prevValue);
+        return;
+    }
+
+    if (patternName == 'time') {
+        const [h, m] = newValue.split(':');
+        if (m.length === 1) {
+            Flash.error('Format invalue.');
+            input.val(prevValue);
+            return;
+        }
+
+        newValue = `${h.length == 1 ? '0' + h : h}:${m}`;
+    }
+
+    if (newValue === prevValue) {
+        return;
+    }
+
+    try {
+        let response = await Api.sendData(`${namespace}/${id}`, 'PUT', {[field]: newValue});
+        response = await response.json();
+        input.val(response[field]);
+        input.data('previous-value', response[field]);
+    }
+    catch (e) {
+        Flash.error('Une erreur est survenue, le champs n\'a pas pu être modifié.');
+        input.val(prevValue);
+        return;
+    }
+}
+
+function editUserContact() {
+    $('.edit-data-field').keydown(handleKeyDown);
+    $('.edit-data-field').focusout(handleFocusout);
+}
+
 export default function manageUserContacts() {
     addUserContact();
     removeUserContact();
+    editUserContact();
 }
 
 function addUserContact() {

@@ -795,24 +795,24 @@ thead td {
 button.add-contact {
     font-size: 18px;
     height: 35px;
-    padding: 0px 5px;
+    padding: 0px 11px;
 }
 
 [contenteditable="true"].contenteditable-inline br {
     display: none;
 }
 
-.user-edition-field-container input {
-    font-size: 15px !important;
-    /*border:none;*/
-    background: transparent;
-    margin-top: 1px;
-    padding-left: 6px;
-}
+/*.user-edition-field-container input {*/
+/*font-size: 15px !important;*/
+/*!*border:none;*!*/
+/*background: transparent;*/
+/*margin-top: 1px;*/
+/*padding-left: 6px;*/
+/*}*/
 
-.user-edition-field-container {
-    cursor: text;
-}
+/*.user-edition-field-container {*/
+/*cursor: text;*/
+/*}*/
 
 #table-contacts {
     table-layout: fixed;
@@ -1105,11 +1105,10 @@ aside form .input-group-addon {
     margin-bottom: 10px !important;
 }
 
-.svg-inline--fa {
+.list-icon {
     width: 25px !important;
-    /* margin-right:5px; */
+    margin-right: 5px;
     font-size: 16px;
-
 }
 
 .show-doctor-dialog.row p {
@@ -1250,13 +1249,13 @@ aside form .input-group-addon {
     right: 62px;
 }
 
-.input-invisible{
-    border:none;
+.input-invisible {
+    border: none;
     background: transparent;
 }
 
-select{
-    cursor:pointer;
+select {
+    cursor: pointer;
 }
 
 .input-bottom-border {
@@ -1266,14 +1265,34 @@ select{
     -moz-border-radius: 0px;
     border-radius: 0px;
     background: transparent;
-    padding:0;
+    padding: 0;
 }
 
 .input-bottom-border:focus-within {
     border-color: #2c3e50;
 }
 
-.table-td-no-padding tbody td{
-    padding-top: 4px !important;
-    padding-bottom: 4px !important;
+.table-td-no-padding tbody td {
+    padding-top: 4px;
+    padding-bottom: 4px;
+}
+
+.no-margin-p {
+    margin: 0;
+}
+
+.loading {
+    opacity: 0.7;
+}
+
+.td-padding-top {
+    padding-top: 12px !important;
+}
+
+.table-condensed td {
+    min-height: 45px;
+}
+
+.controls > *, .controls > * > svg {
+    vertical-align: middle;
 }

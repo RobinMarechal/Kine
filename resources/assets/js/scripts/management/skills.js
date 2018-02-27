@@ -122,10 +122,10 @@ export function skills() {
         const indexInputId = "bb_index";
 
         let html = Content.buildHtmlForm(inputId, 'title', editorId, 'content');
-        let indexField = '<div class="form-group">'
-            + '<label class="control-label">Poids :</label>'
-            + '<input class="form-control" value="0" type="number" name="index" id="' + indexInputId + '"/>'
-            + '</div>';
+        let indexField = `<div class="form-group">
+                            <label class="control-label">Poids :</label>
+                            <input class="form-control" value="0" type="number" name="index" id="${indexInputId}"/>
+                        </div>`;
 
         html.append(indexField);
 
@@ -180,16 +180,19 @@ export function skills() {
     $('#edit-skill').click(() => {
         const skillId = $('.skill-titles.selected').data('skill-id');
 
+        if(!skillId)
+            return;
+
         const editorId = "bb_content";
         const inputId = "bb_title";
         const indexInputId = "bb_index";
 
         Skill.get(skillId).then((skill) => {
             let html = Content.buildHtmlForm(inputId, 'title', editorId, 'content', skill.title, skill.content);
-            let indexField = '<div class="form-group">'
-                + '<label class="control-label">Position :</label>'
-                + '<input class="form-control" type="number" name="index" id="' + indexInputId + '" value="' + skill.index + '"/>'
-                + '</div>';
+            let indexField = `<div class="form-group">
+                                <label class="control-label">Position :</label>
+                                <input class="form-control" type="number" name="index" id="${indexInputId}" value="${skill.index}"/>
+                            </div>`;
 
             html.append(indexField);
 
@@ -257,16 +260,20 @@ export function skills() {
     $('#btn-remove-skill').click(function (ev) {
         ev.preventDefault();
 
+        let skillTitle = $('.skill-titles.selected');
+        let skillContent = $('.skill-section.selected');
+
+        const skillId = skillTitle.data('skill-id');
+
+        if(!skillId)
+            return;
+
         bootbox.confirm({
             title: "Supprimer une rubrique",
             size: "small",
             message: `<p align="center">Voulez-vous vraiment supprimer cette rubrique ? </p> <p align="center" class="text-error"><b>Attention, cette action est irréversible !</b></p>`,
             callback: (result) => {
                 if (result) {
-                    let skillTitle = $('.skill-titles.selected');
-                    let skillContent = $('.skill-section.selected');
-
-                    const skillId = skillTitle.data('skill-id');
 
                     Skill.remove(skillId)
                         .then(() => {

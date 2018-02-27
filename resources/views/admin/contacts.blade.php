@@ -10,7 +10,7 @@
     <hr>
 
 
-    <table id="table-contacts" data-table="contacts" class="table table-hover table-striped">
+    <table id="table-contacts" data-table="contacts" class="table table-hover table-striped table-condensed">
         <thead>
         <td>Description :</td>
         <td>Valeur :</td>
@@ -19,14 +19,31 @@
         </thead>
         <tbody>
         @forelse($contacts as $c)
-            <tr data-id="{{ $c->id }}" data-namespace="contacts">
-                <td class="user-edition-field-container" data-field="name" data-toggle="input"
-                    data-max-length="255">{{ $c->name }}</td>
-                <td data-pattern="phone|email|link|address" class="user-edition-field-container" data-field="value"
-                    data-toggle="input" data-max-length="255">{{ $c->value
-					}}</td>
-                <td class="user-edition-field-container" data-field="display" data-toggle="input"
-                    data-max-length="255">{{ $c->display }}</td>
+            <tr data-id="{{ $c->id }}" data-namespace="contacts" class="hover-container">
+                <td>
+                    <input data-field="name"
+                           data-pattern="varchar"
+                           data-previous-value="{{ $c->name }}"
+                           class="form-control input-sm input-bottom-border edit-data-field"
+                           maxlength="255"
+                           value="{{ $c->name }}">
+                </td>
+                <td>
+                    <input data-field="value"
+                           data-pattern="phone|email|link|address"
+                           data-previous-value="{{ $c->value }}"
+                           class="form-control input-sm input-bottom-border edit-data-field"
+                           maxlength="255"
+                           value="{{ $c->value }}">
+                </td>
+                <td>
+                    <input data-field="display"
+                           data-pattern="varchar"
+                           data-previous-value="{{ $c->display }}"
+                           class="form-control input-sm input-bottom-border edit-data-field"
+                           maxlength="255"
+                           value="{{ $c->display }}">
+                </td>
                 <td class="controls" align="center">
                     <span class="delete-contact pointer show-on-hover-container show-on-hover"
                           title="Supprimer cette ligne" data-toggle="tooltip">
@@ -40,7 +57,7 @@
         <tfoot>
         <tr>
             <td><input class="form-control input-sm" type="text" maxlength="80" name="name" id="new-contact-name"
-                       placeholder="Cliquez ici pour appeler le téléphone princal"></td>
+                       placeholder="Ex: Cliquez ici pour appeler le téléphone princal"></td>
             <td><input class="form-control input-sm" type="text" maxlength="255" name="value" id="new-contact-value"
                        placeholder="Ex : 0645982631"></td>
             <td><input class="form-control input-sm" type="text" maxlength="255" name="description"

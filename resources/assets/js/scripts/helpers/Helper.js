@@ -110,7 +110,7 @@ export default class Helper {
         return str.split(/(?=[A-Z])/).join('_').toLowerCase();
     }
 
-    static camelCase(str){
+    static camelCase(str) {
 
     }
 
@@ -138,5 +138,11 @@ export default class Helper {
             return wanted.constructor.name;
         else if (typeof wanted === 'function')
             return wanted.name;
+    }
+
+    static loading({size = '5x', align = 'center', pClasses = '', iconClasses = '', title = 'Chargement...'} = {}) {
+        return `<p align="${align}" class="no-margin-p loading ${pClasses}">
+    <i title="${title}" class="fas fa-cog fa-spin fa-${size} ${iconClasses}"></i>
+</p>`;
     }
 }

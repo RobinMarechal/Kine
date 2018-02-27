@@ -3,6 +3,7 @@ import Editor from "./Editor";
 import {config_pikaday} from "../data/pikaday.data";
 import {INPUT_TYPES, MODELS_FORM_DATA} from "../data/models_formData";
 import FlashMessage from "../libs/flash/FlashMessage";
+import Helper from './Helper';
 
 
 /**
@@ -182,51 +183,69 @@ export default class FormGenerator {
      */
     displayInDialog() {
         const formData = MODELS_FORM_DATA[this.namespace];
-        const formBody = this.generateFormBody();
+        let formBody;
+
+        if (this.data) {
+            formBody = this.generateFormBody();
+        }
+        else {
+            formBody = Helper.loading();
+        }
+
         this.formTag = formBody;
         let title = formData.dialogTitle;
-        if(title.includes('{{action}}'))
+        if (title.includes('{{action}}'))
             title = title.replace("{{action}}", 'Créer/Modifier');
 
-        const dialog = bootbox.dialog({
-            message: formBody,
-            title: title,
-            backdrop: true,
-            onEscape: true,
-            buttons: {
-                cancel: {
-                    label: "Annuler",
-                    className: "btn-default",
-                    callback: () => {
-                        if (this.onCancel) {
-                            this.onCancel();
-                        }
-                    }
+        const dialog = bootbox
+            .dialog({
+                message: formBody,
+                title: title,
+                backdrop: true,
+                onEscape: true,
+                buttons: {
+                    cancel: {
+                        label: "Annuler",
+                        className: "btn-default",
+                        callback: () => {
+                            if (this.onCancel) {
+                                this.onCancel();
+                            }
+                        },
+                    },
+                    validate: {
+                        label: "Valider",
+                        className: "btn-primary",
+                        callback: () => {
+                            if (this.onValidate) {
+                                return this.onValidate(this);
+                            }
+                        },
+                    },
                 },
-                validate: {
-                    label: "Valider",
-                    className: "btn-primary",
-                    callback: () => {
-                        if (this.onValidate) {
-                            return this.onValidate(this);
-                        }
-                    }
-                }
-            }
-        });
+            });
 
+        this.processEditor();
+        this.processDatePicker();
+
+        if (typeof(formData.callback) === 'function') {
+            formData.callback(dialog);
+        }
+
+        return dialog;
+    }
+
+    processEditor(){
         if (this.texteareaSelector) {
             Editor.createUnique(this.texteareaSelector);
         }
+    }
 
+    processDatePicker(){
         if (this.datepickerSelector) {
             const config = config_pikaday;
             config.field = $(this.datepickerSelector)[0];
             this.datepicker = new Pikaday(config);
-        }
-
-        if(typeof(formData.callback) === 'function'){
-            formData.callback(dialog);
         }
     }
 
@@ -250,7 +269,7 @@ export default class FormGenerator {
             let value;
 
             const parentFormGroup = input.parents('.form-group');
-            if(parentFormGroup)
+            if (parentFormGroup)
                 parentFormGroup.removeClass('has-error');
 
             if (inputTag === INPUT_TYPES.TEXTAREA) {
@@ -262,7 +281,7 @@ export default class FormGenerator {
 
             if (required && (!value || value.length === 0)) {
                 fieldsAreMissing = true;
-                if(parentFormGroup)
+                if (parentFormGroup)
                     parentFormGroup.addClass('has-error');
             }
 

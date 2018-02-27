@@ -11,7 +11,7 @@ export default class Editor {
                 'formatselect  |  alignleft aligncenter alignright alignjustify |    bold italic underline strikethrough removeformat | blockquote hr'
             ],
             plugins: 'link hr paste fullscreen image media table emoticons preview',
-            height: 300,
+            height: 250,
             block_formats: 'Paragraphe=p;Titre 1=h1;Titre 2=h2;Titre 3=h3;Titre 4=h4;'
         };
 

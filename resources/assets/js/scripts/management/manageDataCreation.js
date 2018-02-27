@@ -4,6 +4,7 @@ import Flash from "../libs/flash/Flash";
 import EventHandler, {EVENT_TYPES} from "../libs/EventHandler";
 import RemovingConfirmDialog from "../helpers/RemovingConfirmDialog";
 import FlashMessage from "../libs/flash/FlashMessage";
+import Editor from '../helpers/Editor';
 
 async function onSubmit(formGenerator) {
     const namespace = formGenerator.namespace;
@@ -65,14 +66,22 @@ export async function dataUpdatingButtonClicked(button) {
     const namespace = button.data('namespace');
     const dataId = button.data('id');
 
-    try{
-        let response = await Api.get(namespace + '/' + dataId);
-        response = await response.json();
-        const generator = FormGenerator.create(namespace, response);
+    try {
+        const generator = FormGenerator.create(namespace);
         generator.onValidate = onSubmit;
-        generator.displayInDialog();
+        generator.displayInDialog()
+            .on('shown.bs.modal', async function () {
+                const dialog = $(this);
+
+                const response = await Api.get(namespace + '/' + dataId);
+                generator.data = await response.json();
+
+                dialog.find('.modal-body').html(generator.generateFormBody());
+
+                generator.processEditor();
+            });
     }
-    catch(e){
+    catch (e) {
         Flash.error("Une erreur est survenue lors de la récupération des données.");
         console.log(["manageDataCreation#dataUpdatingButtonClickec", e]);
     }
