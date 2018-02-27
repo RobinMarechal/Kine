@@ -21,7 +21,7 @@ class RedirectIfAuthenticated
     {
         if (Auth::guard($guard)->check()) {
 			Flash::error('Vous devez être connecté pour accéder à cette page.');
-            return Redirect::back();
+            return response(redirect(route('login.login')));
         }
 
         return $next($request);

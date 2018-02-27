@@ -24,7 +24,7 @@ class RedirectIfNotDoctor
             }
 
 			Flash::error('Cette section est réservée aux administrateurs.');
-			return Redirect::back();
+            return response(redirect(route('login.login')));
 		}
 
 		return $next($request);

@@ -26,7 +26,7 @@ class RedirectIfNotAdmin
             }
 
             Flash::error('Cette section est réservée aux administrateurs.');
-            return response(Redirect::back());
+            return response(redirect(route('login.login')));
         }
 
         return $next($request);
