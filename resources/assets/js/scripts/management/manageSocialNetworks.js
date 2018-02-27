@@ -3,6 +3,7 @@ import DAO from '../models/DAO';
 import Flash from '../libs/flash/Flash';
 import RegexpPattern from '../helpers/RegexpPattern';
 import Key from '../libs/Key';
+import Helper from '../helpers/Helper';
 
 function buildRow(sn, logoList) {
     return `<tr data-id="${sn.id}" class="hover-container">
@@ -41,7 +42,7 @@ function buildSelect(logoList, socialNetworkType, invisible = true) {
 }
 
 function builtEmptyTable() {
-    return $(`<table class="table table-hover table-td-no-padding">
+    return $(`<table class="table table-hover table-td-no-padding table-condensed">
     <thead>
         <td class="bold" width="135">Type : 
             <i class="help far fa-question-circle" 
@@ -105,7 +106,7 @@ target="_blank">
 data-toggle="tooltip" 
 data-placement="top" 
 title="${sn.tooltip}"
-class="social-network-logo"> `)
+class="social-network-logo"> `);
 
     img.tooltip();
     a.append(img);
@@ -141,7 +142,6 @@ async function handleFormSubmit(table, tbody, tfoot) {
     try {
         const created = await DAO.create(SocialNetwork, data);
         const builtRow = $(buildRow(created, SocialNetwork.availableLogos()));
-        console.log(builtRow.find('.btn-table-control'));
         builtRow.find('.btn-table-control').click(handleDeleteEvent);
         tbody.append(builtRow);
         addLogoToTemplateFooter(created);
@@ -319,8 +319,6 @@ function genericEventHandler(instanceId, field, value) {
 }
 
 function prepareEventHandlers(table) {
-    console.log('1');
-    const tfoot = table.find('tfoot');
     const tbody = table.find('tbody');
     prepareFormEventHandlers(table);
     prepareDeleteEventHandler(tbody);
@@ -329,25 +327,29 @@ function prepareEventHandlers(table) {
     prepareBodyTooltipFieldsChangeHandler(tbody.findByAttr('data-name', 'tooltip'));
 }
 
-function showDialog(html) {
-    bootbox.dialog({
-        title: 'Gérer les réseaux sociaux',
-        message: html,
-        backdrop: true,
-        onEscape: true,
-        buttons: {
-            validate: {
-                label: 'Fermer',
-                className: 'btn btn-primary',
+function showDialog() {
+    bootbox
+        .dialog({
+            title: 'Gérer les réseaux sociaux',
+            message: Helper.loading(),
+            backdrop: true,
+            onEscape: true,
+            buttons: {
+                validate: {
+                    label: 'Fermer',
+                    className: 'btn btn-primary',
+                },
             },
-        },
-    });
+        })
+        .on('shown.bs.modal', async function () {
+            const html = await buildDialogHtml();
+            prepareEventHandlers(html);
+            $(this).find('.bootbox-body').html(html);
+        });
 }
 
 export default function manageSocialNetworks() {
     $('[data-manage="social-networks"]').click(async function () {
-        const html = await buildDialogHtml();
-        prepareEventHandlers(html);
-        showDialog(html);
+        showDialog();
     });
 };
