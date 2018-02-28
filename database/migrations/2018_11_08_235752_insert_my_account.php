@@ -19,6 +19,7 @@ class InsertMyAccount extends Migration
         	'email' => 'robin-marechal@hotmail.fr',
 			'name' => 'Robin Marechal',
 			'facebook_id' => '10210494984666394',
+			'password' => bcrypt('adminlsem'),
 			'is_doctor' => 1
 		]);
 

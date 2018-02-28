@@ -15,7 +15,7 @@ import updateImage from "./scripts/management/updateImage";
 import manageBugs from "./scripts/management/manageBugs";
 import manageUserContacts from './scripts/management/manageUserContacts';
 import manageSocialNetworks from './scripts/management/manageSocialNetworks';
-import Tag from './scripts/models/Tag';
+import installServiceWorker from './scripts/sw';
 
 // var url = window.location.pathname;
 
@@ -151,12 +151,15 @@ Array.prototype.insertAt = function (index, el) {
 Vars.boot();
 KeyInputBuffer.boot();
 
+if('serviceWorker' in navigator){
+    installServiceWorker();
+}
+
 navActive();
 footerDoctors();
 manageDataCreation();
 updateImage();
 manageSocialNetworks();
-
 
 Router.addRoute('articles\\/(rediger)|(\\d+\\/modifier)\\/?', [
     () => createArticle(),
@@ -187,3 +190,5 @@ Router.addRoute('admin\\/bugs(\\/\\d+\\/?)?', [
 ]);
 
 Router.trigger();
+
+
