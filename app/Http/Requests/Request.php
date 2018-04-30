@@ -19,7 +19,7 @@ class Request extends BaseRequest
 	}
 
 
-	public function post ($key = null)
+	public function post ($key = null, $default = null)
 	{
 		return isset($key) ? $this->post[ $key ] : $this->post;
 	}

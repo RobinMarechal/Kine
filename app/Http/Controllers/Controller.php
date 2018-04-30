@@ -4,25 +4,23 @@ namespace App\Http\Controllers;
 
 //use App\Http\Requests\Request;
 use App\Http\Requests\Request;
+use Carbon\Carbon;
 use ErrorException;
-use Exception;
-use Facebook\Authentication\AccessToken;
 use Facebook\Facebook;
-use Helpers\JsVar;
+use Helpers\ResponseData;
 use Helpers\Template;
 use Illuminate\Database\Eloquent\Collection;
-use Illuminate\Foundation\Bus\DispatchesJobs;
-use Illuminate\Routing\Controller as BaseController;
-use Illuminate\Foundation\Validation\ValidatesRequests;
 use Illuminate\Foundation\Auth\Access\AuthorizesRequests;
+use Illuminate\Foundation\Bus\DispatchesJobs;
+use Illuminate\Foundation\Validation\ValidatesRequests;
+use Illuminate\Routing\Controller as BaseController;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\Facades\View;
-use const null;
+use Symfony\Component\Debug\Exception\UndefinedFunctionException;
+use Symfony\Component\HttpFoundation\Response;
 use function camel_case;
-use Carbon\Carbon;
 use function explode;
 use function getRelatedModelClassName;
-use Helpers\ResponseData;
 use function is_array;
 use function is_numeric;
 use function str_singular;
@@ -30,8 +28,7 @@ use function strlen;
 use function strpos;
 use function strtoupper;
 use function substr;
-use Symfony\Component\Debug\Exception\UndefinedFunctionException;
-use Symfony\Component\HttpFoundation\Response;
+use const null;
 
 class Controller extends BaseController
 {

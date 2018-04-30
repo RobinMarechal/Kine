@@ -13,8 +13,8 @@
     <script src="/js/libs/bootstrap-3.3.7.min.js"></script>
     <script defer src="/js/libs/bootbox-4.4.0.min.js"></script>
     <script src="/js/libs/tinymce/tinymce.min.js"></script>
-    <script defer src="/js/libs/pikaday-1.6.1.min.js"></script>
-    <script src="/js/libs/fontawesome-all.min.js"></script>
+    {{--<script defer src="/js/libs/pikaday-1.6.1.min.js"></script>--}}
+    <script defer src="/js/libs/fontawesome-all.min.js"></script>
 
     <link rel="stylesheet" type="text/css" href="{{url('css/css.css')}}"/>
 

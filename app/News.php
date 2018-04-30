@@ -5,6 +5,7 @@ namespace App;
 use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\DB;
 
 /**
  * @property int            $id
@@ -16,57 +17,61 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 class News extends Model
 {
 
-	protected $table = 'news';
-	public $timestamps = true;
-	public $urlNamespace = 'news';
+    public $timestamps = true;
 
-	use SoftDeletes;
+    public $urlNamespace = 'news';
 
-	protected $dates = ['deleted_at', 'published_at'];
-	protected $fillable = ['created_at', 'updated_at', 'doctor_id', 'title', 'content', 'published_at', 'views'];
-	public $temporalField = 'published_at';
+    public $temporalField = 'published_at';
 
+    use SoftDeletes;
 
-	public function author ()
-	{
-	    return $this->doctor();
-	}
+    protected $table = 'news';
+
+    protected $dates = ['deleted_at', 'published_at'];
+
+    protected $fillable = ['created_at', 'updated_at', 'doctor_id', 'title', 'content', 'published_at', 'views'];
 
 
-	public function doctor ()
-	{
-		return $this->belongsTo('App\Doctor')->withTrashed();
-	}
+    public function author()
+    {
+        return $this->doctor();
+    }
 
 
-	public function medias ()
-	{
-		return $this->morphMany('App\Media', 'mediaable');
-	}
+    public function doctor()
+    {
+        return $this->belongsTo('App\Doctor')->withTrashed();
+    }
 
 
-	public function scopePublished ($query)
-	{
-		return $query->where('published_at', '<=', Carbon::now()
-														 ->format("Y-m-d H:i:s"));
-	}
+    public function medias()
+    {
+        return $this->morphMany('App\Media', 'mediaable');
+    }
 
 
-	public function scopeNotPublished ($query)
-	{
-		return $query->where('published_at', '>', Carbon::now()
-														 ->format("Y-m-d H:i:s"));
-	}
+    public function scopePublished($query)
+    {
+        return $query->where('published_at', '<=', DB::raw('CURRENT_TIMESTAMP'));
+    }
 
 
-	public function scopeFromNewerToOlder ($query)
-	{
-		return $query->orderBy('published_at', 'DESC');
-	}
+    public function scopeNotPublished($query)
+    {
+        $now = Carbon::now()->format("Y-m-d H:i:s");
+
+        return $query->where('published_at', '>', DB::raw('CURRENT_TIMESTAMP'));
+    }
 
 
-	public function scopeFromOlderToNewer ($query)
-	{
-		return $query->orderBy('published_at', 'ASC');
-	}
+    public function scopeFromNewerToOlder($query)
+    {
+        return $query->orderBy('published_at', 'DESC');
+    }
+
+
+    public function scopeFromOlderToNewer($query)
+    {
+        return $query->orderBy('published_at', 'ASC');
+    }
 }
